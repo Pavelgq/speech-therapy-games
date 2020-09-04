@@ -1,0 +1,35 @@
+{
+  "name": "speech-therapy-games",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "start": "webpack-dev-server --mode development --open",
+    "watch": "webpack --mode development --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pavelgq/speech-therapy-games.git"
+  },
+  "keywords": [
+    "game",
+    "canvas"
+  ],
+  "author": "Pavel Gordeev <pavelgq@yandex.ru>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Pavelgq/speech-therapy-games/issues"
+  },
+  "homepage": "https://github.com/Pavelgq/speech-therapy-games#readme",
+  "dependencies": {
+    "pixi.js": "^5.3.3"
+  },
+  "devDependencies": {
+    "babel-loader": "^8.1.0",
+    "copy-webpack-plugin": "^6.1.0",
+    "html-webpack-plugin": "^4.4.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
