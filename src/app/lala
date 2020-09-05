@@ -1,0 +1,47 @@
+const renderer = PIXI.autoDetectRenderer({
+    height: 800,
+    width: 800,
+    backgroundColor: 0x0000AA,
+    // transparent: true,
+  });
+  
+  // добавляем созданный канвас на страницу
+  document.body.appendChild(renderer.view);
+  
+  const stage = new PIXI.Container();
+  const render = () => {
+    renderer.render(stage);
+  };
+  
+  const graphics = new PIXI.Graphics();
+  graphics.lineStyle(5, 0xFF00FF, 1);
+  // graphics.position.x = renderer.width / 2;
+  // graphics.position.y = renderer.height / 2;
+  graphics.beginFill(0x650A5A, 0.25);
+  graphics.drawRoundedRect(50, 40, 100, 100, 16);
+  graphics.endFill();
+  stage.addChild(graphics);
+  render();
+  
+  const line = new PIXI.Graphics();
+  // задаем стиль для линии, ее ширину,
+  // цвет, прозрачность
+  line.lineStyle(10, 0xD5402B, 1);
+  // задаем координаты для рисования
+  line.position.x = renderer.width / 2;
+  line.position.y = renderer.height / 2;
+  
+  // перемещаем "центр" линии (точка, относительно которой будет производиться наклон)
+  // в центр элемента
+  line.pivot.set(0, 140);
+  // задаем угол наклона (в радианах, гугл поможет перевести в них привычные градусы)
+  line.rotation = 0.785398;
+  
+  // и, наконец, рисуем саму линию
+  line.moveTo(5, 0);
+  line.lineTo(5, 280);
+  
+  stage.addChild(line);
+  
+  render();
+  
