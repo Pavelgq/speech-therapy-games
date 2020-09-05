@@ -4,5 +4,11 @@
         "es6": true,
         "node": true
     },
-    "extends": ["airbnb/base"]
+    "extends": ["airbnb/base"],
+    "rules": {
+        "semi":"off",
+        "no-plusplus":"off",
+        "eol-last": "off",
+        "no-tabs":"off"
+    }
 }
