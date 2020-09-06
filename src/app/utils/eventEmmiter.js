@@ -3,7 +3,7 @@ export default class EventEmitter {
     this.events = {};
   }
 
-  on(eventName, fn) {
+  dispatch(eventName, fn) {
     if (!this.events[eventName]) {
       this.events[eventName] = [];
     }

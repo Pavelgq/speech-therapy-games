@@ -23,9 +23,8 @@ export default class Playfield extends EventEmitter {
   }
 
   create() {
-    // this.printBorder();
     this.printCell();
-    playSound(this.model.gameWord.audio, false, 0.8)
+    playSound(this.model.gameWord.audio, false, 0.8, console.log)
   }
 
   printBorder() {
@@ -64,11 +63,16 @@ export default class Playfield extends EventEmitter {
         rect.id = i * this.model.cubes.height + j;
         const text = this.printText(position.x + (size / 2), position.y + (size / 2));
         rect.interactive = true;
-        rect.on('pointerover', () => rect.alpha = 0.5);
-        rect.on('pointerout', () => rect.alpha = 1);
         rect.on('pointerdown', () => this.select(rect));
+        rect.on('pointerover', () => {
+          rect.alpha = 0.5
+          console.log(rect)
+        });
+        rect.on('pointerout', () => {
+          rect.alpha = 1;
+          console.log(rect);
+        });
         this.stage.addChild(rect);
-
         this.stage.addChild(text);
       }
     }
@@ -94,14 +98,16 @@ export default class Playfield extends EventEmitter {
 
     if (this.model.isTrue(obj.id)) {
       console.log('верно');
+      obj.tint = '0x2a9c9d';
       if (this.model.isComplite()) {
         this.emit('compliteGame', { res: true })
+        this.stage.removeChildren(0, this.stage.children.length);
       }
-      obj.tint = '0x2a9c9d';
     } else {
       console.log('не верно');
       obj.tint = '0xf36273';
       this.emit('compliteGame', { res: false })
+      this.stage.removeChildren(0, this.stage.children.length);
     }
   }
 }
