@@ -14,7 +14,11 @@ export default class WordOfSyllables {
 
   run() {
     this.playfield.create();
-    this.render();
+
+    setInterval(() => {
+      this.render();
+    }, 1000);
+    
   }
 
   render() {

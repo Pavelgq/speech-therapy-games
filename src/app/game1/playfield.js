@@ -10,14 +10,13 @@ export default class Playfield {
     this.textStyle = new PIXI.TextStyle({
       fontFamily: 'Arial',
       fontSize: 28,
-      fill: '0xfdb078',
+      fill: '0x2a9c9d',
       align: 'center',
-      trim: true,
     });
   }
 
   create() {
-    this.printBorder();
+    // this.printBorder();
     this.printCell();
   }
 
@@ -55,8 +54,10 @@ export default class Playfield {
         rect.drawRoundedRect(0, 0, size, size, 16);
         rect.endFill();
         const text = this.printText(position.x + (size / 2), position.y + (size / 2));
+        rect.click = this.focus;
         this.stage.addChild(rect);
         this.stage.addChild(text);
+
       }
     }
   }
@@ -72,5 +73,9 @@ export default class Playfield {
     score.y = y - textMetrics.height / 2;
 
     return score;
+  }
+
+  focus(event) {
+    console.log(event, this.data);
   }
 }
