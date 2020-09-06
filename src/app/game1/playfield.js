@@ -1,9 +1,16 @@
 import * as PIXI from 'pixi.js';
+import EventEmitter from '../utils/eventEmmiter';
+import func from '../utils/utils';
 
-export default class Playfield {
+const {
+  playSound,
+} = func;
+
+export default class Playfield extends EventEmitter {
   constructor(model, viewPort, stage) {
+    super();
     this.model = model;
-    this.data = model.generate();
+    this.data = model.gameData.slice();
     this.width = viewPort.width;
     this.height = viewPort.height;
     this.stage = stage;
@@ -13,13 +20,12 @@ export default class Playfield {
       fill: '0x2a9c9d',
       align: 'center',
     });
-
-    this.focus = this.focus.bind(this);
   }
 
   create() {
     // this.printBorder();
     this.printCell();
+    playSound(this.model.gameWord.audio, false, 0.8)
   }
 
   printBorder() {
@@ -55,13 +61,14 @@ export default class Playfield {
         rect.beginFill(0xfdb078, 0.5);
         rect.drawRoundedRect(0, 0, size, size, 16);
         rect.endFill();
+        rect.id = i * this.model.cubes.height + j;
         const text = this.printText(position.x + (size / 2), position.y + (size / 2));
         rect.interactive = true;
-        rect.on("pointerover", (event) => this.focus(rect));
-        rect.on('pointerout', (event) => this.unfocus(rect));
-        rect.on('pointerdown', (event) => this.select(rect));
+        rect.on('pointerover', () => rect.alpha = 0.5);
+        rect.on('pointerout', () => rect.alpha = 1);
+        rect.on('pointerdown', () => this.select(rect));
         this.stage.addChild(rect);
-        
+
         this.stage.addChild(text);
       }
     }
@@ -80,16 +87,21 @@ export default class Playfield {
     return score;
   }
 
-  focus(obj) {
-    obj.tint = "green"
-  }
-  unfocus(obj) {
-    obj.tint = "0xfdb078"
-  }
   select(obj) {
-    obj.fill = "black"
     obj.off('pointerover');
-    obj.off('pointerend');
+    obj.off('pointerout');
     obj.off('pointerdown');
+
+    if (this.model.isTrue(obj.id)) {
+      console.log('верно');
+      if (this.model.isComplite()) {
+        this.emit('compliteGame', { res: true })
+      }
+      obj.tint = '0x2a9c9d';
+    } else {
+      console.log('не верно');
+      obj.tint = '0xf36273';
+      this.emit('compliteGame', { res: false })
+    }
   }
 }
