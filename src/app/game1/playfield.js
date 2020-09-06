@@ -13,6 +13,8 @@ export default class Playfield {
       fill: '0x2a9c9d',
       align: 'center',
     });
+
+    this.focus = this.focus.bind(this);
   }
 
   create() {
@@ -54,10 +56,13 @@ export default class Playfield {
         rect.drawRoundedRect(0, 0, size, size, 16);
         rect.endFill();
         const text = this.printText(position.x + (size / 2), position.y + (size / 2));
-        rect.click = this.focus;
+        rect.interactive = true;
+        rect.on("pointerover", (event) => this.focus(rect));
+        rect.on('pointerout', (event) => this.unfocus(rect));
+        rect.on('pointerdown', (event) => this.select(rect));
         this.stage.addChild(rect);
+        
         this.stage.addChild(text);
-
       }
     }
   }
@@ -75,7 +80,16 @@ export default class Playfield {
     return score;
   }
 
-  focus(event) {
-    console.log(event, this.data);
+  focus(obj) {
+    obj.tint = "green"
+  }
+  unfocus(obj) {
+    obj.tint = "0xfdb078"
+  }
+  select(obj) {
+    obj.fill = "black"
+    obj.off('pointerover');
+    obj.off('pointerend');
+    obj.off('pointerdown');
   }
 }

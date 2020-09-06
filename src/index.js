@@ -19,7 +19,7 @@ const renderer = PIXI.autoDetectRenderer({
   autoResize: true,
 });
 document.body.appendChild(renderer.view);
-
-const games = [new WordOfSyllables(renderer, viewPort)];
+let ticker = PIXI.Ticker.shared;
+const games = [new WordOfSyllables(renderer, viewPort, 2, ticker)];
 
 games[0].run();
