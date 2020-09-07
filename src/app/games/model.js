@@ -1,19 +1,14 @@
-const words = [{
-  word: 'бор',
-  syllable: ['бор'],
-  audio: './audio/game1/dog.mp3',
-  used: false,
-}];
-const data = ['при', 'вет', 'ор', 'со', 'фа', 'фу', 'ку', 'ло', 'ми', 'ро', 'лаг', 'дол', 'яр', 'ак', 'мо', 'хо', 'по']
-
 export default class Model {
-  constructor(level, viewPort) {
+  constructor(level, gameData) {
     this.level = level;
-    this.cubes = this.complexity();
-    this.width = viewPort.width;
-    this.height = viewPort.height;
 
+    this.words = gameData.words;
+    this.data = gameData.data
+    this.cubes = this.complexity();
+    this.gameWord = {};
     this.gameData = this.generate();
+
+    this.answer = [];
     console.log(this);
     this.isTrue = this.isTrue.bind(this);
   }
@@ -21,10 +16,11 @@ export default class Model {
   generate() {
     const result = [];
     const mas = [];
-    const currentData = data.slice();
-    const index = 0;
-    const right = words[index].syllable.length;
-    words[index].syllable.forEach((element) => {
+    const currentData = this.data.slice();
+    const index = Math.floor(Math.random() * this.words.length);
+    this.gameWord = this.words[index];
+    const right = this.words[index].syllable.length;
+    this.words[index].syllable.forEach((element) => {
       mas.push(element);
     });
     let i = 0;
@@ -37,7 +33,7 @@ export default class Model {
         i += 1;
       }
     }
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < this.data.length; i++) {
       const n = Math.floor(Math.random() * mas.length);
       result.push(mas[n]);
       mas.splice(n, 1);
@@ -76,11 +72,17 @@ export default class Model {
 
   isTrue(id) {
     console.log(this);
-    return words[0].syllable.some((el) => {
+    return this.gameWord.syllable.some((el) => {
       console.log(el, this.gameData[id]);
       if (el === this.gameData[id]) {
+        this.answer.push(el);
         return true;
       }
     })
+  }
+
+  isComplite() {
+    return this.gameWord.syllable.length === this.answer.length
+    && this.gameWord.syllable.every((v, i) => v === this.answer[i]);
   }
 }

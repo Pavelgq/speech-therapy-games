@@ -4,8 +4,7 @@ import {
 } from 'howler';
 import * as PIXI from 'pixi.js';
 // import EventEmitter from './utils/eventEmmiter';
-import WordOfSyllables from './game1/wordOfSyllables';
-import ChoiceOfSyllable from './game2/choiceOfSyllable';
+import Game from './games/game';
 import func from './utils/utils';
 
 const {
@@ -48,7 +47,7 @@ export default class App {
 
     this.stage = new PIXI.Container();
 
-    this.games = 1;
+    this.games = 4;
 
     this.complite = this.complite.bind(this);
     this.next = this.next.bind(this);
@@ -57,9 +56,9 @@ export default class App {
 
   init() {
     document.body.appendChild(this.renderer.view);
-    // this.ticker.add(this.render());
-    this.render();
-    console.log(this.ticker);
+
+    // this.render();
+
     playSound(backSound, true, 0.3, console.log);
 
     // this.on('compliteGame', this.complite)
@@ -67,30 +66,9 @@ export default class App {
     this.next();
   }
 
-  createGame(index) {
-    switch (index) {
-      case 0:
-        return new WordOfSyllables(this.renderer, this.viewPort, this.player.level, this.ticker, this.stage);
-        break;
-      case 1:
-
-        break;
-
-      case 2:
-
-        break;
-
-      default:
-        break;
-    }
-  }
-
   next() {
     this.stage.removeChildren(0, this.stage.children.length);
-    const id = Math.floor(Math.random() * this.games);
-    const game = this.createGame(id);
-    // todo
-    game.playfield.dispatch('compliteGame', this.complite);
+    this.ticker.add((delta) => this.gameLoop(delta));
     const b = new PIXI.Graphics();
     b.lineStyle(4, 0x2a9c9d, 1);
     b.drawRect(2, 2, this.viewPort.width - 4, this.viewPort.height - 4);
@@ -99,12 +77,17 @@ export default class App {
     const h2 = `Задание ${this.task}`;
     this.printText(this.stage, h1, -1, 28);
     this.printText(this.stage, h2, 1, 20);
-    this.render();
+    // this.render();
+    const id = Math.floor(Math.random() * this.games);
+    const game = new Game(this.renderer, this.viewPort, this.player.level, this.ticker, id);
+    // todo
+    game.playfield.dispatch('compliteGame', this.complite);
     playSound(game.rules, false, 0.8, game.run);
   }
 
   complite(obj) {
     this.stage.removeChildren(0, this.stage.children.length);
+    this.ticker.add((delta) => this.gameLoop(delta));
     if (obj.res) {
       const b = new PIXI.Graphics();
       b.lineStyle(4, 0x2a9c9d, 1);
@@ -114,7 +97,6 @@ export default class App {
       const h2 = 'Молодец';
       this.printText(this.stage, h1, -1, 28);
       this.printText(this.stage, h2, 1, 28);
-      this.render();
       playSound(goodSound, false, 0.8, this.next);
     } else {
       const b = new PIXI.Graphics();
@@ -125,9 +107,9 @@ export default class App {
       const h2 = 'В следующий раз справишься';
       this.printText(this.stage, h1, -1, 28);
       this.printText(this.stage, h2, 1, 20);
-      this.render()
       playSound(badSound, false, 0.8, this.next);
     }
+    this.task += 1;
   }
 
   render() {
@@ -147,5 +129,10 @@ export default class App {
     score.y = this.viewPort.height / 2 - textMetrics.height / 2 + deltaH * textMetrics.height + 10;
 
     stage.addChild(score);
+  }
+
+  gameLoop(delta) {
+    // console.log(delta)
+    this.render();
   }
 }
