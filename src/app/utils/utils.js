@@ -1,4 +1,4 @@
-import { Howl, Howler } from 'howler';
+import { Howl } from 'howler';
 
 const playSound = (path, loop, vol, func) => {
   const sound = new Howl({
@@ -7,10 +7,10 @@ const playSound = (path, loop, vol, func) => {
     loop,
     volume: vol,
     onend() {
-      func();
+      func()
     },
-  });
-  sound.play();
+  })
+  return sound
 }
 
 export default {

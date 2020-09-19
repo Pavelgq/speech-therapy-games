@@ -1,5 +1,4 @@
 import * as PIXI from 'pixi.js';
-import EventEmitter from '../utils/eventEmmiter';
 import Playfield from './playfield';
 import Model from './model';
 
@@ -11,12 +10,12 @@ import wordOfSyllables from './data/wordOfSyllables';
 const gamesData = [wordOfSyllables, choiceOfWord, choiceOfSyllable, choiceOfNumber];
 
 export default class Game {
-  constructor(canvas, viewPort, level, ticker, gameNumber) {
+  constructor(canvas, viewPort, model, ticker, gameNumber) {
     this.canvas = canvas;
     this.viewPort = viewPort;
     this.stage = new PIXI.Container();
 
-    this.model = new Model(level, gamesData[gameNumber]);
+    this.model = new Model(model.player.level, gamesData[gameNumber]);
     this.playfield = new Playfield(this.model, viewPort, this.stage);
     this.ticker = ticker;
 
@@ -38,7 +37,7 @@ export default class Game {
     this.canvas.render(this.stage);
   }
 
-  gameLoop(delta) {
+  gameLoop() {
     this.render();
   }
 }

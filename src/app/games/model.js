@@ -33,7 +33,7 @@ export default class Model {
         i += 1;
       }
     }
-    for (let i = 0; i < this.data.length; i++) {
+    for (let j = 0; j < this.data.length; j++) {
       const n = Math.floor(Math.random() * mas.length);
       result.push(mas[n]);
       mas.splice(n, 1);
@@ -71,14 +71,15 @@ export default class Model {
   }
 
   isTrue(id) {
-    console.log(this);
-    return this.gameWord.syllable.some((el) => {
-      console.log(el, this.gameData[id]);
+    // eslint-disable-next-line array-callback-return
+    const result = this.gameWord.syllable.some((el) => {
       if (el === this.gameData[id]) {
         this.answer.push(el);
         return true;
       }
+      return false
     })
+    return result
   }
 
   isComplite() {

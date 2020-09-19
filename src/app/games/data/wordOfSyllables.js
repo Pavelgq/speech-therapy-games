@@ -3,19 +3,19 @@ const wordOfSyllables = {
   words: [{
     word: 'собака',
     syllable: ['со', 'ба', 'ка'],
-    audio: require('../../../assets/audio/wordOfSyllables/dog.mp3'),
+    audio: '../../../assets/audio/wordOfSyllables/dog.mp3',
     used: false,
   },
   {
     word: 'морковь',
     syllable: ['мор', 'ковь'],
-    audio: require('../../../assets/audio/wordOfSyllables/carrot.mp3'),
+    audio: '../../../assets/audio/wordOfSyllables/carrot.mp3',
     used: false,
   },
   {
     word: 'котэ',
     syllable: ['ко', 'тэ'],
-    audio: require('../../../assets/audio/wordOfSyllables/cat.mp3'),
+    audio: '../../../assets/audio/wordOfSyllables/cat.mp3',
     used: false,
   },
   ],
@@ -23,7 +23,7 @@ const wordOfSyllables = {
     'ро', 'лаг', 'дол', 'яр', 'ак', 'мо', 'хо', 'по',
   ],
 
-  rulesSound: require('../../../assets/audio/wordOfSyllables/word-of-syllables-rules.mp3'),
+  rulesSound: ('../../../assets/audio/wordOfSyllables/word-of-syllables-rules.mp3'),
 }
 
 export default wordOfSyllables;

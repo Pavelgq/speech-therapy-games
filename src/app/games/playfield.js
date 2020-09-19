@@ -92,20 +92,21 @@ export default class Playfield extends EventEmitter {
   }
 
   select(obj) {
-    obj.off('pointerover');
-    obj.off('pointerout');
-    obj.off('pointerdown');
+    const object = obj;
+    object.off('pointerover');
+    object.off('pointerout');
+    object.off('pointerdown');
 
-    if (this.model.isTrue(obj.id)) {
+    if (this.model.isTrue(object.id)) {
       console.log('верно');
-      obj.tint = '0x2a9c9d';
+      object.tint = '0x2a9c9d';
       if (this.model.isComplite()) {
         this.emit('compliteGame', { res: true })
         this.stage.removeChildren(0, this.stage.children.length);
       }
     } else {
       console.log('не верно');
-      obj.tint = '0xf36273';
+      object.tint = '0xf36273';
       this.emit('compliteGame', { res: false })
       this.stage.removeChildren(0, this.stage.children.length);
     }

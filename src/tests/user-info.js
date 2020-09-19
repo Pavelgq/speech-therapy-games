@@ -1,0 +1,15 @@
+export default {
+  role: 'admin',
+  firstName: 'Павел',
+  lastName: 'Гордеев',
+  sex: 'male',
+  class: '22А',
+  days: 0,
+  lessons: 0,
+  level: '1',
+  money: '0',
+  exp: '0',
+  login: 'PavelGQ',
+  email: 'pavelgq@yandex.ru',
+  password: '5430027',
+}
