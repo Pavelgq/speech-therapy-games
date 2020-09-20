@@ -10,9 +10,13 @@ export default class Model {
 
     this.answer = [];
     console.log(this);
+
     this.isTrue = this.isTrue.bind(this);
   }
 
+  /**
+   * Строит модель поля в виде массива карточек
+   */
   generate() {
     const result = [];
     const mas = [];

@@ -48,7 +48,7 @@ export default class App {
   }
 
   next() {
-    this.view.lessonScreen(1, 2, 'Словесный понос');
+    this.view.lessonScreen(this.model.player.lessons + 1, this.task, 'Скажи по слогам');
     // this.render();
     const id = Math.floor(Math.random() * this.games);
     const game = this.view.createGame(id);

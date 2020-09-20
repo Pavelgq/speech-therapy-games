@@ -16,7 +16,7 @@ export default class Game {
     this.stage = new PIXI.Container();
 
     this.model = new Model(model.player.level, gamesData[gameNumber]);
-    this.playfield = new Playfield(this.model, viewPort, this.stage);
+    this.playfield = new Playfield(this.model, this.viewPort, this.stage);
     this.ticker = ticker;
 
     this.render = this.render.bind(this);

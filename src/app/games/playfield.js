@@ -23,8 +23,29 @@ export default class Playfield extends EventEmitter {
   }
 
   create() {
+    this.printField();
     this.printCell();
+
     playSound(this.model.gameWord.audio, false, 0.8, console.log)
+  }
+
+  printField() {
+    const b = new PIXI.Graphics()
+    b.lineStyle(4, '0x2a9c9d', 1)
+    b.drawRect(2, 2, this.viewPort.width - 4, this.viewPort.height - 4)
+    this.stage.addChild(b)
+
+    const name = `${this.player.firstName} ${this.player.lastName}`
+    const lesson = `Урок ${this.player.lesson + 1}`
+    const task = `Задание ${this.task + 1}`
+    this.printText(this.stage, name, this.viewPort.width / 40, 10, 10)
+    this.printText(this.stage, lesson, this.viewPort.width / 60, 10, 60)
+    this.printText(this.stage, task, this.viewPort.width / 60, 10, 110)
+
+    this.printRect(10, 80, 30, '0x2a9c9d', 30, this.viewPort.width / 4)
+    this.printRect(15, 87.5, 15, '0x2affff', 15, 10)
+    this.printRect(10, 130, 30, '0x2a9c9d', 30, this.viewPort.width / 4)
+    this.printRect(15, 137.5, 15, '0x2affff', 15, this.viewPort.width / 4 - 10)
   }
 
   printBorder() {
@@ -36,44 +57,59 @@ export default class Playfield extends EventEmitter {
   }
 
   printCell() {
-    const spaceBetween = 10;
+    const spaceBetween = 10
     const position = {
       x: spaceBetween,
       y: spaceBetween,
-    };
-    const spaceFree = Math.min(this.width, this.height);
-    const maxSideCubes = Math.max(this.model.cubes.width, this.model.cubes.height);
-    const size = Math.floor((spaceFree - ((maxSideCubes + 1) * 10)) / maxSideCubes);
-    const spaceAroundY = Math.floor((this.height - (size * this.model.cubes.height
-      + spaceBetween * (this.model.cubes.height - 1))) / 2);
-    const spaceAroundX = Math.floor((this.width - (size * this.model.cubes.width
-      + spaceBetween * (this.model.cubes.width - 1))) / 2);
+    }
+    const width = (this.width * 2) / 3
+    const spaceFree = Math.min(width, this.height)
+    const maxSideCubes = Math.max(
+      this.model.cubes.width,
+      this.model.cubes.height,
+    )
+    const size = Math.floor(
+      (spaceFree - (maxSideCubes + 1) * 10) / maxSideCubes,
+    )
+    const spaceAroundY = Math.floor(
+      (this.height
+        - (size * this.model.cubes.height
+          + spaceBetween * (this.model.cubes.height - 1)))
+        / 2,
+    )
+    const spaceAroundX = Math.floor(
+      (width
+        - (size * this.model.cubes.width
+          + spaceBetween * (this.model.cubes.width - 1)))
+        / 2,
+    )
 
     for (let i = 0; i < this.model.cubes.width; i++) {
       for (let j = 0; j < this.model.cubes.height; j++) {
-        position.x = spaceAroundX + (size + spaceBetween) * (i);
-        position.y = spaceAroundY + (size + spaceBetween) * (j);
-        const rect = new PIXI.Graphics();
-        rect.lineStyle(2, 0xfdb078, 1);
-        rect.position.x = position.x;
-        rect.position.y = position.y;
-        rect.beginFill(0xfdb078, 0.5);
-        rect.drawRoundedRect(0, 0, size, size, 16);
-        rect.endFill();
-        rect.id = i * this.model.cubes.height + j;
-        const text = this.printText(position.x + (size / 2), position.y + (size / 2));
-        rect.interactive = true;
-        rect.on('pointerdown', () => this.select(rect));
+        position.x = spaceAroundX + (size + spaceBetween) * i + this.width / 3
+        position.y = spaceAroundY + (size + spaceBetween) * j
+        const rect = new PIXI.Graphics()
+        rect.lineStyle(2, '0xfdb078', 1)
+        rect.position.x = position.x
+        rect.position.y = position.y
+        rect.beginFill('0xfdb078', 0.5)
+        rect.drawRoundedRect(0, 0, size, size, 16)
+        rect.endFill()
+        rect.id = i * this.model.cubes.height + j
+        const text = this.printText(
+          position.x + size / 2,
+          position.y + size / 2,
+        )
+        rect.interactive = true
+        rect.on('pointerdown', () => this.select(rect))
         rect.on('pointerover', () => {
           rect.alpha = 0.5
-          console.log(rect)
-        });
+        })
         rect.on('pointerout', () => {
-          rect.alpha = 1;
-          console.log(rect);
-        });
-        this.stage.addChild(rect);
-        this.stage.addChild(text);
+          rect.alpha = 1
+        })
+        this.stage.addChild(rect)
+        this.stage.addChild(text)
       }
     }
   }
