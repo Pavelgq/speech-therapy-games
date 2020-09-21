@@ -10,20 +10,18 @@ import wordOfSyllables from './data/wordOfSyllables';
 const gamesData = [wordOfSyllables, choiceOfWord, choiceOfSyllable, choiceOfNumber];
 
 export default class Game {
-  constructor(canvas, viewPort, model, ticker, gameNumber) {
+  constructor(canvas, viewPort, appModel, ticker, gameNumber) {
     this.canvas = canvas;
     this.viewPort = viewPort;
     this.stage = new PIXI.Container();
 
-    this.model = new Model(model.player.level, gamesData[gameNumber]);
+    this.model = new Model(appModel, gamesData[gameNumber]);
     this.playfield = new Playfield(this.model, this.viewPort, this.stage);
     this.ticker = ticker;
 
+    this.rules = gamesData[gameNumber].rulesSound;
     this.render = this.render.bind(this);
     this.run = this.run.bind(this);
-
-    this.name = gamesData[gameNumber].name;
-    this.rules = gamesData[gameNumber].rulesSound;
   }
 
   run() {

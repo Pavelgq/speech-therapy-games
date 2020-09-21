@@ -13,6 +13,11 @@ const playSound = (path, loop, vol, func) => {
   return sound
 }
 
+const loadFile = (url) => {
+  fetch(url).then((res) => res)
+}
+
 export default {
   playSound,
+  loadFile,
 };

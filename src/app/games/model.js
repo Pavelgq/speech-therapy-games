@@ -1,14 +1,20 @@
 export default class Model {
-  constructor(level, gameData) {
-    this.level = level;
+  constructor(appModel, gameData) {
+    this.player = appModel.player
+    this.typeInGame = appModel.typeInGame;
 
-    this.words = gameData.words;
-    this.data = gameData.data
-    this.cubes = this.complexity();
+    this.level = appModel.player.level;
+
+    this.rules = gameData.rulesSound;
+    this.words = gameData.types[this.typeInGame[gameData.name]].words;
+    this.data = gameData.types[this.typeInGame[gameData.name]].data
+    this.conditionsWin = gameData.win;
+    this.matrixParam = gameData.levels[this.level];
+    this.answers = [];
     this.gameWord = {};
-    this.gameData = this.generate();
+    this.gameMatrix = this.generate();
 
-    this.answer = [];
+    
     console.log(this);
 
     this.isTrue = this.isTrue.bind(this);
@@ -18,60 +24,77 @@ export default class Model {
    * Строит модель поля в виде массива карточек
    */
   generate() {
-    const result = [];
-    const mas = [];
+    const { tasks } = this.matrixParam;
+    let result;
+    switch (this.conditionsWin.part) {
+      case 'one':
+        result = this.oneAnswerGame(tasks)
+        break;
+      case 'all':
+        result = this.manyAnswerGame(tasks)
+        break;
+      default:
+        break;
+    }
+
+    return result
+  }
+
+  addOtherParts(matrix) {
+    const res = []
     const currentData = this.data.slice();
-    const index = Math.floor(Math.random() * this.words.length);
-    this.gameWord = this.words[index];
-    const right = this.words[index].syllable.length;
-    this.words[index].syllable.forEach((element) => {
-      mas.push(element);
-    });
+    const length = this.matrixParam.width * this.matrixParam.height;
     let i = 0;
-    while (i < this.cubes.width * this.cubes.height - right) {
+    while (length > matrix.length) {
       const ind = Math.floor(Math.random() * currentData.length);
-      const metka = mas.includes(currentData[ind]);
+      const metka = matrix.includes(currentData[ind]);
       if (!metka) {
-        mas.push(currentData[ind]);
+        matrix.push(currentData[ind]);
         currentData.splice(ind, 1);
         i += 1;
       }
     }
-    for (let j = 0; j < this.data.length; j++) {
-      const n = Math.floor(Math.random() * mas.length);
-      result.push(mas[n]);
-      mas.splice(n, 1);
+    
+    for (let j = 0; j < length; j++) {
+      const n = Math.floor(Math.random() * matrix.length);
+      res.push(matrix[n]);
+      matrix.splice(n, 1);
     }
+
+    return res;
+  }
+
+  oneAnswerGame(tasks) {
+    const result = [];
+
+    for (let k = 0; k < tasks; k++) {
+      const mas = [];
+      const index = Math.floor(Math.random() * this.words.length);
+      this.gameWord = this.words[index];
+      mas.push(...this.words[index].syllable);
+      this.words[index].used = true;
+      this.answers.push(this.words[index].word)
+      result.push(this.addOtherParts(mas))
+    }
+
     return result;
   }
 
-  complexity() {
-    switch (this.level) {
-      case 1:
-        return {
-          width: 3, height: 3,
-        };
-
-      case 2:
-        return {
-          width: 4, height: 3,
-        };
-
-      case 3:
-        return {
-          width: 4, height: 4,
-        };
-
-      case 4:
-        return {
-          width: 5, height: 4,
-        };
-
-      default:
-        return {
-          width: 3, height: 3,
-        };
+  manyAnswerGame(tasks) {
+    const result = [];
+    const matrix = [];
+    for (let k = 0; k < tasks; k++) {
+      const index = Math.floor(Math.random() * this.words.length);
+      this.gameWord = this.words[index];
+      const right = this.words[index].syllable.length; 
+      if (matrix.length + right <= this.matrixParam.width + this.matrixParam.height) {
+        matrix.push(...this.words[index].syllable);
+        this.answers.push(this.words[index].word);
+        this.words[index].used = true;
+      }
     }
+    result.push(this.addOtherParts(matrix));
+    return result
   }
 
   isTrue(id) {

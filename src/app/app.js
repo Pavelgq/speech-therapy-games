@@ -1,4 +1,5 @@
 // import EventEmitter from './utils/eventEmmiter';
+import { Howl } from 'howler';
 import Model from './model';
 import View from './view';
 
