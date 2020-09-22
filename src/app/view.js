@@ -4,12 +4,14 @@ import Game from './games/game';
 export default class View {
   constructor(model) {
     this.model = model;
-
     this.ratio = (4 / 3);
     this.viewPort = {
       width: window.innerWidth,
       height: window.innerWidth / this.ratio,
     };
+   
+    this.fontSizeBig = this.viewPort.width / 30;
+    this.fontSizeSmall = this.viewPort.width / 40;
 
     this.renderer = PIXI.autoDetectRenderer({
       height: this.viewPort.height,
@@ -28,7 +30,7 @@ export default class View {
     this.render = this.render.bind(this);
   }
 
-  lessonScreen(lesson, task, taskName) {
+  lessonScreen(lesson, task, gameData) {
     this.stage.removeChildren(0, this.stage.children.length);
     this.ticker.add((delta) => this.gameLoop(delta));
     const b = new PIXI.Graphics();
@@ -36,15 +38,15 @@ export default class View {
     b.drawRect(2, 2, this.viewPort.width - 4, this.viewPort.height - 4);
     this.stage.addChild(b);
     const h1 = `Урок ${lesson}`;
-    const h2 = `Задание ${task} ${taskName}`;
+    const h2 = `Задание ${task} ${gameData.title}`;
     const fontSizeBig = this.viewPort.width / 30;
     const fontSizeSmall = this.viewPort.width / 40;
     const center = {
       x: this.viewPort.width / 2,
       y: this.viewPort.height / 2,
     }
-    this.printText(h1, fontSizeBig, center.x, center.y - fontSizeBig);
-    this.printText(h2, fontSizeSmall, center.x, center.y + fontSizeBig);
+    this.printText(h1, fontSizeBig, center.x, center.y - this.fontSizeBig);
+    this.printText(h2, fontSizeSmall, center.x, center.y + this.fontSizeBig);
   }
 
   goodScreen() {
@@ -56,8 +58,12 @@ export default class View {
     this.stage.addChild(b);
     const h1 = 'Верно';
     const h2 = 'Молодец';
-    this.printText(this.stage, h1, -1, 28);
-    this.printText(this.stage, h2, 1, 28);
+    const center = {
+      x: this.viewPort.width / 2,
+      y: this.viewPort.height / 2,
+    }
+    this.printText(h1, 28, center.x, center.y - this.fontSizeBig);
+    this.printText(h2, 28, center.x, center.y + this.fontSizeBig);
   }
 
   badScreen() {
@@ -69,8 +75,12 @@ export default class View {
     this.stage.addChild(b);
     const h1 = 'Вот незадача';
     const h2 = 'В следующий раз справишься';
-    this.printText(this.stage, h1, -1, 28);
-    this.printText(this.stage, h2, 1, 20);
+    const center = {
+      x: this.viewPort.width / 2,
+      y: this.viewPort.height / 2,
+    }
+    this.printText(h1, 28, center.x, center.y - this.fontSizeBig);
+    this.printText(h2, 20, center.x, center.y + this.fontSizeBig);
   }
 
   printText(text, fontSize, x, y) {

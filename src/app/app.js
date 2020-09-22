@@ -49,10 +49,10 @@ export default class App {
   }
 
   next() {
-    this.view.lessonScreen(this.model.player.lessons + 1, this.task, 'Скажи по слогам');
     // this.render();
     const id = Math.floor(Math.random() * this.games);
     const game = this.view.createGame(id);
+    this.view.lessonScreen(this.model.player.lessons + 1, this.task, game.model);
     // todo
     game.playfield.dispatch('compliteGame', this.complite);
     playSound(game.rules, false, 0.8, game.run).play();

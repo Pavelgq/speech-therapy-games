@@ -1,6 +1,7 @@
 export default class Model {
   constructor(appModel, gameData) {
     this.player = appModel.player
+    this.title = gameData.title
     this.typeInGame = appModel.typeInGame;
 
     this.level = appModel.player.level;
@@ -97,10 +98,10 @@ export default class Model {
     return result
   }
 
-  isTrue(id) {
+  isTrue(answer, field = 0) {
     // eslint-disable-next-line array-callback-return
     const result = this.gameWord.syllable.some((el) => {
-      if (el === this.gameData[id]) {
+      if (el === this.gameMatrix[field][answer]) {
         this.answer.push(el);
         return true;
       }

@@ -16,20 +16,30 @@ export default class Playfield extends EventEmitter {
     this.width = viewPort.width;
     this.height = viewPort.height;
     this.stage = stage;
-    this.textStyle = new PIXI.TextStyle({
-      fontFamily: 'Arial',
-      fontSize: 28,
-      fill: '0x2a9c9d',
-      align: 'center',
-    });
 
+    this.fontSizeBig = this.width / 30;
+    this.fontSizeSmall = this.width / 40;
+    this.progressBar = {
+      width: this.width / 4,
+      hight: this.height / 30,
+    }
     this.currentMatrix = 0;
   }
 
   create() {
     this.printField();
     this.printCell();
-    playSound(loadFile(this.model.rules), false, 0.8, console.log)
+    // playSound(loadFile(this.model.rules), false, 0.8, console.log)
+  }
+
+  delete() {
+    this.stage.removeChildren(0, this.stage.children.length);
+    this.ticker.add((delta) => this.gameLoop(delta));
+  }
+
+  refresh() {
+    this.printField();
+    this.printCell();
   }
 
   printField() {
@@ -41,14 +51,35 @@ export default class Playfield extends EventEmitter {
     const name = `${this.model.player.firstName} ${this.model.player.lastName}`
     const lesson = `Урок ${this.model.player.lesson + 1}`
     const task = `Задание ${this.task + 1}`
-    this.printText(name, this.width / 40, 10, 10)
-    this.printText(lesson, this.width / 60, 10, 60)
-    this.printText(task, this.width / 60, 10, 110)
+    this.printText(name, this.fontSizeBig, 10, this.fontSizeBig)
+    this.printText(lesson, this.fontSizeSmall, 10, this.fontSizeSmall * 3)
+    this.printText(task, this.fontSizeSmall, 10, this.fontSizeSmall * 5)
 
-    this.printRect(10, 80, 30, '0x2a9c9d', 30, this.width / 4)
-    this.printRect(15, 87.5, 15, '0x2affff', 15, 10)
-    this.printRect(10, 130, 30, '0x2a9c9d', 30, this.width / 4)
-    this.printRect(15, 137.5, 15, '0x2affff', 15, this.width / 4 - 10)
+    const screen = this.model.gameMatrix.length;
+    const tasks = 10;
+    const nowScreen = this.model.part;
+    const nowTask = 4;
+
+    const lessonProgress = ((this.progressBar.width - this.progressBar.hight) / tasks) * nowTask;
+    const taskProgress = ((this.progressBar.width - this.progressBar.hight) / screen) * nowScreen;
+
+    this.printRect(10, this.fontSizeSmall * 4,
+      this.progressBar.hight, '0x2a9c9d',
+      this.progressBar.hight, this.progressBar.width);
+
+    this.printRect(10 + this.progressBar.hight / 4,
+      this.fontSizeSmall * 4 + this.progressBar.hight / 4,
+      this.progressBar.hight / 2, '0x2affff', this.progressBar.hight / 2,
+      lessonProgress);
+
+    this.printRect(10, this.fontSizeSmall * 6,
+      this.progressBar.hight, '0x2a9c9d',
+      this.progressBar.hight, this.progressBar.width);
+
+    this.printRect(10 + this.progressBar.hight / 4,
+      this.fontSizeSmall * 6 + this.progressBar.hight / 4,
+      this.progressBar.hight / 2, '0x2affff', this.progressBar.hight / 2,
+      taskProgress);
   }
 
   printRect(x, y, size, color, rad, length) {
@@ -108,9 +139,10 @@ export default class Playfield extends EventEmitter {
         rect.id = i * this.model.matrixParam.height + j
 
         const text = this.data[this.currentMatrix][0];
-        this.printText(text,
+        this.printText(text, this.fontSizeBig,
           position.x + size / 2,
-          position.y + size / 2);
+          position.y + size / 2,
+          true);
         this.data[this.currentMatrix].splice(0, 1);
 
         rect.interactive = true
@@ -126,35 +158,59 @@ export default class Playfield extends EventEmitter {
     }
   }
 
-  printText(text, x, y) {
-    const score = new PIXI.Text(text, this.textStyle);
-
-    const textMetrics = PIXI.TextMetrics.measureText(text, this.textStyle);
-
-    score.x = x - textMetrics.width / 2;
-    score.y = y - textMetrics.height / 2;
+  printText(text, fontSize, x, y, center = false) {
+    const textStyle = new PIXI.TextStyle({
+      fontFamily: 'Arial',
+      fontSize,
+      fill: '0x2a9c9d',
+      align: 'center',
+    })
+    const score = new PIXI.Text(text, textStyle)
+    const textMetrics = PIXI.TextMetrics.measureText(text, textStyle)
+    if (center) {
+      score.x = x - textMetrics.width / 2
+      score.y = y - textMetrics.height / 2
+    } else {
+      score.x = x
+      score.y = y
+    }
 
     this.stage.addChild(score)
   }
 
   select(obj) {
     const object = obj;
-    object.off('pointerover');
-    object.off('pointerout');
-    object.off('pointerdown');
+    // object.off('pointerover');
+    // object.off('pointerout');
+    // object.off('pointerdown');
 
     if (this.model.isTrue(object.id)) {
       console.log('верно');
       object.tint = '0x2a9c9d';
+
       if (this.model.isComplite()) {
         this.emit('compliteGame', { res: true })
         this.stage.removeChildren(0, this.stage.children.length);
+      } else if (this.model.conditionsWin.refresh) {
+        this.model.screen += 1;
+        this.model.part += 1;
+        this.delete();
+        this.create();
+      } else {
+        this.model.part += 1;
+        // this.refresh();
+        this.delete();
+        this.create();
       }
     } else {
       console.log('не верно');
       object.tint = '0xf36273';
-      this.emit('compliteGame', { res: false })
-      this.stage.removeChildren(0, this.stage.children.length);
+      setTimeout(() => {
+        object.tint = '0xfdb078';
+        obj.alpha = 0.5;
+      }, 1000);
+      // this.emit('compliteGame', { res: false })
+      // this.stage.removeChildren(0, this.stage.children.length);
     }
   }
 }
