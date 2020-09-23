@@ -9,7 +9,7 @@ export default class View {
       width: window.innerWidth,
       height: window.innerWidth / this.ratio,
     };
-   
+
     this.fontSizeBig = this.viewPort.width / 30;
     this.fontSizeSmall = this.viewPort.width / 40;
 

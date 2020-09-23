@@ -55,27 +55,27 @@ const choiceOfWord = {
   },
   levels: [
     {
-      tasks: 5,
+      parts: 5,
       width: 3,
       height: 3,
     },
     {
-      tasks: 7,
+      parts: 7,
       width: 3,
       height: 3,
     },
     {
-      tasks: 5,
+      parts: 5,
       width: 4,
       height: 3,
     },
     {
-      tasks: 5,
+      parts: 5,
       width: 3,
       height: 3,
     },
     {
-      tasks: 5,
+      parts: 5,
       width: 3,
       height: 3,
     },

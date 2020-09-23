@@ -49,51 +49,31 @@ const wordOfSyllables = {
   },
   levels: [
     {
-      tasks: 5,
+      parts: 5,
       width: 3,
       height: 3,
     },
     {
-      tasks: 7,
+      parts: 7,
       width: 3,
       height: 3,
     },
     {
-      tasks: 5,
+      parts: 5,
       width: 4,
       height: 3,
     },
     {
-      tasks: 5,
+      parts: 5,
       width: 3,
       height: 3,
     },
     {
-      tasks: 5,
+      parts: 5,
       width: 3,
       height: 3,
     },
   ],
-  data: [
-    'при',
-    'вет',
-    'ор',
-    'со',
-    'фа',
-    'фу',
-    'ку',
-    'ло',
-    'ми',
-    'ро',
-    'лаг',
-    'дол',
-    'яр',
-    'ак',
-    'мо',
-    'хо',
-    'по',
-  ],
-
   rulesSound: require('../../../assets/audio/wordOfSyllables/word-of-syllables-rules.mp3'),
 }
 

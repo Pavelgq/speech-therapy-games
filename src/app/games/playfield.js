@@ -12,24 +12,22 @@ export default class Playfield extends EventEmitter {
   constructor(gameModel, viewPort, stage) {
     super();
     this.model = gameModel;
-    this.data = gameModel.gameMatrix.slice();
     this.width = viewPort.width;
     this.height = viewPort.height;
-    this.stage = stage;
 
+    this.stage = stage;
     this.fontSizeBig = this.width / 30;
     this.fontSizeSmall = this.width / 40;
     this.progressBar = {
       width: this.width / 4,
       hight: this.height / 30,
     }
-    this.currentMatrix = 0;
   }
 
   create() {
     this.printField();
     this.printCell();
-    // playSound(loadFile(this.model.rules), false, 0.8, console.log)
+    playSound(this.model.answer.audio, false, 0.8, console.log)
   }
 
   delete() {
@@ -48,20 +46,22 @@ export default class Playfield extends EventEmitter {
     b.drawRect(2, 2, this.width - 4, this.height - 4)
     this.stage.addChild(b)
 
+    const totalParts = this.model.targetTasksParam.parts;
+    const { totalTasks } = this.model;
+    const { currentPart } = this.model;
+    const { currentTask } = this.model;
+
     const name = `${this.model.player.firstName} ${this.model.player.lastName}`
     const lesson = `Урок ${this.model.player.lesson + 1}`
-    const task = `Задание ${this.task + 1}`
+    const task = `Задание ${currentTask}`
     this.printText(name, this.fontSizeBig, 10, this.fontSizeBig)
     this.printText(lesson, this.fontSizeSmall, 10, this.fontSizeSmall * 3)
     this.printText(task, this.fontSizeSmall, 10, this.fontSizeSmall * 5)
 
-    const screen = this.model.gameMatrix.length;
-    const tasks = 10;
-    const nowScreen = this.model.part;
-    const nowTask = 4;
-
-    const lessonProgress = ((this.progressBar.width - this.progressBar.hight) / tasks) * nowTask;
-    const taskProgress = ((this.progressBar.width - this.progressBar.hight) / screen) * nowScreen;
+    const lessonProgress = ((this.progressBar.width - this.progressBar.hight)
+    / totalTasks) * currentTask;
+    const taskProgress = ((this.progressBar.width - this.progressBar.hight)
+    / totalParts) * currentPart;
 
     this.printRect(10, this.fontSizeSmall * 4,
       this.progressBar.hight, '0x2a9c9d',
@@ -106,27 +106,28 @@ export default class Playfield extends EventEmitter {
     const width = (this.width * 2) / 3
     const spaceFree = Math.min(width, this.height)
     const maxSideCubes = Math.max(
-      this.model.matrixParam.width,
-      this.model.matrixParam.height,
+      this.model.targetTasksParam.width,
+      this.model.targetTasksParam.height,
     )
     const size = Math.floor(
       (spaceFree - (maxSideCubes + 1) * 10) / maxSideCubes,
     )
     const spaceAroundY = Math.floor(
       (this.height
-        - (size * this.model.matrixParam.height
-          + spaceBetween * (this.model.matrixParam.height - 1)))
+        - (size * this.model.targetTasksParam.height
+          + spaceBetween * (this.model.targetTasksParam.height - 1)))
         / 2,
     )
     const spaceAroundX = Math.floor(
       (width
-        - (size * this.model.matrixParam.width
-          + spaceBetween * (this.model.matrixParam.width - 1)))
+        - (size * this.model.targetTasksParam.width
+          + spaceBetween * (this.model.targetTasksParam.width - 1)))
         / 2,
     )
 
-    for (let i = 0; i < this.model.matrixParam.width; i++) {
-      for (let j = 0; j < this.model.matrixParam.height; j++) {
+    const targetTasks = this.model.targetTasks.slice();
+    for (let i = 0; i < this.model.targetTasksParam.width; i++) {
+      for (let j = 0; j < this.model.targetTasksParam.height; j++) {
         position.x = spaceAroundX + (size + spaceBetween) * i + this.width / 3
         position.y = spaceAroundY + (size + spaceBetween) * j
         const rect = new PIXI.Graphics()
@@ -136,14 +137,14 @@ export default class Playfield extends EventEmitter {
         rect.beginFill('0xfdb078', 0.5)
         rect.drawRoundedRect(0, 0, size, size, 16)
         rect.endFill()
-        rect.id = i * this.model.matrixParam.height + j
+        rect.id = i * this.model.targetTasksParam.height + j
 
-        const text = this.data[this.currentMatrix][0];
+        const text = targetTasks[rect.id];
         this.printText(text, this.fontSizeBig,
           position.x + size / 2,
           position.y + size / 2,
           true);
-        this.data[this.currentMatrix].splice(0, 1);
+        targetTasks.splice(0, 1);
 
         rect.interactive = true
         rect.on('pointerdown', () => this.select(rect))
@@ -184,21 +185,18 @@ export default class Playfield extends EventEmitter {
     // object.off('pointerout');
     // object.off('pointerdown');
 
-    if (this.model.isTrue(object.id)) {
+    if (this.model.checkAnswer(this.model.targetTask[object.id])) {
       console.log('верно');
       object.tint = '0x2a9c9d';
 
-      if (this.model.isComplite()) {
+      if (this.model.checkTask()) {
         this.emit('compliteGame', { res: true })
+        object.off('pointerover');
+        object.off('pointerout');
+        object.off('pointerdown');
         this.stage.removeChildren(0, this.stage.children.length);
-      } else if (this.model.conditionsWin.refresh) {
-        this.model.screen += 1;
-        this.model.part += 1;
-        this.delete();
-        this.create();
       } else {
-        this.model.part += 1;
-        // this.refresh();
+        this.model.partOfTask += 1;
         this.delete();
         this.create();
       }

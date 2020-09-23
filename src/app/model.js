@@ -5,6 +5,8 @@ export default class Model {
   constructor() {
     this.player = userInfo;
     this.stat = lessonInfo;
+
+    this.taskInLesson = 4;
     this.typeInGame = {
       wordOfSyllables: 0,
       choiceOfWord: 0,
