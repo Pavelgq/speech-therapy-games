@@ -1,26 +1,24 @@
 import Rules from '../rules';
 
 export default class ChainGame extends Rules {
-  constructor(appModel, dataGame) {
+  constructor(appModel, dataGame, taskNumber) {
     super();
     this.title = dataGame.title;
     this.player = appModel.player;
     this.rules = dataGame.rulesSound;
     this.conditionsWin = dataGame.win;
-    this.targetTasks = [];
     this.targetTasksParam = dataGame.levels[this.player.level];
     this.lastAnswers = [];
     this.answer = {};
     this.player = appModel.player;
     this.totalTasks = appModel.taskInLesson;
-    this.partOfTask = 0;
-
+    this.currentPart = 0;
+    this.currentTask = taskNumber;
     this.dataGame = dataGame;
   }
 
   createTask(type) {
     const { words } = this.dataGame.types[type];
-    const result = [];
     const targetTasks = [];
     for (let k = 0; k < this.targetTasksParam.parts; k++) {
       const index = Math.floor(Math.random() * words.length);
@@ -37,8 +35,7 @@ export default class ChainGame extends Rules {
       }
     }
     [this.answer] = this.lastAnswers;
-    result.push(this.addOtherParts(targetTasks, this.dataGame.types[type].data));
-    return result;
+    return this.addOtherParts(targetTasks, this.dataGame.types[type].data);;
   }
 
   refresh(type) {
@@ -47,7 +44,7 @@ export default class ChainGame extends Rules {
   }
 
   checkAnswer(answer) {
-    if (answer === this.answer) {
+    if (answer === this.answer.word) {
       return true
     }
     return false

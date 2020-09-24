@@ -98,8 +98,8 @@ export default class View {
     this.stage.addChild(score)
   }
 
-  createGame(id) {
-    return new Game(this.renderer, this.viewPort, this.model, this.ticker, id)
+  createGame(id, taskNumber) {
+    return new Game(this.renderer, this.viewPort, this.model, this.ticker, id, taskNumber)
   }
 
   render() {

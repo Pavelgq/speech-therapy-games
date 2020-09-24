@@ -51,8 +51,7 @@ export default class App {
   next() {
     // this.render();
     const id = Math.floor(Math.random() * this.games);
-    const game = this.view.createGame(id);
-    
+    const game = this.view.createGame(id, this.task);
     this.view.lessonScreen(this.model.player.lessons + 1, this.task, game.model);
     // todo
     game.playfield.dispatch('compliteGame', this.complite);

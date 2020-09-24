@@ -27,12 +27,11 @@ export default class Playfield extends EventEmitter {
   create() {
     this.printField();
     this.printCell();
-    playSound(this.model.answer.audio, false, 0.8, console.log)
+    playSound(this.model.answer.audio, false, 0.8, this.log)
   }
 
-  delete() {
-    this.stage.removeChildren(0, this.stage.children.length);
-    this.ticker.add((delta) => this.gameLoop(delta));
+  log() {
+    console.log(this, 'audio')
   }
 
   refresh() {
@@ -52,32 +51,32 @@ export default class Playfield extends EventEmitter {
     const { currentTask } = this.model;
 
     const name = `${this.model.player.firstName} ${this.model.player.lastName}`
-    const lesson = `Урок ${this.model.player.lesson + 1}`
+    const lesson = `Урок ${this.model.player.lessons + 1}`
     const task = `Задание ${currentTask}`
     this.printText(name, this.fontSizeBig, 10, this.fontSizeBig)
-    this.printText(lesson, this.fontSizeSmall, 10, this.fontSizeSmall * 3)
-    this.printText(task, this.fontSizeSmall, 10, this.fontSizeSmall * 5)
+    this.printText(lesson, this.fontSizeSmall, 10, this.fontSizeBig * 3)
+    this.printText(task, this.fontSizeSmall, 10, this.fontSizeBig * 5)
 
     const lessonProgress = ((this.progressBar.width - this.progressBar.hight)
     / totalTasks) * currentTask;
     const taskProgress = ((this.progressBar.width - this.progressBar.hight)
     / totalParts) * currentPart;
 
-    this.printRect(10, this.fontSizeSmall * 4,
+    this.printRect(10, this.fontSizeBig * 4,
       this.progressBar.hight, '0x2a9c9d',
       this.progressBar.hight, this.progressBar.width);
 
     this.printRect(10 + this.progressBar.hight / 4,
-      this.fontSizeSmall * 4 + this.progressBar.hight / 4,
+      this.fontSizeBig * 4 + this.progressBar.hight / 4,
       this.progressBar.hight / 2, '0x2affff', this.progressBar.hight / 2,
       lessonProgress);
 
-    this.printRect(10, this.fontSizeSmall * 6,
+    this.printRect(10, this.fontSizeBig * 6,
       this.progressBar.hight, '0x2a9c9d',
       this.progressBar.hight, this.progressBar.width);
 
     this.printRect(10 + this.progressBar.hight / 4,
-      this.fontSizeSmall * 6 + this.progressBar.hight / 4,
+      this.fontSizeBig * 6 + this.progressBar.hight / 4,
       this.progressBar.hight / 2, '0x2affff', this.progressBar.hight / 2,
       taskProgress);
   }
@@ -140,11 +139,11 @@ export default class Playfield extends EventEmitter {
         rect.id = i * this.model.targetTasksParam.height + j
 
         const text = targetTasks[rect.id];
+        console.log(targetTasks, rect.id);
         this.printText(text, this.fontSizeBig,
           position.x + size / 2,
           position.y + size / 2,
           true);
-        targetTasks.splice(0, 1);
 
         rect.interactive = true
         rect.on('pointerdown', () => this.select(rect))
@@ -185,7 +184,7 @@ export default class Playfield extends EventEmitter {
     // object.off('pointerout');
     // object.off('pointerdown');
 
-    if (this.model.checkAnswer(this.model.targetTask[object.id])) {
+    if (this.model.checkAnswer(this.model.targetTasks[object.id])) {
       console.log('верно');
       object.tint = '0x2a9c9d';
 
@@ -196,16 +195,16 @@ export default class Playfield extends EventEmitter {
         object.off('pointerdown');
         this.stage.removeChildren(0, this.stage.children.length);
       } else {
-        this.model.partOfTask += 1;
-        this.delete();
-        this.create();
+        this.model.currentPart += 1;
+        this.emit('newScreen', { res: true })
       }
     } else {
       console.log('не верно');
       object.tint = '0xf36273';
+      playSound(this.model.answer.audio, false, 0.8, console.log)
       setTimeout(() => {
         object.tint = '0xfdb078';
-        obj.alpha = 0.5;
+        object.alpha = 0.5;
       }, 1000);
       // this.emit('compliteGame', { res: false })
       // this.stage.removeChildren(0, this.stage.children.length);
