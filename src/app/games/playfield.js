@@ -27,11 +27,7 @@ export default class Playfield extends EventEmitter {
   create() {
     this.printField();
     this.printCell();
-    playSound(this.model.answer.audio, false, 0.8, this.log)
-  }
-
-  log() {
-    console.log(this, 'audio')
+    playSound(this.model.answer.audio, false, 0.8, console.log).play()
   }
 
   refresh() {
@@ -180,34 +176,37 @@ export default class Playfield extends EventEmitter {
 
   select(obj) {
     const object = obj;
-    // object.off('pointerover');
-    // object.off('pointerout');
-    // object.off('pointerdown');
+    const check = this.model.checkAnswer(this.model.targetTasks[object.id]);
+    switch (check) {
+      case 'continue':
+        console.log('верно');
+        object.tint = '0x2a9c9d';
+        break;
+      case 'well':
+        if (this.model.checkTask()) {
+          this.emit('compliteGame', { res: true })
+          object.off('pointerover');
+          object.off('pointerout');
+          object.off('pointerdown');
+          this.stage.removeChildren(0, this.stage.children.length);
+        } else {
+          object.tint = '0x2a9c9d';
+          this.model.currentPart += 1;
+          this.emit('newScreen', { res: true })
+        }
+        break;
+      case 'lose':
+        console.log('не верно');
+        object.tint = '0xf36273';
+        playSound(this.model.answer.audio, false, 0.8, console.log)
+        setTimeout(() => {
+          object.tint = '0xfdb078';
+          object.alpha = 0.5;
+        }, 1000);
+        break;
 
-    if (this.model.checkAnswer(this.model.targetTasks[object.id])) {
-      console.log('верно');
-      object.tint = '0x2a9c9d';
-
-      if (this.model.checkTask()) {
-        this.emit('compliteGame', { res: true })
-        object.off('pointerover');
-        object.off('pointerout');
-        object.off('pointerdown');
-        this.stage.removeChildren(0, this.stage.children.length);
-      } else {
-        this.model.currentPart += 1;
-        this.emit('newScreen', { res: true })
-      }
-    } else {
-      console.log('не верно');
-      object.tint = '0xf36273';
-      playSound(this.model.answer.audio, false, 0.8, console.log)
-      setTimeout(() => {
-        object.tint = '0xfdb078';
-        object.alpha = 0.5;
-      }, 1000);
-      // this.emit('compliteGame', { res: false })
-      // this.stage.removeChildren(0, this.stage.children.length);
+      default:
+        break;
     }
   }
 }

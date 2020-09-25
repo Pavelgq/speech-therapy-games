@@ -12,7 +12,7 @@ export default class SimpleGame extends Rules {
     this.lastAnswers = [];
     this.answer = {};
     this.totalTasks = appModel.taskInLesson;
-    this.currentPart = 0;
+    this.currentPart = 1;
     this.currentTask = taskNumber;
     this.dataGame = dataGame;
   }
@@ -35,20 +35,20 @@ export default class SimpleGame extends Rules {
       }
     }
     [this.answer] = this.lastAnswers;
-    
+    this.lastAnswers.splice(0, 1);
     return this.addOtherParts(targetTasks, this.dataGame.types[type].data);;
   }
 
   refresh(type) {
-    this.lastAnswers.splice(0, 1);
     [this.answer] = this.lastAnswers;
+    this.lastAnswers.splice(0, 1);
   }
 
   checkAnswer(answer) {
     if (answer === this.answer.word) {
-      return true
+      return 'well'
     }
-    return false
+    return 'lose'
   }
 
   checkTask() {

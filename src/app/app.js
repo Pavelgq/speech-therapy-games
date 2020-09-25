@@ -66,6 +66,13 @@ export default class App {
       this.view.badScreen()
       playSound(badSound, false, 0.8, this.next).play();
     }
-    this.task += 1;
+    if (this.task < this.model.taskInLesson) {
+      this.task += 1;
+    } else {
+      this.view.endLesson();
+      this.model.player.lessons += 1;
+      this.task = 1;
+    }
+    
   }
 }

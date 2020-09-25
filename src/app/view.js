@@ -83,6 +83,23 @@ export default class View {
     this.printText(h2, 20, center.x, center.y + this.fontSizeBig);
   }
 
+  endLesson() {
+    this.stage.removeChildren(0, this.stage.children.length);
+    this.ticker.add((delta) => this.gameLoop(delta));
+    const b = new PIXI.Graphics();
+    b.lineStyle(4, 0x2a9c9d, 1);
+    b.drawRect(2, 2, this.viewPort.width - 4, this.viewPort.height - 4);
+    this.stage.addChild(b);
+    const h1 = 'Урок окончен';
+    const h2 = 'Возвращайся завтра';
+    const center = {
+      x: this.viewPort.width / 2,
+      y: this.viewPort.height / 2,
+    }
+    this.printText(h1, 28, center.x, center.y - this.fontSizeBig);
+    this.printText(h2, 20, center.x, center.y + this.fontSizeBig);
+  }
+
   printText(text, fontSize, x, y) {
     const textStyle = new PIXI.TextStyle({
       fontFamily: 'Arial',

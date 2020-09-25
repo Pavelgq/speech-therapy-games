@@ -15,39 +15,48 @@ export default class ChainGame extends Rules {
     this.currentPart = 0;
     this.currentTask = taskNumber;
     this.dataGame = dataGame;
+
+    this.result = [];
   }
 
   createTask(type) {
+    this.result = [];
     const { words } = this.dataGame.types[type];
     const targetTasks = [];
-    for (let k = 0; k < this.targetTasksParam.parts; k++) {
-      const index = Math.floor(Math.random() * words.length);
-      const { length } = words[index].syllable;
-      if (targetTasks.length + length
+    this.lastAnswers = [];
+    const index = Math.floor(Math.random() * words.length);
+    const { length } = words[index].syllable;
+    if (targetTasks.length + length
          <= this.targetTasksParam.width * this.targetTasksParam.height) {
-        targetTasks.push(...words[index].syllable);
-        this.lastAnswers.push({
-          word: words[index].word,
-          audio: words[index].audio,
-        });
+      targetTasks.push(...words[index].syllable);
+      this.lastAnswers.push({
+        word: words[index].word,
+        syllable: words[index].syllable,
+        audio: words[index].audio,
+      });
 
-        words[index].used = true;
-      }
+      words[index].used = true;
     }
     [this.answer] = this.lastAnswers;
-    return this.addOtherParts(targetTasks, this.dataGame.types[type].data);;
+    console.log(this.answer, this.lastAnswers)
+    return this.addOtherParts(targetTasks, this.dataGame.types[type].data);
   }
 
   refresh(type) {
-    this.lastAnswers.splice(0, 1);
-    [this.answer] = this.lastAnswers;
+    this.targetTasks = this.createTask(0)
   }
 
   checkAnswer(answer) {
-    if (answer === this.answer.word) {
-      return true
+    console.log(answer, this.result, this.lastAnswers)
+    if (this.answer.syllable.indexOf(answer) !== -1) {
+      this.result.push(answer);
+    } else {
+      return 'lose';
     }
-    return false
+    if (this.result.join('') === this.answer.word) {
+      return 'well';
+    }
+    return 'continue';
   }
 
   checkTask() {
