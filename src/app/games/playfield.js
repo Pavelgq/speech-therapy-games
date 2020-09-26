@@ -6,6 +6,7 @@ import func from '../utils/utils';
 const {
   playSound,
   loadFile,
+  delay,
 } = func;
 
 export default class Playfield extends EventEmitter {
@@ -75,6 +76,9 @@ export default class Playfield extends EventEmitter {
       this.fontSizeBig * 6 + this.progressBar.hight / 4,
       this.progressBar.hight / 2, '0x2affff', this.progressBar.hight / 2,
       taskProgress);
+
+    this.printRect(10, this.height - this.fontSizeBig * 2 - 10, this.fontSizeBig * 2, '0x232332', this.fontSizeBig, this.fontSizeBig * 2)
+    this.printText('Завершить', this.fontSizeSmall, 10, this.height - this.fontSizeBig * 2 - 10)
   }
 
   printRect(x, y, size, color, rad, length) {
@@ -135,7 +139,6 @@ export default class Playfield extends EventEmitter {
         rect.id = i * this.model.targetTasksParam.height + j
 
         const text = targetTasks[rect.id];
-        console.log(targetTasks, rect.id);
         this.printText(text, this.fontSizeBig,
           position.x + size / 2,
           position.y + size / 2,
@@ -184,21 +187,26 @@ export default class Playfield extends EventEmitter {
         break;
       case 'well':
         if (this.model.checkTask()) {
-          this.emit('compliteGame', { res: true })
-          object.off('pointerover');
-          object.off('pointerout');
-          object.off('pointerdown');
-          this.stage.removeChildren(0, this.stage.children.length);
+          object.tint = '0x2a9c9d';
+          setTimeout(() => {
+            this.emit('compliteGame', { res: true })
+            object.off('pointerover');
+            object.off('pointerout');
+            object.off('pointerdown');
+            this.stage.removeChildren(0, this.stage.children.length);
+          }, 1000);
         } else {
           object.tint = '0x2a9c9d';
-          this.model.currentPart += 1;
-          this.emit('newScreen', { res: true })
+          setTimeout(() => {
+            this.model.currentPart += 1;
+            this.emit('newScreen', { res: true })
+          }, 1000);
         }
         break;
       case 'lose':
         console.log('не верно');
         object.tint = '0xf36273';
-        playSound(this.model.answer.audio, false, 0.8, console.log)
+        playSound(this.model.answer.audio, false, 0.8, console.log).play()
         setTimeout(() => {
           object.tint = '0xfdb078';
           object.alpha = 0.5;
@@ -208,5 +216,11 @@ export default class Playfield extends EventEmitter {
       default:
         break;
     }
+  }
+}
+
+function clickAnimation(stage) {
+  if (stage.alpha < 0.5) {
+    stage.alpha += 0.01;
   }
 }
