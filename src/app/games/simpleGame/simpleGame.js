@@ -36,7 +36,7 @@ export default class SimpleGame extends Rules {
     }
     [this.answer] = this.lastAnswers;
     this.lastAnswers.splice(0, 1);
-    return this.addOtherParts(targetTasks, this.dataGame.types[type].data);;
+    return this.addOtherParts(targetTasks, this.dataGame.types[type].data);
   }
 
   refresh(type) {

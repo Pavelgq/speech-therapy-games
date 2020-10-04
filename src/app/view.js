@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import v from './viewElements';
 import Game from './games/game';
 
 export default class View {
@@ -28,15 +29,13 @@ export default class View {
     this.stage = new PIXI.Container();
 
     this.render = this.render.bind(this);
+    this.border = v.getBorder('0x2a9c9d', this.viewPort.width, this.viewPort.height, 4)
   }
 
   lessonScreen(lesson, task, gameData) {
     this.stage.removeChildren(0, this.stage.children.length);
     this.ticker.add((delta) => this.gameLoop(delta));
-    const b = new PIXI.Graphics();
-    b.lineStyle(4, 0x2a9c9d, 1);
-    b.drawRect(2, 2, this.viewPort.width - 4, this.viewPort.height - 4);
-    this.stage.addChild(b);
+
     const h1 = `Урок ${lesson}`;
     const h2 = `Задание ${task} ${gameData.title}`;
     const fontSizeBig = this.viewPort.width / 30;
@@ -45,74 +44,77 @@ export default class View {
       x: this.viewPort.width / 2,
       y: this.viewPort.height / 2,
     }
-    this.printText(h1, fontSizeBig, center.x, center.y - this.fontSizeBig);
-    this.printText(h2, fontSizeSmall, center.x, center.y + this.fontSizeBig);
+
+    const textStyle = {
+      fontSize: fontSizeBig,
+      align: 'center',
+    }
+    const textTop = v.getTextField(h1, textStyle, center.x, center.y - this.fontSizeBig, 'center');
+    textStyle.fontSize = fontSizeSmall;
+    const textButton = v.getTextField(h2, textStyle, center.x, center.y + this.fontSizeBig, 'center');
+
+    this.stage.addChild(this.border, textTop, textButton)
   }
 
   goodScreen() {
     this.stage.removeChildren(0, this.stage.children.length);
     this.ticker.add((delta) => this.gameLoop(delta));
-    const b = new PIXI.Graphics();
-    b.lineStyle(4, 0x2a9c9d, 1);
-    b.drawRect(2, 2, this.viewPort.width - 4, this.viewPort.height - 4);
-    this.stage.addChild(b);
     const h1 = 'Верно';
     const h2 = 'Молодец';
     const center = {
       x: this.viewPort.width / 2,
       y: this.viewPort.height / 2,
     }
-    this.printText(h1, 28, center.x, center.y - this.fontSizeBig);
-    this.printText(h2, 28, center.x, center.y + this.fontSizeBig);
+
+    const textStyle = {
+      fontSize: 28,
+      align: 'center',
+    }
+    const textTop = v.getTextField(h1, textStyle, center.x, center.y - this.fontSizeBig, 'center');
+    textStyle.fontSize = 24;
+    const textButton = v.getTextField(h2, textStyle, center.x, center.y + this.fontSizeBig, 'center');
+
+    this.stage.addChild(this.border, textTop, textButton)
   }
 
   badScreen() {
     this.stage.removeChildren(0, this.stage.children.length);
     this.ticker.add((delta) => this.gameLoop(delta));
-    const b = new PIXI.Graphics();
-    b.lineStyle(4, 0x2a9c9d, 1);
-    b.drawRect(2, 2, this.viewPort.width - 4, this.viewPort.height - 4);
-    this.stage.addChild(b);
     const h1 = 'Вот незадача';
     const h2 = 'В следующий раз справишься';
     const center = {
       x: this.viewPort.width / 2,
       y: this.viewPort.height / 2,
     }
-    this.printText(h1, 28, center.x, center.y - this.fontSizeBig);
-    this.printText(h2, 20, center.x, center.y + this.fontSizeBig);
+    const textStyle = {
+      fontSize: 28,
+      align: 'center',
+    }
+    const textTop = v.getTextField(h1, textStyle, center.x, center.y - this.fontSizeBig, 'center');
+    textStyle.fontSize = 24;
+    const textButton = v.getTextField(h2, textStyle, center.x, center.y + this.fontSizeBig, 'center');
+
+    this.stage.addChild(this.border, textTop, textButton)
   }
 
   endLesson() {
     this.stage.removeChildren(0, this.stage.children.length);
     this.ticker.add((delta) => this.gameLoop(delta));
-    const b = new PIXI.Graphics();
-    b.lineStyle(4, 0x2a9c9d, 1);
-    b.drawRect(2, 2, this.viewPort.width - 4, this.viewPort.height - 4);
-    this.stage.addChild(b);
     const h1 = 'Урок окончен';
     const h2 = 'Возвращайся завтра';
     const center = {
       x: this.viewPort.width / 2,
       y: this.viewPort.height / 2,
     }
-    this.printText(h1, 28, center.x, center.y - this.fontSizeBig);
-    this.printText(h2, 20, center.x, center.y + this.fontSizeBig);
-  }
-
-  printText(text, fontSize, x, y) {
-    const textStyle = new PIXI.TextStyle({
-      fontFamily: 'Arial',
-      fontSize,
-      fill: '0x2a9c9d',
+    const textStyle = {
+      fontSize: 28,
       align: 'center',
-    })
-    const score = new PIXI.Text(text, textStyle)
-    const textMetrics = PIXI.TextMetrics.measureText(text, textStyle)
-    score.x = x - textMetrics.width / 2
-    score.y = y - textMetrics.height / 2
+    }
+    const textTop = v.getTextField(h1, textStyle, center.x, center.y - this.fontSizeBig, 'center');
+    textStyle.fontSize = 24;
+    const textButton = v.getTextField(h2, textStyle, center.x, center.y + this.fontSizeBig, 'center');
 
-    this.stage.addChild(score)
+    this.stage.addChild(this.border, textTop, textButton)
   }
 
   createGame(id, taskNumber) {

@@ -21,6 +21,33 @@ const wordOfSyllables = {
         audio: require('../../../assets/audio/wordOfSyllables/cat.mp3'),
         used: false,
       },
+      {
+        word: 'молоко',
+        syllable: ['мо', 'ло', 'ко'],
+        audio: require('../../../assets/audio/wordOfSyllables/milk.mp3'),
+        used: false,
+      }, {
+        word: 'сорока',
+        syllable: ['со', 'ро', 'ка'],
+        audio: require('../../../assets/audio/wordOfSyllables/magpie.mp3'),
+        used: false,
+      },
+      {
+        word: 'бумага',
+        syllable: ['бу', 'ма', 'га'],
+        audio: require('../../../assets/audio/wordOfSyllables/paper.mp3'),
+        used: false,
+      }, {
+        word: 'ручка',
+        syllable: ['руч', 'ка'],
+        audio: require('../../../assets/audio/wordOfSyllables/pen.mp3'),
+        used: false,
+      }, {
+        word: 'город',
+        syllable: ['го', 'род'],
+        audio: require('../../../assets/audio/wordOfSyllables/town.mp3'),
+        used: false,
+      },
       ],
       data: [
         'си',

@@ -73,6 +73,5 @@ export default class App {
       this.model.player.lessons += 1;
       this.task = 1;
     }
-    
   }
 }
