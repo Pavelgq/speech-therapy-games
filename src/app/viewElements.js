@@ -10,7 +10,7 @@ import * as PIXI from 'pixi.js';
  * @return {PIXI.Text}
  */
 const getTextField = (text, style, x, y, align) => {
-  let textStyle = new PIXI.TextStyle({
+  const textStyle = new PIXI.TextStyle({
     fontFamily: style.fontFamily || 'Arial',
     fontSize: style.fontSize || 10,
     fill: style.colot || '0x2a9c9d',
@@ -38,12 +38,12 @@ const getTextField = (text, style, x, y, align) => {
 
 /**
  * Строит прямоугольник со скругленными краями
- * @param {Number} x 
- * @param {Number} y 
- * @param {String} color 
- * @param {Number} rad 
- * @param {Number} width 
- * @param {Number} height 
+ * @param {Number} x
+ * @param {Number} y
+ * @param {String} color
+ * @param {Number} rad
+ * @param {Number} width
+ * @param {Number} height
  * @return {PIXI.Graphics}
  */
 const getRect = (x, y, color, rad, width, height) => {
@@ -55,13 +55,13 @@ const getRect = (x, y, color, rad, width, height) => {
 
 /**
  * Строит прогрессбар по заданным параметрам
- * @param {Number} percent 
+ * @param {Number} percent
  * @param {Object} style {inColor, outColor}
- * @param {Number} x 
- * @param {Number} y 
- * @param {Number} width 
- * @param {Number} height 
- * @param {Number} border 
+ * @param {Number} x
+ * @param {Number} y
+ * @param {Number} width
+ * @param {Number} height
+ * @param {Number} border
  * @return {PIXI.Container}
  */
 const getProgressBar = (percent, style, x, y, width, height, border) => {
@@ -72,39 +72,41 @@ const getProgressBar = (percent, style, x, y, width, height, border) => {
 
   const inSide = getRect(x + border, y + border,
     style.outColor,
-    height - border / 2,
-    (width - border / 2) * percent,
-    height - border / 2);
+    height - border * 2,
+    (width - border * 2) * percent,
+    height - border * 2);
 
   result.addChild(outSide, inSide);
   return result;
 }
 
 /**
- * 
- * @param {String} text 
- * @param {String} backColor 
- * @param {PIXI.TextStyle} textStyle 
- * @param {Number} x 
- * @param {Number} y 
- * @param {Number} width 
- * @param {Number} height 
+ *
+ * @param {String} text
+ * @param {String} backColor
+ * @param {PIXI.TextStyle} textStyle
+ * @param {Number} x
+ * @param {Number} y
+ * @param {Number} border
  * @return {PIXI.Container}
  */
-const getButton = (text, backColor, textStyle, x, y, width, height) => {
+const getButton = (text, backColor, textStyle, x, y, border) => {
   const result = new PIXI.Container();
-  const rect = getRect(x, y, backColor, height, width, height);
-  const textField = getTextField(text, textStyle, 10, this.height - this.fontSizeBig * 2 - 10)
+
+  const textField = getTextField(text, textStyle, x, y, 'left');
+  const textMetrics = PIXI.TextMetrics.measureText(text, textStyle);
+  const rect = getRect(x - border / 2, y - border / 2, backColor, textMetrics.height + border,
+    textMetrics.width + border, textMetrics.height + border);
   result.addChild(rect, textField);
   return result;
 }
 
 /**
- * 
- * @param {*} color 
- * @param {*} width 
- * @param {*} height 
- * @param {*} lineSize 
+ *
+ * @param {*} color
+ * @param {*} width
+ * @param {*} height
+ * @param {*} lineSize
  */
 const getBorder = (color, width, height, lineSize) => {
   const b = new PIXI.Graphics();
@@ -113,11 +115,32 @@ const getBorder = (color, width, height, lineSize) => {
   return b;
 }
 
+/**
+ *
+ * @param {String} backColor
+ * @param {String} borderColor
+ * @param {Number} x
+ * @param {Number} y
+ * @param {Number} size
+ * @param {Number} rad
+ */
+const getCell = (backColor, borderColor, x, y, size, rad) => {
+  const rect = new PIXI.Graphics()
+  rect.lineStyle(2, borderColor, 1)
+  rect.position.x = x
+  rect.position.y = y
+  rect.beginFill(backColor, 0.5)
+  rect.drawRoundedRect(0, 0, size, size, rad)
+  rect.endFill()
+
+  return rect;
+}
+
 export default {
   getTextField,
   getRect,
   getProgressBar,
   getButton,
   getBorder,
-
+  getCell,
 }

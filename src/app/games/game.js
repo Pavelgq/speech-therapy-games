@@ -1,7 +1,6 @@
 import * as PIXI from 'pixi.js';
 import EventEmitter from '../utils/eventEmmiter';
 import Playfield from './playfield';
-import Model from './model';
 import SimpleGame from './simpleGame/simpleGame';
 import ChainGame from './chainGame/chainGame';
 

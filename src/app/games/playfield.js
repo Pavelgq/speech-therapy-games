@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js';
 
 import EventEmitter from '../utils/eventEmmiter';
+import v from '../viewElements';
 import func from '../utils/utils';
 
 const {
@@ -23,6 +24,8 @@ export default class Playfield extends EventEmitter {
       width: this.width / 4,
       hight: this.height / 30,
     }
+
+    this.gameFields = [];
   }
 
   create() {
@@ -32,71 +35,64 @@ export default class Playfield extends EventEmitter {
   }
 
   refresh() {
-    this.printField();
-    this.printCell();
+    this.refreshField();
+    this.refreshCell();
   }
 
   printField() {
-    const b = new PIXI.Graphics()
-    b.lineStyle(4, '0x2a9c9d', 1)
-    b.drawRect(2, 2, this.width - 4, this.height - 4)
-    this.stage.addChild(b)
+    if (!this.border) {
+      this.border = v.getBorder('0x2a9c9d', this.width, this.height, 4);
+    }
+
+    const textStyle = new PIXI.TextStyle({
+      fontFamily: 'Arial',
+      fontSize: this.fontSizeBig,
+      fill: '0x2a9c9d',
+      align: 'left',
+    })
 
     const totalParts = this.model.targetTasksParam.parts;
-    const { totalTasks } = this.model;
-    const { currentPart } = this.model;
-    const { currentTask } = this.model;
+    const {
+      totalTasks,
+    } = this.model;
+    const {
+      currentPart,
+    } = this.model;
+    const {
+      currentTask,
+    } = this.model;
 
     const name = `${this.model.player.firstName} ${this.model.player.lastName}`
     const lesson = `Урок ${this.model.player.lessons + 1}`
     const task = `Задание ${currentTask}`
-    this.printText(name, this.fontSizeBig, 10, this.fontSizeBig)
-    this.printText(lesson, this.fontSizeSmall, 10, this.fontSizeBig * 3)
-    this.printText(task, this.fontSizeSmall, 10, this.fontSizeBig * 5)
 
-    const lessonProgress = ((this.progressBar.width - this.progressBar.hight)
-    / totalTasks) * currentTask;
-    const taskProgress = ((this.progressBar.width - this.progressBar.hight)
-    / totalParts) * currentPart;
+    this.nameField = v.getTextField(name, textStyle, 10, this.fontSizeBig, 'left');
+    this.lessonField = v.getTextField(lesson, textStyle, 10, this.fontSizeBig * 3, 'left');
+    this.taskField = v.getTextField(task, textStyle, 10, this.fontSizeBig * 5, 'left');
 
-    this.printRect(10, this.fontSizeBig * 4,
-      this.progressBar.hight, '0x2a9c9d',
-      this.progressBar.hight, this.progressBar.width);
+    const lessonProgress = currentTask / totalTasks;
 
-    this.printRect(10 + this.progressBar.hight / 4,
-      this.fontSizeBig * 4 + this.progressBar.hight / 4,
-      this.progressBar.hight / 2, '0x2affff', this.progressBar.hight / 2,
-      lessonProgress);
+    const taskProgress = currentPart / totalParts;
 
-    this.printRect(10, this.fontSizeBig * 6,
-      this.progressBar.hight, '0x2a9c9d',
-      this.progressBar.hight, this.progressBar.width);
+    const style = {
+      inColor: '0x2affff',
+      outColor: '0x2a9c9d',
+    }
+    this.progressBarLesson = v.getProgressBar(lessonProgress, style, 10, this.fontSizeBig * 4,
+      this.progressBar.width, this.progressBar.hight, 4);
 
-    this.printRect(10 + this.progressBar.hight / 4,
-      this.fontSizeBig * 6 + this.progressBar.hight / 4,
-      this.progressBar.hight / 2, '0x2affff', this.progressBar.hight / 2,
-      taskProgress);
+    this.progressBarTask = v.getProgressBar(taskProgress, style, 10, this.fontSizeBig * 6,
+      this.progressBar.width, this.progressBar.hight, 4);
 
-    this.printRect(10, this.height - this.fontSizeBig * 2 - 10, this.fontSizeBig * 2, '0x232332', this.fontSizeBig, this.fontSizeBig * 2)
-    this.printText('Завершить', this.fontSizeSmall, 10, this.height - this.fontSizeBig * 2 - 10)
-  }
+    this.finishButton = v.getButton('Завершить', '0x2a9c9d', textStyle, 30, this.height - this.fontSizeBig * 2 - 10, 15);
 
-  printRect(x, y, size, color, rad, length) {
-    const rect = new PIXI.Graphics()
-    rect.beginFill(color, 0.5)
-    rect.drawRoundedRect(x, y, length, size, rad)
-    this.stage.addChild(rect)
-  }
-
-  printBorder() {
-    const b = new PIXI.Graphics();
-    b.lineStyle(4, 0x2a9c9d, 1);
-    b.drawRect(2, 2, this.width - 4, this.height - 4);
-    this.stage.addChild(b);
-    this.border = b;
+    this.stage.addChild(this.nameField, this.lessonField, this.taskField,
+      this.progressBarLesson, this.progressBarTask, this.finishButton)
   }
 
   printCell() {
+
+
     const spaceBetween = 10
     const position = {
       x: spaceBetween,
@@ -112,38 +108,32 @@ export default class Playfield extends EventEmitter {
       (spaceFree - (maxSideCubes + 1) * 10) / maxSideCubes,
     )
     const spaceAroundY = Math.floor(
-      (this.height
-        - (size * this.model.targetTasksParam.height
-          + spaceBetween * (this.model.targetTasksParam.height - 1)))
-        / 2,
+      (this.height -
+        (size * this.model.targetTasksParam.height +
+          spaceBetween * (this.model.targetTasksParam.height - 1))) /
+      2,
     )
     const spaceAroundX = Math.floor(
-      (width
-        - (size * this.model.targetTasksParam.width
-          + spaceBetween * (this.model.targetTasksParam.width - 1)))
-        / 2,
+      (width -
+        (size * this.model.targetTasksParam.width +
+          spaceBetween * (this.model.targetTasksParam.width - 1))) /
+      2,
     )
-
+    const textStyle = new PIXI.TextStyle({
+      fontFamily: 'Arial',
+      fontSize: this.fontSizeBig,
+      fill: '0x2a9c9d',
+      align: 'left',
+    })
     const targetTasks = this.model.targetTasks.slice();
     for (let i = 0; i < this.model.targetTasksParam.width; i++) {
       for (let j = 0; j < this.model.targetTasksParam.height; j++) {
         position.x = spaceAroundX + (size + spaceBetween) * i + this.width / 3
         position.y = spaceAroundY + (size + spaceBetween) * j
-        const rect = new PIXI.Graphics()
-        rect.lineStyle(2, '0xfdb078', 1)
-        rect.position.x = position.x
-        rect.position.y = position.y
-        rect.beginFill('0xfdb078', 0.5)
-        rect.drawRoundedRect(0, 0, size, size, 16)
-        rect.endFill()
+        const rect = v.getCell('0xfdb078', '0xfdb078', position.x, position.y, size, 16);
         rect.id = i * this.model.targetTasksParam.height + j
-
         const text = targetTasks[rect.id];
-        this.printText(text, this.fontSizeBig,
-          position.x + size / 2,
-          position.y + size / 2,
-          true);
-
+        const textField = v.getTextField(text, textStyle, position.x + size / 2, position.y + size / 2, 'center');
         rect.interactive = true
         rect.on('pointerdown', () => this.select(rect))
         rect.on('pointerover', () => {
@@ -152,31 +142,96 @@ export default class Playfield extends EventEmitter {
         rect.on('pointerout', () => {
           rect.alpha = 1
         })
-        this.stage.addChild(rect)
+        const container = new PIXI.Container();
+        container.addChild(rect, textField);
+        this.gameFields.push(container);
+        this.stage.addChild(container)
       }
     }
   }
 
-  printText(text, fontSize, x, y, center = false) {
+  refreshField() {
     const textStyle = new PIXI.TextStyle({
       fontFamily: 'Arial',
-      fontSize,
+      fontSize: this.fontSizeBig,
       fill: '0x2a9c9d',
-      align: 'center',
+      align: 'left',
     })
-    const score = new PIXI.Text(text, textStyle)
-    const textMetrics = PIXI.TextMetrics.measureText(text, textStyle)
-    if (center) {
-      score.x = x - textMetrics.width / 2
-      score.y = y - textMetrics.height / 2
-    } else {
-      score.x = x
-      score.y = y
+
+    const totalParts = this.model.targetTasksParam.parts;
+    const {
+      totalTasks,
+    } = this.model;
+    const {
+      currentPart,
+    } = this.model;
+    const {
+      currentTask,
+    } = this.model;
+
+    const lesson = `Урок ${this.model.player.lessons + 1}`
+    const task = `Задание ${currentTask}`
+
+    this.lessonField = v.getTextField(lesson, textStyle, 10, this.fontSizeBig * 3, 'left');
+    this.taskField = v.getTextField(task, textStyle, 10, this.fontSizeBig * 5, 'left');
+
+    const lessonProgress = currentTask / totalTasks;
+
+    const taskProgress = currentPart / totalParts;
+
+    const style = {
+      inColor: '0x2affff',
+      outColor: '0x2a9c9d',
     }
 
-    this.stage.addChild(score)
+    this.progressBarLesson = v.getProgressBar(lessonProgress, style, 10, this.fontSizeBig * 4,
+      this.progressBar.width, this.progressBar.hight, 4);
+
+    this.progressBarTask = v.getProgressBar(taskProgress, style, 10, this.fontSizeBig * 6,
+      this.progressBar.width, this.progressBar.hight, 4);
+
+    this.stage.addChild(this.nameField, this.lessonField, this.taskField,
+      this.progressBarLesson, this.progressBarTask, this.finishButton)
   }
 
+  refreshCell() {
+    const textStyle = new PIXI.TextStyle({
+      fontFamily: 'Arial',
+      fontSize: this.fontSizeBig,
+      fill: '0x2a9c9d',
+      align: 'left',
+    })
+    const spaceBetween = 10
+    const position = {
+      x: spaceBetween,
+      y: spaceBetween,
+    }
+    const width = (this.width * 2) / 3
+    const spaceFree = Math.min(width, this.height)
+    const maxSideCubes = Math.max(
+      this.model.targetTasksParam.width,
+      this.model.targetTasksParam.height,
+    )
+    const size = Math.floor(
+      (spaceFree - (maxSideCubes + 1) * 10) / maxSideCubes,
+    )
+    const targetTasks = this.model.targetTasks.slice();
+    for (let i = 0; i < this.model.targetTasksParam.width; i++) {
+      for (let j = 0; j < this.model.targetTasksParam.height; j++) {
+        const id = i * this.model.targetTasksParam.height + j;
+
+        const text = targetTasks[id];
+        const textField = v.getTextField(text, textStyle, position.x + size / 2, position.y + size / 2, 'center');
+
+        this.gameFields[id][1] = textField;
+        const container = this.gameFields[id];
+        this.stage.addChild(container);
+      }
+    }
+  }
+
+
+  //TODO: Убрать select в game.js
   select(obj) {
     const object = obj;
     const check = this.model.checkAnswer(this.model.targetTasks[object.id]);
@@ -189,7 +244,9 @@ export default class Playfield extends EventEmitter {
         if (this.model.checkTask()) {
           object.tint = '0x2a9c9d';
           setTimeout(() => {
-            this.emit('compliteGame', { res: true })
+            this.emit('compliteGame', {
+              res: true,
+            })
             object.off('pointerover');
             object.off('pointerout');
             object.off('pointerdown');
@@ -199,7 +256,9 @@ export default class Playfield extends EventEmitter {
           object.tint = '0x2a9c9d';
           setTimeout(() => {
             this.model.currentPart += 1;
-            this.emit('newScreen', { res: true })
+            this.emit('newScreen', {
+              res: true,
+            })
           }, 1000);
         }
         break;
@@ -216,11 +275,5 @@ export default class Playfield extends EventEmitter {
       default:
         break;
     }
-  }
-}
-
-function clickAnimation(stage) {
-  if (stage.alpha < 0.5) {
-    stage.alpha += 0.01;
   }
 }
