@@ -118,7 +118,8 @@ export default class View {
   }
 
   createGame(id, taskNumber) {
-    return new Game(this.renderer, this.viewPort, this.model, this.ticker, id, taskNumber)
+    this.model.game = new Game(this.renderer,
+      this.viewPort, this.model, this.ticker, id, taskNumber)
   }
 
   render() {

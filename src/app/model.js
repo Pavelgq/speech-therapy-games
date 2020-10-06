@@ -13,5 +13,6 @@ export default class Model {
       choiceOfSyllable: 0,
       choiceOfNumber: 0,
     }
+    this.game = {};
   }
 }

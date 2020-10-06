@@ -49,9 +49,9 @@ export default class Game extends EventEmitter {
 
   refresh() {
     this.model.refresh();
-    this.stage.removeChildren(0, this.stage.children.length);
+    // this.stage.removeChildren(0, this.stage.children.length);
     this.ticker.add((delta) => this.gameLoop(delta));
-    this.playfield.create();
+    this.playfield.refresh();
   }
 
   render() {

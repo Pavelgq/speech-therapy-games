@@ -26,6 +26,7 @@ export default class App {
 
     this.complite = this.complite.bind(this);
     this.next = this.next.bind(this);
+    this.aheadOfTime = this.aheadOfTime.bind(this);
   }
 
   init() {
@@ -51,11 +52,12 @@ export default class App {
   next() {
     // this.render();
     const id = Math.floor(Math.random() * this.games);
-    const game = this.view.createGame(id, this.task);
-    this.view.lessonScreen(this.model.player.lessons + 1, this.task, game.model);
+    this.view.createGame(id, this.task);
+    this.view.lessonScreen(this.model.player.lessons + 1, this.task, this.model.game.model);
     // todo
-    game.playfield.dispatch('compliteGame', this.complite);
-    playSound(game.rules, false, 0.8, game.run).play();
+    this.model.game.playfield.dispatch('compliteGame', this.complite);
+    this.model.game.playfield.dispatch('aheadOfTime', this.aheadOfTime);
+    playSound(this.model.game.rules, false, 0.8, this.model.game.run).play();
   }
 
   complite(obj) {
@@ -73,5 +75,11 @@ export default class App {
       this.model.player.lessons += 1;
       this.task = 1;
     }
+  }
+
+  aheadOfTime(obj) {
+    this.view.endLesson();
+    this.model.player.lessons += 1;
+    this.task = 1;
   }
 }
