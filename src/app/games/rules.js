@@ -16,6 +16,10 @@ export default class Rules {
 
     // this.partOfTask = 0;
     // this.dataGame = dataGame;
+    this.reaction = [];
+
+    this.addReaction = this.addReaction.bind(this); 
+    this.setReaction = this.setReaction.bind(this);
   }
 
   addOtherParts(targetTasks, otherWords) {
@@ -40,5 +44,17 @@ export default class Rules {
     }
 
     return res;
+  }
+
+
+  setReaction() {
+    this.startCount = new Date().getTime();
+  }
+
+  addReaction() {
+    const time = new Date().getTime();
+
+    this.reaction.push(time - this.startCount);
+    console.log(this.reaction)
   }
 }

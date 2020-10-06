@@ -44,13 +44,13 @@ export default class Playfield extends EventEmitter {
   create() {
     this.printField();
     this.printCell();
-    playSound(this.model.answer.audio, false, 0.8, console.log).play()
+    playSound(this.model.answer.audio, false, 0.8, this.model.setReaction).play()
   }
 
   refresh() {
     this.refreshField();
     this.refreshCell();
-    playSound(this.model.answer.audio, false, 0.8, console.log).play()
+    playSound(this.model.answer.audio, false, 0.8, this.model.setReaction).play()
   }
 
   printField() {
@@ -71,8 +71,10 @@ export default class Playfield extends EventEmitter {
     this.lessonField = v.getTextField(lesson, this.textStyle, 10, this.fontSizeBig * 3, 'left');
     this.taskField = v.getTextField(task, this.textStyle, 10, this.fontSizeBig * 5, 'left');
 
-    const lessonProgress = progress.currentTask / progress.totalTasks;
-    const taskProgress = progress.currentPart / progress.totalParts;
+    const lessonProgress = (progress.currentTask - 1) / progress.totalTasks;
+
+    const taskProgress = (progress.currentPart - 1) / progress.totalParts;
+
 
     this.progressBarLesson = v.getProgressBar(lessonProgress, this.progressBarStyle,
       10, this.fontSizeBig * 4, this.progressBar.width, this.progressBar.hight, 4);
@@ -162,26 +164,22 @@ export default class Playfield extends EventEmitter {
     this.stage.removeChild(this.lessonField, this.taskField,
       this.progressBarLesson, this.progressBarTask);
 
-    const totalParts = this.model.targetTasksParam.parts;
-    const {
-      totalTasks,
-    } = this.model;
-    const {
-      currentPart,
-    } = this.model;
-    const {
-      currentTask,
-    } = this.model;
+    const progress = {
+      totalParts: this.model.targetTasksParam.parts,
+      currentPart: this.model.currentPart,
+      totalTasks: this.model.totalTasks,
+      currentTask: this.model.currentTask,
+    }
 
     const lesson = `Урок ${this.model.player.lessons + 1}`
-    const task = `Задание ${currentTask}`
+    const task = `Задание ${progress.currentTask}`
 
     this.lessonField = v.getTextField(lesson, this.textStyle, 10, this.fontSizeBig * 3, 'left');
     this.taskField = v.getTextField(task, this.textStyle, 10, this.fontSizeBig * 5, 'left');
 
-    const lessonProgress = currentTask / totalTasks;
+    const lessonProgress = (progress.currentTask - 1) / progress.totalTasks;
 
-    const taskProgress = currentPart / totalParts;
+    const taskProgress = (progress.currentPart - 1) / progress.totalParts;
 
     const style = {
       inColor: '0x2affff',
@@ -252,6 +250,7 @@ export default class Playfield extends EventEmitter {
         object.tint = '0x2a9c9d';
         break;
       case 'well':
+        this.model.addReaction();
         if (this.model.checkTask()) {
           object.tint = '0x2a9c9d';
           setTimeout(() => {
