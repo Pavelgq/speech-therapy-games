@@ -1,6 +1,6 @@
 import Rules from '../rules';
 
-export default class ChainGame extends Rules {
+export default class MutatingGame extends Rules {
   constructor(appModel, dataGame, taskNumber) {
     super();
     this.title = dataGame.title;
@@ -21,13 +21,17 @@ export default class ChainGame extends Rules {
 
   createTask(type) {
     this.result = [];
-    const { words } = this.dataGame.types[type];
+    const {
+      words
+    } = this.dataGame.types[type];
     const targetTasks = [];
     this.lastAnswers = [];
     const index = Math.floor(Math.random() * words.length);
-    const { length } = words[index].syllable;
-    if (targetTasks.length + length
-         <= this.targetTasksParam.width * this.targetTasksParam.height) {
+    const {
+      length
+    } = words[index].syllable;
+    if (targetTasks.length + length <=
+      this.targetTasksParam.width * this.targetTasksParam.height) {
       targetTasks.push(...words[index].syllable);
       this.lastAnswers.push({
         word: words[index].word,

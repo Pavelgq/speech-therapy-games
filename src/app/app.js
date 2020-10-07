@@ -22,7 +22,7 @@ export default class App {
 
     this.task = 1;
 
-    this.games = 4;
+    this.games = 5;
 
     this.complite = this.complite.bind(this);
     this.next = this.next.bind(this);

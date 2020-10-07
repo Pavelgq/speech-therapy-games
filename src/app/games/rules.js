@@ -46,7 +46,6 @@ export default class Rules {
     return res;
   }
 
-
   setReaction() {
     this.startCount = new Date().getTime();
   }

@@ -75,7 +75,6 @@ export default class Playfield extends EventEmitter {
 
     const taskProgress = (progress.currentPart - 1) / progress.totalParts;
 
-
     this.progressBarLesson = v.getProgressBar(lessonProgress, this.progressBarStyle,
       10, this.fontSizeBig * 4, this.progressBar.width, this.progressBar.hight, 4);
 
@@ -121,16 +120,16 @@ export default class Playfield extends EventEmitter {
       (spaceFree - (maxSideCubes + 1) * 10) / maxSideCubes,
     )
     const spaceAroundY = Math.floor(
-      (this.height -
-        (size * taskHeight +
-          this.spaceBetweenFields * (taskHeight - 1))) /
-      2,
+      (this.height
+        - (size * taskHeight
+          + this.spaceBetweenFields * (taskHeight - 1)))
+      / 2,
     )
     const spaceAroundX = Math.floor(
-      (width -
-        (size * taskWidth +
-          this.spaceBetweenFields * (taskWidth - 1))) /
-      2,
+      (width
+        - (size * taskWidth
+          + this.spaceBetweenFields * (taskWidth - 1)))
+      / 2,
     )
 
     const targetTasks = this.model.targetTasks.slice();
@@ -145,13 +144,15 @@ export default class Playfield extends EventEmitter {
         const textField = v.getTextField(text, this.textStyle, position.x + size / 2, position.y + size / 2, 'center');
         rect.interactive = true;
         rect.buttonMode = true;
-        rect.on('pointerdown', () => this.select(rect))
-        rect.on('pointerover', () => {
-          rect.alpha = 0.5
-        })
-        rect.on('pointerout', () => {
-          rect.alpha = 1
-        })
+        rect.on('pointerdown', () => {
+          this.emit('selectedAnswer', rect);
+        });
+        // rect.on('pointerover', () => {
+        //   rect.alpha = 0.5
+        // })
+        // rect.on('pointerout', () => {
+        //   rect.alpha = 1
+        // })
         const container = new PIXI.Container();
         container.addChild(rect, textField);
         this.gameFields.push(container);
@@ -199,11 +200,7 @@ export default class Playfield extends EventEmitter {
   refreshCell() {
     const taskHeight = this.model.targetTasksParam.height;
     const taskWidth = this.model.targetTasksParam.width;
-
-    const position = {
-      x: this.spaceBetweenFields,
-      y: this.spaceBetweenFields,
-    }
+  
     const width = (this.width * 2) / 3;
     const spaceFree = Math.min(width, this.height);
     const maxSideCubes = Math.max(
@@ -213,27 +210,17 @@ export default class Playfield extends EventEmitter {
     const size = Math.floor(
       (spaceFree - (maxSideCubes + 1) * 10) / maxSideCubes,
     )
-    const spaceAroundY = Math.floor(
-      (this.height -
-        (size * taskHeight +
-          this.spaceBetweenFields * (taskHeight - 1))) /
-      2,
-    )
-    const spaceAroundX = Math.floor(
-      (width -
-        (size * taskWidth +
-          this.spaceBetweenFields * (taskWidth - 1))) /
-      2,
-    )
+
     const targetTasks = this.model.targetTasks.slice();
     for (let i = 0; i < taskWidth; i++) {
       for (let j = 0; j < taskHeight; j++) {
         const id = i * taskHeight + j;
-        position.x = spaceAroundX + (size + this.spaceBetweenFields) * i + this.width / 3
-        position.y = spaceAroundY + (size + this.spaceBetweenFields) * j
+        const { x } = this.gameFields[id].children[0];
+        const { y } = this.gameFields[id].children[0];
         const text = targetTasks[id];
-        const textField = v.getTextField(text, this.textStyle, position.x + size / 2, position.y + size / 2, 'center');
-
+        const textField = v.getTextField(text, this.textStyle, x + size / 2, y + size / 2, 'center');
+        this.gameFields[id].children[0].tint = '0xfdb078';
+        this.gameFields[id].children[0].alpha = 0.5;
         this.gameFields[id].removeChildAt(1);
         this.gameFields[id].addChild(textField);
       }
@@ -241,49 +228,49 @@ export default class Playfield extends EventEmitter {
   }
 
   // TODO: Убрать select в game.js
-  select(obj) {
-    const object = obj;
-    const check = this.model.checkAnswer(this.model.targetTasks[object.id]);
-    switch (check) {
-      case 'continue':
-        console.log('верно');
-        object.tint = '0x2a9c9d';
-        break;
-      case 'well':
-        this.model.addReaction();
-        if (this.model.checkTask()) {
-          object.tint = '0x2a9c9d';
-          setTimeout(() => {
-            this.emit('compliteGame', {
-              res: true,
-            })
-            object.off('pointerover');
-            object.off('pointerout');
-            object.off('pointerdown');
-            this.stage.removeChildren(0, this.stage.children.length);
-          }, 1000);
-        } else {
-          object.tint = '0x2a9c9d';
-          setTimeout(() => {
-            this.model.currentPart += 1;
-            this.emit('newScreen', {
-              res: true,
-            })
-          }, 1000);
-        }
-        break;
-      case 'lose':
-        console.log('не верно');
-        object.tint = '0xf36273';
-        playSound(this.model.answer.audio, false, 0.8, console.log).play()
-        setTimeout(() => {
-          object.tint = '0xfdb078';
-          object.alpha = 0.5;
-        }, 1000);
-        break;
+  // select(obj) {
+  //   const object = obj;
+  //   const check = this.model.checkAnswer(this.model.targetTasks[object.id]);
+  //   switch (check) {
+  //     case 'continue':
+  //       console.log('верно');
+  //       object.tint = '0x2a9c9d';
+  //       break;
+  //     case 'well':
+  //       this.model.addReaction();
+  //       if (this.model.checkTask()) {
+  //         object.tint = '0x2a9c9d';
+  //         setTimeout(() => {
+  //           this.emit('compliteGame', {
+  //             res: true,
+  //           })
+  //           object.off('pointerover');
+  //           object.off('pointerout');
+  //           object.off('pointerdown');
+  //           this.stage.removeChildren(0, this.stage.children.length);
+  //         }, 1000);
+  //       } else {
+  //         object.tint = '0x2a9c9d';
+  //         setTimeout(() => {
+  //           this.model.currentPart += 1;
+  //           this.emit('newScreen', {
+  //             res: true,
+  //           })
+  //         }, 1000);
+  //       }
+  //       break;
+  //     case 'lose':
+  //       console.log('не верно');
+  //       object.tint = '0xf36273';
+  //       playSound(this.model.answer.audio, false, 0.8, console.log).play()
+  //       setTimeout(() => {
+  //         object.tint = '0xfdb078';
+  //         object.alpha = 0.5;
+  //       }, 1000);
+  //       break;
 
-      default:
-        break;
-    }
-  }
+  //     default:
+  //       break;
+  //   }
+  // }
 }
