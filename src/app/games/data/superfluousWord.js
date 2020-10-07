@@ -78,7 +78,7 @@ const superfluousWord = {
     },
   ],
 
-  rulesSound: require('../../../assets/audio/choiceOfWord/choice-of-word-rules.mp3'),
+  rulesSound: require('../../../assets/audio/superfluousWord/superfluous-word-rules.mp3'),
 }
 
 export default superfluousWord
