@@ -6,8 +6,6 @@ import func from '../utils/utils';
 
 const {
   playSound,
-  loadFile,
-  delay,
 } = func;
 
 export default class Playfield extends EventEmitter {
@@ -135,8 +133,8 @@ export default class Playfield extends EventEmitter {
     const targetTasks = this.model.targetTasks.slice();
     for (let i = 0; i < taskWidth; i++) {
       for (let j = 0; j < taskHeight; j++) {
-        position.x = spaceAroundX + (size + this.spaceBetweenFields) * i + this.width / 3;
-        position.y = spaceAroundY + (size + this.spaceBetweenFields) * j;
+        position.x = spaceAroundX + (size + this.spaceBetweenFields) * j + this.width / 3;
+        position.y = spaceAroundY + (size + this.spaceBetweenFields) * i;
 
         const rect = v.getCell('0xfdb078', '0xfdb078', position.x, position.y, size, 16);
         rect.id = i * taskHeight + j
@@ -200,7 +198,7 @@ export default class Playfield extends EventEmitter {
   refreshCell() {
     const taskHeight = this.model.targetTasksParam.height;
     const taskWidth = this.model.targetTasksParam.width;
-  
+
     const width = (this.width * 2) / 3;
     const spaceFree = Math.min(width, this.height);
     const maxSideCubes = Math.max(

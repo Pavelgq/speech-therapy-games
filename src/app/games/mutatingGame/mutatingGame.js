@@ -20,30 +20,26 @@ export default class MutatingGame extends Rules {
   }
 
   createTask(type) {
-    this.result = [];
-    const {
-      words
-    } = this.dataGame.types[type];
+    const { words } = this.dataGame.types[type];
     const targetTasks = [];
-    this.lastAnswers = [];
-    const index = Math.floor(Math.random() * words.length);
-    const {
-      length
-    } = words[index].syllable;
-    if (targetTasks.length + length <=
-      this.targetTasksParam.width * this.targetTasksParam.height) {
-      targetTasks.push(...words[index].syllable);
-      this.lastAnswers.push({
-        word: words[index].word,
-        syllable: words[index].syllable,
-        audio: words[index].audio,
-      });
+    const carts = this.targetTasksParam.width * this.targetTasksParam.height; 
+    for (let k = 0; k < carts; k++) {
+      const index = Math.floor(Math.random() * words.length);
+      const { length } = words[index].syllable;
+      if (targetTasks.length + length
+         <= this.targetTasksParam.width * this.targetTasksParam.height) {
+        targetTasks.push(...words[index].syllable);
+        this.lastAnswers.push({
+          word: words[index].word,
+          syllable: words[index].syllable,
+          audio: words[index].audio,
+        });
 
-      words[index].used = true;
+        words[index].used = true;
+      }
     }
     [this.answer] = this.lastAnswers;
-    console.log(this.answer, this.lastAnswers)
-    return this.addOtherParts(targetTasks, this.dataGame.types[type].data);
+    return targetTasks;
   }
 
   refresh(type) {
@@ -69,5 +65,25 @@ export default class MutatingGame extends Rules {
       return true;
     }
     return false;
+  }
+
+  swap() {
+    const arr = this.targetTasks;
+    const answers = this.lastAnswers;
+    let first = 0;
+    let second = 0;
+    while (first === second) {
+      first = Math.floor(Math.random() * arr.length);
+      second = Math.floor(Math.random() * arr.length);
+    }
+
+    [arr[first], arr[second]] = [arr[second], arr[first]];
+
+    const result = [];
+    result.push(answers[first], answers[second]);
+    this.lastAnswers = result;
+    [this.answer] = this.lastAnswers;
+    this.lastAnswers.splice(0, 1);
+    console.log(result, 'Это массив с правильными ответами')
   }
 }

@@ -12,9 +12,9 @@ export default class Model {
       choiceOfWord: 0,
       choiceOfSyllable: 0,
       choiceOfNumber: 0,
+      superfluousWord: 0,
+      thatHasChanged: 0,
     }
     this.game = {};
   }
-
 }
-

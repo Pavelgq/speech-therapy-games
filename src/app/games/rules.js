@@ -18,22 +18,20 @@ export default class Rules {
     // this.dataGame = dataGame;
     this.reaction = [];
 
-    this.addReaction = this.addReaction.bind(this); 
+    this.addReaction = this.addReaction.bind(this);
     this.setReaction = this.setReaction.bind(this);
   }
 
-  addOtherParts(targetTasks, otherWords) {
+  addOtherParts(targetTasks, otherWords = []) {
     const res = []
     const currentData = otherWords.slice();
     const length = this.targetTasksParam.width * this.targetTasksParam.height;
-    let i = 0;
     while (length > targetTasks.length) {
       const ind = Math.floor(Math.random() * currentData.length);
       const metka = targetTasks.includes(currentData[ind]);
       if (!metka) {
         targetTasks.push(currentData[ind]);
         currentData.splice(ind, 1);
-        i += 1;
       }
     }
 

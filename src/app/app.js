@@ -22,7 +22,7 @@ export default class App {
 
     this.task = 1;
 
-    this.games = 5;
+    this.games = 6;
 
     this.complite = this.complite.bind(this);
     this.next = this.next.bind(this);
@@ -51,7 +51,8 @@ export default class App {
 
   next() {
     // this.render();
-    const id = Math.floor(Math.random() * this.games);
+    // const id = Math.floor(Math.random() * this.games);
+    const id = 5;
     this.view.createGame(id, this.task);
     this.view.lessonScreen(this.model.player.lessons + 1, this.task, this.model.game.model);
     // todo

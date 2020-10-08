@@ -1,14 +1,18 @@
 import * as PIXI from 'pixi.js';
 import EventEmitter from '../utils/eventEmmiter';
 import Playfield from './playfield';
+
 import SimpleGame from './simpleGame/simpleGame';
 import ChainGame from './chainGame/chainGame';
+import MutatingGame from './mutatingGame/mutatingGame';
+import MutatingPlayfield from './mutatingGame/mutatingPlayfield';
 
 import choiceOfNumber from './data/choiceOfNumber';
 import choiceOfSyllable from './data/choiceOfSyllable';
 import choiceOfWord from './data/choiceOfWord';
 import wordOfSyllables from './data/wordOfSyllables';
 import superfluousWord from './data/superfluousWord';
+import thatHasChanged from './data/thatHasChanged';
 
 import func from '../utils/utils';
 
@@ -22,6 +26,7 @@ const gamesData = {
   choiceOfSyllable,
   choiceOfNumber,
   superfluousWord,
+  thatHasChanged,
 };
 
 export default class Game extends EventEmitter {
@@ -33,7 +38,7 @@ export default class Game extends EventEmitter {
     const nameGame = Object.keys(gamesData)[numberGame]
     this.gameFactory(appModel, nameGame, taskNumber);
     this.appModel = appModel;
-    this.playfield = new Playfield(this.model, this.viewPort, this.stage);
+
     this.ticker = ticker;
 
     this.rules = gamesData[nameGame].rulesSound;
@@ -80,18 +85,27 @@ export default class Game extends EventEmitter {
     switch (nameGame) {
       case 'wordOfSyllables':
         this.model = new ChainGame(appModel, gamesData[nameGame], taskNumber);
+        this.playfield = new Playfield(this.model, this.viewPort, this.stage);
         break;
       case 'choiceOfWord':
         this.model = new SimpleGame(appModel, gamesData[nameGame], taskNumber);
+        this.playfield = new Playfield(this.model, this.viewPort, this.stage);
         break;
       case 'choiceOfSyllable':
         this.model = new SimpleGame(appModel, gamesData[nameGame], taskNumber);
+        this.playfield = new Playfield(this.model, this.viewPort, this.stage);
         break;
       case 'choiceOfNumber':
         this.model = new SimpleGame(appModel, gamesData[nameGame], taskNumber);
+        this.playfield = new Playfield(this.model, this.viewPort, this.stage);
         break;
       case 'superfluousWord':
         this.model = new ChainGame(appModel, gamesData[nameGame], taskNumber);
+        this.playfield = new Playfield(this.model, this.viewPort, this.stage);
+        break;
+      case 'thatHasChanged':
+        this.model = new MutatingGame(appModel, gamesData[nameGame], taskNumber);
+        this.playfield = new MutatingPlayfield(this.model, this.viewPort, this.stage)
         break;
       default:
         break;
@@ -145,6 +159,5 @@ export default class Game extends EventEmitter {
       default:
         break;
     }
-
   }
 }

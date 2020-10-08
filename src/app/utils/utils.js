@@ -1,13 +1,13 @@
 import { Howl } from 'howler';
 
-const playSound = (path, loop, vol, func) => {
+const playSound = (path, loop, vol, func, arg = null) => {
   const sound = new Howl({
     src: [path],
     autoplay: false,
     loop,
     volume: vol,
     onend() {
-      func()
+      func(arg)
     },
   })
   return sound
