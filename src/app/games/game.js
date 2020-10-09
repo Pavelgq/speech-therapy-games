@@ -141,8 +141,6 @@ export default class Game extends EventEmitter {
             this.playfield.emit('newScreen', {
               res: true,
             });
-            // object.tint = '0xfdb078';
-            // object.alpha = 0.5;
           }, 1000);
         }
         break;

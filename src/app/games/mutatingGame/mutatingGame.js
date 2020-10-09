@@ -20,14 +20,20 @@ export default class MutatingGame extends Rules {
   }
 
   createTask(type) {
-    const { words } = this.dataGame.types[type];
+    const {
+      words,
+    } = this.dataGame.types[type];
     const targetTasks = [];
-    const carts = this.targetTasksParam.width * this.targetTasksParam.height; 
+    this.lastAnswers = [];
+    this.result = [];
+    const carts = this.targetTasksParam.width * this.targetTasksParam.height;
     for (let k = 0; k < carts; k++) {
       const index = Math.floor(Math.random() * words.length);
-      const { length } = words[index].syllable;
+      const {
+        length,
+      } = words[index].syllable;
       if (targetTasks.length + length
-         <= this.targetTasksParam.width * this.targetTasksParam.height) {
+        <= this.targetTasksParam.width * this.targetTasksParam.height) {
         targetTasks.push(...words[index].syllable);
         this.lastAnswers.push({
           word: words[index].word,
@@ -48,16 +54,20 @@ export default class MutatingGame extends Rules {
 
   checkAnswer(answer) {
     console.log(answer, this.result, this.lastAnswers)
-    const n = this.result.length;
-    if (this.answer.syllable[n] === answer) {
-      this.result.push(answer);
-    } else {
-      return 'lose';
+    if (this.lastAnswers.length <= 2) {
+      const n = this.lastAnswers.findIndex((el) => el.word === answer);
+      if (n !== -1) {
+        this.result.push(answer);
+        this.lastAnswers.splice(n, 1);
+      } else {
+        return 'lose';
+      }
+      if (this.lastAnswers.length === 0) {
+        return 'well';
+      }
+      return 'continue';
     }
-    if (this.result.join('') === this.answer.word) {
-      return 'well';
-    }
-    return 'continue';
+    
   }
 
   checkTask() {
@@ -83,7 +93,7 @@ export default class MutatingGame extends Rules {
     result.push(answers[first], answers[second]);
     this.lastAnswers = result;
     [this.answer] = this.lastAnswers;
-    this.lastAnswers.splice(0, 1);
+    // this.lastAnswers.splice(0, 1);
     console.log(result, 'Это массив с правильными ответами')
   }
 }
