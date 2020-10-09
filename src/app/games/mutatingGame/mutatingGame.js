@@ -7,7 +7,7 @@ export default class MutatingGame extends Rules {
     this.player = appModel.player;
     this.rules = dataGame.rulesSound;
     this.conditionsWin = dataGame.win;
-    this.targetTasksParam = dataGame.levels[this.player.level];
+    this.targetTasksParam = dataGame.levels[appModel.player.level - 1];
     this.lastAnswers = [];
     this.answer = {};
     this.player = appModel.player;
@@ -32,8 +32,8 @@ export default class MutatingGame extends Rules {
       const {
         length,
       } = words[index].syllable;
-      if (targetTasks.length + length
-        <= this.targetTasksParam.width * this.targetTasksParam.height) {
+      if (targetTasks.length + length <=
+        this.targetTasksParam.width * this.targetTasksParam.height) {
         targetTasks.push(...words[index].syllable);
         this.lastAnswers.push({
           word: words[index].word,
@@ -67,7 +67,6 @@ export default class MutatingGame extends Rules {
       }
       return 'continue';
     }
-    
   }
 
   checkTask() {

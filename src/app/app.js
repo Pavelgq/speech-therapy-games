@@ -51,8 +51,7 @@ export default class App {
 
   next() {
     // this.render();
-    // const id = Math.floor(Math.random() * this.games);
-    const id = 5;
+    const id = Math.floor(Math.random() * this.games);
     this.view.createGame(id, this.task);
     this.view.lessonScreen(this.model.player.lessons + 1, this.task, this.model.game.model);
     // todo
@@ -62,6 +61,7 @@ export default class App {
   }
 
   complite(obj) {
+    this.model.game.model.getStatistic()
     if (obj.res) {
       this.view.goodScreen()
       playSound(goodSound, false, 0.8, this.next).play();

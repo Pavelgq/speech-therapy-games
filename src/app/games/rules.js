@@ -1,22 +1,14 @@
 export default class Rules {
   constructor() {
     this.title = 'Название игры';
-    // this.rules = '';
-    // this.conditionsWin = {};
-    // this.targetTasks = [];
-    // this.targetTasksParam = {
-    //   tasks: 5,
-    //   width: 3,
-    //   height: 3,
-    // };
-    // this.answers = [];
-    // this.player = {
-    //   level: 1,
-    // }
-
-    // this.partOfTask = 0;
-    // this.dataGame = dataGame;
+    
     this.reaction = [];
+    this.stat = {
+      tasks: 0,
+      fall: 0,
+      reaction: 0,
+      game: '',
+    }
 
     this.addReaction = this.addReaction.bind(this);
     this.setReaction = this.setReaction.bind(this);
@@ -53,5 +45,13 @@ export default class Rules {
 
     this.reaction.push(time - this.startCount);
     console.log(this.reaction)
+  }
+
+  getStatistic() {
+    const sum = this.reaction.reduce( (prev, cur) => prev + cur)
+    this.stat.reaction = Math.floor(sum/this.reaction.length);
+    this.stat.tasks = this.targetTasksParam.parts;
+    this.stat.game = this.title;
+    console.log(this.stat)
   }
 }

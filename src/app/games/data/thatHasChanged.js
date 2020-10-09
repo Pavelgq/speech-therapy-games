@@ -54,12 +54,12 @@ const thatHasChanged = {
     refresh: true,
   },
   levels: [{
-    parts: 5,
+    parts: 1,
     width: 3,
     height: 3,
   },
   {
-    parts: 7,
+    parts: 1,
     width: 3,
     height: 3,
   },

@@ -147,6 +147,7 @@ export default class Game extends EventEmitter {
       case 'lose':
         console.log('не верно');
         object.tint = '0xf36273';
+        this.model.stat.fall += 1;
         playSound(this.model.answer.audio, false, 0.8, console.log).play()
         setTimeout(() => {
           object.tint = '0xfdb078';

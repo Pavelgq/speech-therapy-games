@@ -55,7 +55,7 @@ export default class Playfield extends EventEmitter {
     this.border = v.getBorder('0x2a9c9d', this.width, this.height, 4);
 
     const progress = {
-      totalParts: this.model.targetTasksParam.parts,
+      totalParts: this.model.targetTasksParam.parts + 1,
       currentPart: this.model.currentPart,
       totalTasks: this.model.totalTasks,
       currentTask: this.model.currentTask,
@@ -71,7 +71,7 @@ export default class Playfield extends EventEmitter {
 
     const lessonProgress = (progress.currentTask - 1) / progress.totalTasks;
 
-    const taskProgress = (progress.currentPart - 1) / progress.totalParts;
+    const taskProgress = (progress.currentPart) / progress.totalParts;
 
     this.progressBarLesson = v.getProgressBar(lessonProgress, this.progressBarStyle,
       10, this.fontSizeBig * 4, this.progressBar.width, this.progressBar.hight, 4);
@@ -164,7 +164,7 @@ export default class Playfield extends EventEmitter {
       this.progressBarLesson, this.progressBarTask);
 
     const progress = {
-      totalParts: this.model.targetTasksParam.parts,
+      totalParts: this.model.targetTasksParam.parts + 1,
       currentPart: this.model.currentPart,
       totalTasks: this.model.totalTasks,
       currentTask: this.model.currentTask,
@@ -178,7 +178,7 @@ export default class Playfield extends EventEmitter {
 
     const lessonProgress = (progress.currentTask - 1) / progress.totalTasks;
 
-    const taskProgress = (progress.currentPart - 1) / progress.totalParts;
+    const taskProgress = (progress.currentPart) / progress.totalParts;
 
     const style = {
       inColor: '0x2affff',
