@@ -14,8 +14,10 @@ const goodSound = require('../assets/audio/good.mp3');
 const badSound = require('../assets/audio/bad.mp3');
 
 export default class App {
-  constructor() {
-    this.model = new Model();
+  constructor(container, userData, lessonData) {
+    this.container = container
+
+    this.model = new Model(userData, lessonData);
     this.view = new View(this.model);
 
     this.state = 'play'; // pause, end
@@ -30,7 +32,7 @@ export default class App {
   }
 
   init() {
-    document.body.appendChild(this.view.renderer.view);
+    this.container.appendChild(this.view.renderer.view);
     this.view.resize();
     window.onresize = () => {
       this.view.resize()

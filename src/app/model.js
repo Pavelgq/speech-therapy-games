@@ -1,8 +1,7 @@
-import userInfo from '../tests/user-info';
-import lessonInfo from '../tests/lesson-info';
+
 
 export default class Model {
-  constructor() {
+  constructor(userInfo, lessonInfo) {
     this.player = userInfo;
     this.stat = lessonInfo;
 
