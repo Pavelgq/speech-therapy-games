@@ -5,5 +5,3 @@ import lessonInfo from './tests/lesson-info';
 const app = new App();
 
 app.init(document.body, userInfo, lessonInfo)
-
-module.exports = app
