@@ -8,6 +8,7 @@ export default class Rules {
       fall: 0,
       reaction: 0,
       game: '',
+      type: 0,
     }
 
     this.addReaction = this.addReaction.bind(this);
@@ -48,8 +49,13 @@ export default class Rules {
   }
 
   getStatistic() {
-    const sum = this.reaction.reduce( (prev, cur) => prev + cur)
-    this.stat.reaction = Math.floor(sum/this.reaction.length);
+    let sum = 0;
+    if (this.reaction.length) {
+      sum = this.reaction.reduce((prev, cur) => prev + cur)
+      this.stat.reaction = Math.floor(sum / this.reaction.length);
+    } else {
+      this.stat.reaction = 0;
+    }
     this.stat.tasks = this.targetTasksParam.parts;
     this.stat.game = this.title;
     console.log(this.stat)

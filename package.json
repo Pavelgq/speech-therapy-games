@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "./src/app/app.js",
+  "browserslist": [
+    "last 1 Chrome versions"
+  ],
   "scripts": {
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix --color",
@@ -34,6 +37,7 @@
     "@babel/core": "^7.9.6",
     "babel": "^6.23.0",
     "babel-loader": "^8.1.0",
+    "babel-polyfill": "^6.26.0",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.1.0",
     "css-loader": "^3.6.0",

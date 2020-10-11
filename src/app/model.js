@@ -3,7 +3,7 @@
 export default class Model {
   constructor(userInfo) {
     this.player = userInfo;
-    this.lesson = this.player.lesson;
+    this.lesson = this.player.lessons;
 
     this.taskInLesson = 4;
     this.typeInGame = {
@@ -33,7 +33,7 @@ export default class Model {
   }
 
   setStatistic() {
-    this.lessonStat.push(this.game.getStatistic())
+    this.lessonStat.push(this.game.model.getStatistic())
   }
 
   getStatistic() {
