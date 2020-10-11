@@ -23,8 +23,23 @@ function delay(f, ms) {
   };
 }
 
+
+const send = async (obj, url) => {
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    body: JSON.stringify(obj),
+  });
+
+  const result = await response.json();
+  console.log(result.message);
+}
+
 export default {
   playSound,
   loadFile,
   delay,
+  send,
 };

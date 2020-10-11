@@ -87,8 +87,6 @@ export default class Playfield extends EventEmitter {
       this.emit('aheadOfTime', {
         res: true,
       });
-
-      console.log() // тут происходит завершение урока
     });
     this.finishButton.on('pointerover', () => {
       this.finishButton.children[0].alpha = 0.5
@@ -224,51 +222,4 @@ export default class Playfield extends EventEmitter {
       }
     }
   }
-
-  // TODO: Убрать select в game.js
-  // select(obj) {
-  //   const object = obj;
-  //   const check = this.model.checkAnswer(this.model.targetTasks[object.id]);
-  //   switch (check) {
-  //     case 'continue':
-  //       console.log('верно');
-  //       object.tint = '0x2a9c9d';
-  //       break;
-  //     case 'well':
-  //       this.model.addReaction();
-  //       if (this.model.checkTask()) {
-  //         object.tint = '0x2a9c9d';
-  //         setTimeout(() => {
-  //           this.emit('compliteGame', {
-  //             res: true,
-  //           })
-  //           object.off('pointerover');
-  //           object.off('pointerout');
-  //           object.off('pointerdown');
-  //           this.stage.removeChildren(0, this.stage.children.length);
-  //         }, 1000);
-  //       } else {
-  //         object.tint = '0x2a9c9d';
-  //         setTimeout(() => {
-  //           this.model.currentPart += 1;
-  //           this.emit('newScreen', {
-  //             res: true,
-  //           })
-  //         }, 1000);
-  //       }
-  //       break;
-  //     case 'lose':
-  //       console.log('не верно');
-  //       object.tint = '0xf36273';
-  //       playSound(this.model.answer.audio, false, 0.8, console.log).play()
-  //       setTimeout(() => {
-  //         object.tint = '0xfdb078';
-  //         object.alpha = 0.5;
-  //       }, 1000);
-  //       break;
-
-  //     default:
-  //       break;
-  //   }
-  // }
 }

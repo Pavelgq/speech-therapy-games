@@ -1,5 +1,7 @@
 // import EventEmitter from './utils/eventEmmiter';
-import { Howl } from 'howler';
+import {
+  Howl,
+} from 'howler';
 import Model from './model';
 import View from './view';
 
@@ -7,6 +9,7 @@ import func from './utils/utils';
 
 const {
   playSound,
+  send,
 } = func;
 
 const backSound = require('../assets/audio/background.mp3');
@@ -63,7 +66,7 @@ export default class App {
   }
 
   complite(obj) {
-    this.model.game.model.getStatistic()
+    this.model.setStatistic()
     if (obj.res) {
       this.view.goodScreen()
       playSound(goodSound, false, 0.8, this.next).play();
@@ -75,14 +78,18 @@ export default class App {
       this.task += 1;
     } else {
       this.view.endLesson();
-      this.model.player.lessons += 1;
       this.task = 1;
+      this.model.lesson += 1;
+      send(this.model.getStatistic(), '/api/lesson/save');
+      send(this.model.getPlayer(), '/api/user/change-data');
     }
   }
 
   aheadOfTime(obj) {
+    this.model.setStatistic()
     this.view.endLesson();
-    this.model.player.lessons += 1;
     this.task = 1;
+
+    send(this.model.getStatistic(), '/api/lesson/save');
   }
 }

@@ -32,8 +32,8 @@ export default class MutatingGame extends Rules {
       const {
         length,
       } = words[index].syllable;
-      if (targetTasks.length + length <=
-        this.targetTasksParam.width * this.targetTasksParam.height) {
+      if (targetTasks.length + length
+        <= this.targetTasksParam.width * this.targetTasksParam.height) {
         targetTasks.push(...words[index].syllable);
         this.lastAnswers.push({
           word: words[index].word,
