@@ -113,9 +113,11 @@ export default class Game extends EventEmitter {
   }
 
   selectGame(obj) {
+    if (!this.model.startCount) {
+      return
+    }
     const object = obj;
     const check = this.model.checkAnswer(this.model.targetTasks[object.id]);
-
     switch (check) {
       case 'continue':
         console.log('верно');
@@ -125,6 +127,7 @@ export default class Game extends EventEmitter {
         this.model.addReaction();
         if (this.model.checkTask()) {
           object.tint = '0x2a9c9d';
+          this.model.stat.correct += 1;
           setTimeout(() => {
             this.playfield.emit('compliteGame', {
               res: true,
@@ -138,6 +141,7 @@ export default class Game extends EventEmitter {
           object.tint = '0x2a9c9d';
           setTimeout(() => {
             this.model.currentPart += 1;
+            this.model.stat.correct += 1;
             this.playfield.emit('newScreen', {
               res: true,
             });
@@ -147,7 +151,7 @@ export default class Game extends EventEmitter {
       case 'lose':
         console.log('не верно');
         object.tint = '0xf36273';
-        this.model.stat.fall += 1;
+        this.model.stat.fail += 1;
         playSound(this.model.answer.audio, false, 0.8, console.log).play()
         setTimeout(() => {
           object.tint = '0xfdb078';

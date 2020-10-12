@@ -16,6 +16,7 @@ const backSound = require('../assets/audio/background.mp3');
 const goodSound = require('../assets/audio/good.mp3');
 const badSound = require('../assets/audio/bad.mp3');
 
+const serverURL = 'http://localhost:3001';
 export default class App {
   constructor(container, userData, lessonData) {
     this.container = container
@@ -80,8 +81,8 @@ export default class App {
       this.view.endLesson();
       this.task = 1;
       this.model.lesson += 1;
-      send(this.model.getStatistic(), '/api/lesson/save');
-      send(this.model.getPlayer(), '/api/user/change-data');
+      send(this.model.getStatistic(), `${serverURL}/api/lesson/save`);
+      send(this.model.getPlayer(), `${serverURL}/api/user/change-data`);
     }
   }
 
@@ -90,6 +91,6 @@ export default class App {
     this.view.endLesson();
     this.task = 1;
 
-    send(this.model.getStatistic(), '/api/lesson/save');
+    send(this.model.getStatistic(), `${serverURL}/api/lesson/save`);
   }
 }

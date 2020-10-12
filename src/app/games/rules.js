@@ -1,11 +1,11 @@
 export default class Rules {
   constructor() {
     this.title = 'Название игры';
-    
     this.reaction = [];
     this.stat = {
       tasks: 0,
-      fall: 0,
+      correct: 0,
+      fail: 0,
       reaction: 0,
       game: '',
       type: 0,
@@ -46,6 +46,7 @@ export default class Rules {
 
     this.reaction.push(time - this.startCount);
     console.log(this.reaction)
+    this.startCount = 0;
   }
 
   getStatistic() {

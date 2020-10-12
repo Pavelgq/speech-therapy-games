@@ -42,13 +42,15 @@ export default class Playfield extends EventEmitter {
   create() {
     this.printField();
     this.printCell();
-    playSound(this.model.answer.audio, false, 0.8, this.model.setReaction).play()
+    this.model.setReaction()
+    playSound(this.model.answer.audio, false, 0.8, console.log).play()
   }
 
   refresh() {
     this.refreshField();
     this.refreshCell();
-    playSound(this.model.answer.audio, false, 0.8, this.model.setReaction).play()
+    this.model.setReaction()
+    playSound(this.model.answer.audio, false, 0.8, console.log).play()
   }
 
   printField() {
@@ -131,8 +133,8 @@ export default class Playfield extends EventEmitter {
     const targetTasks = this.model.targetTasks.slice();
     for (let i = 0; i < taskWidth; i++) {
       for (let j = 0; j < taskHeight; j++) {
-        position.x = spaceAroundX + (size + this.spaceBetweenFields) * j + this.width / 3;
-        position.y = spaceAroundY + (size + this.spaceBetweenFields) * i;
+        position.x = spaceAroundX + (size + this.spaceBetweenFields) * i + this.width / 3;
+        position.y = spaceAroundY + (size + this.spaceBetweenFields) * j;
 
         const rect = v.getCell('0xfdb078', '0xfdb078', position.x, position.y, size, 16);
         rect.id = i * taskHeight + j

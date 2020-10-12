@@ -33,7 +33,8 @@ export default class Model {
   }
 
   setStatistic() {
-    this.lessonStat.push(this.game.model.getStatistic())
+    this.game.model.getStatistic();
+    this.lessonStat.push(this.game.model.stat)
   }
 
   getStatistic() {
