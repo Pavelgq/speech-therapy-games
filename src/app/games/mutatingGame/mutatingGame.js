@@ -95,4 +95,8 @@ export default class MutatingGame extends Rules {
     // this.lastAnswers.splice(0, 1);
     console.log(result, 'Это массив с правильными ответами')
   }
+
+  getExp(kExp) {
+    return kExp * (this.totalTasks / (this.stat.fail + 1));
+  }
 }
