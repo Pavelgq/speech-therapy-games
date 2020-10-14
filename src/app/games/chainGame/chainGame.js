@@ -2,15 +2,13 @@ import Rules from '../rules';
 
 export default class ChainGame extends Rules {
   constructor(appModel, dataGame, taskNumber) {
-    super();
+    super(appModel);
     this.title = dataGame.title;
-    this.player = appModel.player;
     this.rules = dataGame.rulesSound;
     this.conditionsWin = dataGame.win;
     this.targetTasksParam = dataGame.levels[this.player.level];
     this.lastAnswers = [];
     this.answer = {};
-    this.player = appModel.player;
     this.totalTasks = appModel.taskInLesson;
     this.currentPart = 0;
     this.currentTask = taskNumber;
@@ -55,6 +53,7 @@ export default class ChainGame extends Rules {
       return 'lose';
     }
     if (this.result.join('') === this.answer.word) {
+      this.getBonus();
       return 'well';
     }
     return 'continue';

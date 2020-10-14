@@ -1,6 +1,7 @@
 export default class Rules {
-  constructor() {
+  constructor(appModel) {
     this.title = 'Название игры';
+    this.player = appModel.player;
     this.reaction = [];
     this.stat = {
       tasks: 0,
@@ -10,9 +11,11 @@ export default class Rules {
       game: '',
       type: 0,
     }
-
     this.addReaction = this.addReaction.bind(this);
     this.setReaction = this.setReaction.bind(this);
+
+    this.exp = this.player.exp;
+    this.money = this.player.money;
   }
 
   addOtherParts(targetTasks, otherWords = []) {
@@ -60,5 +63,10 @@ export default class Rules {
     this.stat.tasks = this.targetTasksParam.parts;
     this.stat.game = this.title;
     console.log(this.stat)
+  }
+
+  getBonus() {
+    this.exp += 10 * this.player.kExp;
+    this.money += 100 * this.player.kMoney;
   }
 }

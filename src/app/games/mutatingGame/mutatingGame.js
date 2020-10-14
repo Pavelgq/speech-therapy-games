@@ -2,15 +2,13 @@ import Rules from '../rules';
 
 export default class MutatingGame extends Rules {
   constructor(appModel, dataGame, taskNumber) {
-    super();
+    super(appModel);
     this.title = dataGame.title;
-    this.player = appModel.player;
     this.rules = dataGame.rulesSound;
     this.conditionsWin = dataGame.win;
     this.targetTasksParam = dataGame.levels[appModel.player.level - 1];
     this.lastAnswers = [];
     this.answer = {};
-    this.player = appModel.player;
     this.totalTasks = appModel.taskInLesson;
     this.currentPart = 0;
     this.currentTask = taskNumber;
@@ -71,6 +69,7 @@ export default class MutatingGame extends Rules {
 
   checkTask() {
     if (this.currentPart === this.targetTasksParam.parts) {
+      this.getBonus();
       return true;
     }
     return false;

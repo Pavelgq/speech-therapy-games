@@ -1,4 +1,6 @@
-import { Howl } from 'howler';
+import {
+  Howl
+} from 'howler';
 
 const playSound = (path, loop, vol, func, arg = null) => {
   const sound = new Howl({
@@ -37,9 +39,24 @@ const send = async (obj, url) => {
   console.log(result.message);
 }
 
+const checkYesterday = (yesterday, today) => {
+  let backDate = 0;
+  if (typeof yesterday === 'string') {
+    backDate = Date.parse(yesterday);
+  } else {
+    backDate = yesterday.getTime()
+  }
+  const period = today.getTime() - backDate;
+  if (period < 48 * 60 * 60 * 1000 && period > 24 * 60 * 60 * 1000) {
+    return true;
+  }
+  return false;
+}
+
 export default {
   playSound,
   loadFile,
   delay,
   send,
+  checkYesterday
 };

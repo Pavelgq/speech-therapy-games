@@ -2,9 +2,8 @@ import Rules from '../rules';
 
 export default class SimpleGame extends Rules {
   constructor(appModel, dataGame, taskNumber) {
-    super();
+    super(appModel);
     this.title = dataGame.title;
-    this.player = appModel.player;
     this.rules = dataGame.rulesSound;
     this.conditionsWin = dataGame.win;
     this.targetTasks = [];
@@ -46,6 +45,7 @@ export default class SimpleGame extends Rules {
 
   checkAnswer(answer) {
     if (answer === this.answer.word) {
+      this.getBonus();
       return 'well'
     }
     return 'lose'

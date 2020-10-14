@@ -81,8 +81,10 @@ export default class App {
       this.view.endLesson();
       this.task = 1;
       this.model.lesson += 1;
-      send(this.model.getStatistic(), `${serverURL}/api/lesson/save`);
-      send(this.model.getPlayer(), `${serverURL}/api/user/change-data`);
+      const newPlayer = this.model.getPlayer();
+      console.log(newPlayer)
+      // send(this.model.getStatistic(), `${serverURL}/api/lesson/save`);
+      // send(this.model.getPlayer(), `${serverURL}/api/user/change-data`);
     }
   }
 
