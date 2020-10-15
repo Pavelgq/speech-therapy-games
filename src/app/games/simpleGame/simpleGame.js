@@ -46,7 +46,7 @@ export default class SimpleGame extends Rules {
   }
 
   checkAnswer(answer) {
-    if (answer === this.answer.syllable[0]) {
+    if (answer === this.answer.word) {
       this.getBonus();
       return 'well'
     }

@@ -1,9 +1,11 @@
 import * as PIXI from 'pixi.js';
+import EventEmitter from './utils/eventEmmiter';
 import v from './viewElements';
 import Game from './games/game';
 
-export default class View {
+export default class View extends EventEmitter {
   constructor(model) {
+    super();
     this.model = model;
     this.ratio = (4 / 3);
     this.viewPort = {
@@ -13,6 +15,12 @@ export default class View {
 
     this.fontSizeBig = this.viewPort.width / 30;
     this.fontSizeSmall = this.viewPort.width / 40;
+    this.textStyle = new PIXI.TextStyle({
+      fontFamily: 'Arial',
+      fontSize: this.fontSizeBig,
+      fill: '0x2a9c9d',
+      align: 'center',
+    })
 
     this.renderer = PIXI.autoDetectRenderer({
       height: this.viewPort.height,
@@ -30,6 +38,43 @@ export default class View {
 
     this.render = this.render.bind(this);
     this.border = v.getBorder('0x2a9c9d', this.viewPort.width, this.viewPort.height, 4)
+  }
+
+  startScreen() {
+    this.background = v.getRect(0, 0, '0xffffff', 0, this.viewPort.width, this.viewPort.height);
+
+    const h1 = `Добро пожаловать, ${this.model.player.firstName}`;
+    const h2 = 'Начнем урок?';
+    const center = {
+      x: this.viewPort.width / 2,
+      y: this.viewPort.height / 2,
+    }
+
+    const textStyle = {
+      fontSize: this.fontSizeBig,
+      align: 'center',
+    }
+    const textTop = v.getTextField(h1, this.textStyle, center.x, center.y - this.fontSizeBig, 'center');
+    textStyle.fontSize = this.fontSizeSmall;
+    const textButton = v.getTextField(h2, this.textStyle, center.x, center.y + this.fontSizeBig, 'center');
+
+    this.startButton = v.getButton('Начать', '0x2a9c9d', this.textStyle, center.x - 70, center.y + this.fontSizeBig * 2, 15);
+
+    this.startButton.interactive = true;
+    this.startButton.buttonMode = true;
+    this.startButton.on('pointerdown', () => {
+      this.emit('startGame', {
+        res: true,
+      });
+    });
+    this.startButton.on('pointerover', () => {
+      this.startButton.children[0].alpha = 0.5
+    })
+    this.startButton.on('pointerout', () => {
+      this.startButton.children[0].alpha = 1
+    })
+
+    this.stage.addChild(this.background, this.border, textTop, textButton, this.startButton)
   }
 
   lessonScreen(lesson, task, gameData) {

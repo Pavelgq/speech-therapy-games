@@ -45,10 +45,10 @@ export default class App {
 
     this.backSound = playSound(backSound, true, 0.3, console.log)
     this.backSound.play()
-
+    this.view.startScreen();
+    this.view.render();
     // this.on('compliteGame', this.complite)
-
-    this.next();
+    this.view.dispatch('startGame', this.next);
   }
 
   exit() {
@@ -58,7 +58,7 @@ export default class App {
   next() {
     // this.render();
     // const id = Math.floor(Math.random() * this.games);
-    const id = 6;
+    const id = 1;
     this.view.createGame(id, this.task);
     this.view.lessonScreen(this.model.player.lessons + 1, this.task, this.model.game.model);
     // todo
