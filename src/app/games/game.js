@@ -13,6 +13,7 @@ import choiceOfWord from './data/choiceOfWord';
 import wordOfSyllables from './data/wordOfSyllables';
 import superfluousWord from './data/superfluousWord';
 import thatHasChanged from './data/thatHasChanged';
+import choiceOfImage from './data/choiceOfImage';
 
 import func from '../utils/utils';
 
@@ -27,6 +28,7 @@ const gamesData = {
   choiceOfNumber,
   superfluousWord,
   thatHasChanged,
+  choiceOfImage,
 };
 
 export default class Game extends EventEmitter {
@@ -106,6 +108,10 @@ export default class Game extends EventEmitter {
       case 'thatHasChanged':
         this.model = new MutatingGame(appModel, gamesData[nameGame], taskNumber);
         this.playfield = new MutatingPlayfield(this.model, this.viewPort, this.stage)
+        break;
+      case 'choiceOfImage':
+        this.model = new SimpleGame(appModel, gamesData[nameGame], taskNumber);
+        this.playfield = new Playfield(this.model, this.viewPort, this.stage);
         break;
       default:
         break;

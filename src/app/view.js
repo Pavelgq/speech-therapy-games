@@ -36,6 +36,8 @@ export default class View {
     this.stage.removeChildren(0, this.stage.children.length);
     this.ticker.add((delta) => this.gameLoop(delta));
 
+    this.background = v.getRect(0, 0, '0xffffff', 0, this.viewPort.width, this.viewPort.height);
+
     const h1 = `Урок ${lesson}`;
     const h2 = `Задание ${task} ${gameData.title}`;
     const fontSizeBig = this.viewPort.width / 30;
@@ -53,7 +55,7 @@ export default class View {
     textStyle.fontSize = fontSizeSmall;
     const textButton = v.getTextField(h2, textStyle, center.x, center.y + this.fontSizeBig, 'center');
 
-    this.stage.addChild(this.border, textTop, textButton)
+    this.stage.addChild(this.background, this.border, textTop, textButton)
   }
 
   goodScreen() {

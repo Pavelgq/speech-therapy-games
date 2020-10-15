@@ -136,6 +136,18 @@ const getCell = (backColor, borderColor, x, y, size, rad) => {
   return rect;
 }
 
+const getPicture = (url, size, x, y) => {
+  const texture = PIXI.Texture.from(url);
+  const picture = new PIXI.Sprite(texture);
+  picture.width = size;
+  picture.height = size;
+  picture.x = x;
+  picture.y = y;
+  // const container = new PIXI.Container();
+  // container.addChild(picture)
+  return picture
+}
+
 export default {
   getTextField,
   getRect,
@@ -143,4 +155,5 @@ export default {
   getButton,
   getBorder,
   getCell,
+  getPicture,
 }

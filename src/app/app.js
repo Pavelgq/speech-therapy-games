@@ -28,7 +28,7 @@ export default class App {
 
     this.task = 1;
 
-    this.games = 6;
+    this.games = 7;
 
     this.complite = this.complite.bind(this);
     this.next = this.next.bind(this);
@@ -57,7 +57,8 @@ export default class App {
 
   next() {
     // this.render();
-    const id = Math.floor(Math.random() * this.games);
+    // const id = Math.floor(Math.random() * this.games);
+    const id = 6;
     this.view.createGame(id, this.task);
     this.view.lessonScreen(this.model.player.lessons + 1, this.task, this.model.game.model);
     // todo
@@ -83,8 +84,8 @@ export default class App {
       this.model.lesson += 1;
       const newPlayer = this.model.getPlayer();
       console.log(newPlayer)
-      // send(this.model.getStatistic(), `${serverURL}/api/lesson/save`);
-      // send(this.model.getPlayer(), `${serverURL}/api/user/change-data`);
+      send(this.model.getStatistic(), `${serverURL}/api/lesson/save`);
+      send(this.model.getPlayer(), `${serverURL}/api/user/change-data`);
     }
   }
 

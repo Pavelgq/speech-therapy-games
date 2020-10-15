@@ -54,8 +54,8 @@ export default class Playfield extends EventEmitter {
   }
 
   printField() {
-    this.border = v.getBorder('0x2a9c9d', this.width, this.height, 4);
-
+    this.background = v.getRect(0, 0, '0xffffff', 0, this.width, this.height);
+    this.background.alpha = 10;
     const progress = {
       totalParts: this.model.targetTasksParam.parts + 1,
       currentPart: this.model.currentPart,
@@ -96,7 +96,7 @@ export default class Playfield extends EventEmitter {
     this.finishButton.on('pointerout', () => {
       this.finishButton.children[0].alpha = 1
     })
-    this.stage.addChild(this.nameField, this.lessonField, this.taskField,
+    this.stage.addChild(this.background, this.nameField, this.lessonField, this.taskField,
       this.progressBarLesson, this.progressBarTask, this.finishButton)
   }
 
@@ -136,10 +136,24 @@ export default class Playfield extends EventEmitter {
         position.x = spaceAroundX + (size + this.spaceBetweenFields) * i + this.width / 3;
         position.y = spaceAroundY + (size + this.spaceBetweenFields) * j;
 
+        const container = new PIXI.Container();
+
         const rect = v.getCell('0xfdb078', '0xfdb078', position.x, position.y, size, 16);
         rect.id = i * taskHeight + j
-        const text = targetTasks[rect.id];
-        const textField = v.getTextField(text, this.textStyle, position.x + size / 2, position.y + size / 2, 'center');
+
+        if (this.model.conditionsWin.image) {
+          const targetImage = this.model.targetImages[rect.id];
+          if (targetImage) {
+            const pictureField = v.getPicture(targetImage, size, position.x, position.y);
+            pictureField.mask = rect;
+            container.addChild(rect);
+            container.addChild(pictureField)
+          }
+        } else {
+          const text = targetTasks[rect.id];
+          const textField = v.getTextField(text, this.textStyle, position.x + size / 2, position.y + size / 2, 'center');
+          container.addChild(rect, textField);
+        }
         rect.interactive = true;
         rect.buttonMode = true;
         rect.on('pointerdown', () => {
@@ -151,8 +165,6 @@ export default class Playfield extends EventEmitter {
         // rect.on('pointerout', () => {
         //   rect.alpha = 1
         // })
-        const container = new PIXI.Container();
-        container.addChild(rect, textField);
         this.gameFields.push(container);
         this.stage.addChild(container)
       }
@@ -215,12 +227,19 @@ export default class Playfield extends EventEmitter {
         const id = i * taskHeight + j;
         const { x } = this.gameFields[id].children[0];
         const { y } = this.gameFields[id].children[0];
-        const text = targetTasks[id];
-        const textField = v.getTextField(text, this.textStyle, x + size / 2, y + size / 2, 'center');
+
         this.gameFields[id].children[0].tint = '0xfdb078';
         this.gameFields[id].children[0].alpha = 0.5;
         this.gameFields[id].removeChildAt(1);
-        this.gameFields[id].addChild(textField);
+        if (this.model.conditionsWin.image) {
+          const targetImages = this.model.targetImages[id];
+          const pictureField = v.getPicture(targetImages);
+          this.gameFields[id].addChild(pictureField);
+        } else {
+          const text = targetTasks[id];
+          const textField = v.getTextField(text, this.textStyle, x + size / 2, y + size / 2, 'center');
+          this.gameFields[id].addChild(textField);
+        }
       }
     }
   }

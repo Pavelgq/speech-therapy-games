@@ -8,6 +8,7 @@ export default class SimpleGame extends Rules {
     this.conditionsWin = dataGame.win;
     this.targetTasks = [];
     this.targetTasksParam = dataGame.levels[this.player.level];
+    this.targetImages = [];
     this.lastAnswers = [];
     this.answer = {};
     this.totalTasks = appModel.taskInLesson;
@@ -26,9 +27,10 @@ export default class SimpleGame extends Rules {
          <= this.targetTasksParam.width * this.targetTasksParam.height) {
         targetTasks.push(...words[index].syllable);
         this.lastAnswers.push({
-          word: words[index].word,
+          word: words[index].syllable[0],
           audio: words[index].audio,
         });
+        this.targetImages.push(words[index].image);
 
         words[index].used = true;
       }
@@ -44,7 +46,7 @@ export default class SimpleGame extends Rules {
   }
 
   checkAnswer(answer) {
-    if (answer === this.answer.word) {
+    if (answer === this.answer.syllable[0]) {
       this.getBonus();
       return 'well'
     }
