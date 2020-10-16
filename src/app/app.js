@@ -79,21 +79,23 @@ export default class App {
     if (this.task < this.model.taskInLesson) {
       this.task += 1;
     } else {
-      this.view.endLesson();
       this.task = 1;
       this.model.lesson += 1;
+      const statistic = this.model.getStatistic();
+      this.view.endLesson();
       const newPlayer = this.model.getPlayer();
       console.log(newPlayer)
-      send(this.model.getStatistic(), `${serverURL}/api/lesson/save`);
+      send(statistic, `${serverURL}/api/lesson/save`);
       send(this.model.getPlayer(), `${serverURL}/api/user/change-data`);
     }
   }
 
   aheadOfTime(obj) {
     this.model.setStatistic()
-    this.view.endLesson();
+    
     this.task = 1;
-
-    send(this.model.getStatistic(), `${serverURL}/api/lesson/save`);
+    const statistic = this.model.getStatistic();
+    this.view.endLesson();
+    send(statistic, `${serverURL}/api/lesson/save`);
   }
 }

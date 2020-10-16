@@ -37,7 +37,7 @@ export default class Model {
     } else {
       kMoney = 1;
     }
-    //TODO: Делать эти расчеты на сервере лучше бы
+    // TODO: Делать эти расчеты на сервере лучше бы
     return {
       days: days.push(new Date()),
       lessons: this.lesson,
@@ -72,8 +72,8 @@ export default class Model {
   }
 
   getDuration() {
-    const endTime = new Date().getTime();
+    this.endTime = new Date().getTime();
 
-    return (endTime - this.startTime);
+    return (this.endTime - this.startTime);
   }
 }

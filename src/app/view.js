@@ -2,6 +2,8 @@ import * as PIXI from 'pixi.js';
 import EventEmitter from './utils/eventEmmiter';
 import v from './viewElements';
 import Game from './games/game';
+import Timer from './utils/timer';
+import func from './utils/utils';
 
 export default class View extends EventEmitter {
   constructor(model) {
@@ -159,9 +161,21 @@ export default class View extends EventEmitter {
     }
     const textTop = v.getTextField(h1, textStyle, center.x, center.y - this.fontSizeBig, 'center');
     textStyle.fontSize = 24;
-    const textButton = v.getTextField(h2, textStyle, center.x, center.y + this.fontSizeBig, 'center');
+    const textBottom = v.getTextField(h2, textStyle, center.x, center.y + this.fontSizeBig, 'center');
 
-    this.stage.addChild(this.border, textTop, textButton)
+    if (!this.timerLessons) {
+      this.timerLessons = new Timer(this.model.endTime);
+    }
+    this.timerLessons.setClock();
+    const time = this.timerLessons.getTimeString()
+
+    this.timerField = v.getTextField(time, textStyle, center.x, center.y + this.fontSizeBig * 2, 'center');
+
+    this.ticker.add(() => {
+      this.timerField.text = this.timerLessons.getTimeString();
+    })
+
+    this.stage.addChild(this.border, textTop, textBottom, this.timerField)
   }
 
   createGame(id, taskNumber) {

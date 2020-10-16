@@ -1,5 +1,5 @@
 import {
-  Howl
+  Howl,
 } from 'howler';
 
 const playSound = (path, loop, vol, func, arg = null) => {
@@ -24,7 +24,6 @@ function delay(f, ms) {
     setTimeout(() => f.apply(this, arguments), ms);
   };
 }
-
 
 const send = async (obj, url) => {
   const response = await fetch(url, {
@@ -53,10 +52,18 @@ const checkYesterday = (yesterday, today) => {
   return false;
 }
 
+const addZero = (num) => {
+  if (num <= 9) {
+    return `0${num}`;
+  }
+  return `${num}`;
+}
+
 export default {
   playSound,
   loadFile,
   delay,
   send,
-  checkYesterday
+  checkYesterday,
+  addZero,
 };
