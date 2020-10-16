@@ -43,6 +43,7 @@ export default class View extends EventEmitter {
   }
 
   startScreen() {
+    this.ticker.add((delta) => this.gameLoop(delta));
     this.background = v.getRect(0, 0, '0xffffff', 0, this.viewPort.width, this.viewPort.height);
 
     const h1 = `Добро пожаловать, ${this.model.player.firstName}`;
@@ -60,6 +61,7 @@ export default class View extends EventEmitter {
     textStyle.fontSize = this.fontSizeSmall;
     const textButton = v.getTextField(h2, this.textStyle, center.x, center.y + this.fontSizeBig, 'center');
 
+    let changeField;
     this.startButton = v.getButton('Начать', '0x2a9c9d', this.textStyle, center.x - 70, center.y + this.fontSizeBig * 2, 15);
 
     this.startButton.interactive = true;
@@ -76,7 +78,27 @@ export default class View extends EventEmitter {
       this.startButton.children[0].alpha = 1
     })
 
-    this.stage.addChild(this.background, this.border, textTop, textButton, this.startButton)
+    if (!this.model.checkData()) {
+      const daysArr = this.model.player.days;
+      this.timerLessons = new Timer(Date.parse(daysArr[daysArr.length - 1]));
+
+      this.timerLessons.setClock();
+      const time = this.timerLessons.getTimeString()
+
+      this.timerField = v.getTextField(time, textStyle, center.x, center.y + this.fontSizeBig * 2, 'center');
+
+      this.ticker.add(() => {
+        this.timerField.text = this.timerLessons.getTimeString();
+        if (this.model.checkData()) {
+          this.stage.removeChild(this.timerField);
+          this.stage.addChild(this.startButton);
+        }
+      })
+      this.changeField = this.timerField;
+    } else {
+      this.changeField = this.startButton;
+    }
+    this.stage.addChild(this.background, this.border, textTop, textButton, this.changeField)
   }
 
   lessonScreen(lesson, task, gameData) {

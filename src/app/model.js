@@ -76,4 +76,13 @@ export default class Model {
 
     return (this.endTime - this.startTime);
   }
+
+  checkData() {
+    const lastTime = this.player.days[this.player.days.length - 1];
+
+    if (new Date() - Date.parse(lastTime) > 24 * 60 * 60 * 1000) {
+      return true;
+    }
+    return false;
+  }
 }
