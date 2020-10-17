@@ -4,7 +4,7 @@ export default {
   lastName: 'Гордеев',
   sex: 'male',
   class: '22А',
-  days: ['2020-10-15T19:47:08.989+00:00'],
+  days: ['2020-10-16T13:30:28.989+00:00'],
   lessons: 1,
   level: 1,
   money: 2300,

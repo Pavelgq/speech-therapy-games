@@ -69,14 +69,14 @@ export default class App {
 
   complite(obj) {
     this.model.setStatistic()
-    if (obj.res) {
-      this.view.goodScreen()
-      playSound(goodSound, false, 0.8, this.next).play();
-    } else {
-      this.view.badScreen()
-      playSound(badSound, false, 0.8, this.next).play();
-    }
     if (this.task < this.model.taskInLesson) {
+      if (obj.res) {
+        this.view.goodScreen()
+        playSound(goodSound, false, 0.8, this.next).play();
+      } else {
+        this.view.badScreen()
+        playSound(badSound, false, 0.8, this.next).play();
+      }
       this.task += 1;
     } else {
       this.task = 1;
@@ -86,13 +86,12 @@ export default class App {
       const newPlayer = this.model.getPlayer();
       console.log(newPlayer)
       send(statistic, `${serverURL}/api/lesson/save`);
-      send(this.model.getPlayer(), `${serverURL}/api/user/change-data`);
+      send(newPlayer, `${serverURL}/api/user/change-data`);
     }
   }
 
-  aheadOfTime(obj) {
+  aheadOfTime() {
     this.model.setStatistic()
-    
     this.task = 1;
     const statistic = this.model.getStatistic();
     this.view.endLesson();

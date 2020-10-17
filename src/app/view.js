@@ -3,7 +3,6 @@ import EventEmitter from './utils/eventEmmiter';
 import v from './viewElements';
 import Game from './games/game';
 import Timer from './utils/timer';
-import func from './utils/utils';
 
 export default class View extends EventEmitter {
   constructor(model) {
@@ -39,11 +38,13 @@ export default class View extends EventEmitter {
     this.stage = new PIXI.Container();
 
     this.render = this.render.bind(this);
+    this.ticker.add(this.render)
+    this.timerToButton = this.timerToButton.bind(this);
     this.border = v.getBorder('0x2a9c9d', this.viewPort.width, this.viewPort.height, 4)
   }
 
   startScreen() {
-    this.ticker.add((delta) => this.gameLoop(delta));
+    // this.ticker.add((delta) => this.gameLoop(delta));
     this.background = v.getRect(0, 0, '0xffffff', 0, this.viewPort.width, this.viewPort.height);
 
     const h1 = `Добро пожаловать, ${this.model.player.firstName}`;
@@ -61,7 +62,6 @@ export default class View extends EventEmitter {
     textStyle.fontSize = this.fontSizeSmall;
     const textButton = v.getTextField(h2, this.textStyle, center.x, center.y + this.fontSizeBig, 'center');
 
-    let changeField;
     this.startButton = v.getButton('Начать', '0x2a9c9d', this.textStyle, center.x - 70, center.y + this.fontSizeBig * 2, 15);
 
     this.startButton.interactive = true;
@@ -86,14 +86,7 @@ export default class View extends EventEmitter {
       const time = this.timerLessons.getTimeString()
 
       this.timerField = v.getTextField(time, textStyle, center.x, center.y + this.fontSizeBig * 2, 'center');
-
-      this.ticker.add(() => {
-        this.timerField.text = this.timerLessons.getTimeString();
-        if (this.model.checkData()) {
-          this.stage.removeChild(this.timerField);
-          this.stage.addChild(this.startButton);
-        }
-      })
+      this.ticker.add(this.timerToButton);
       this.changeField = this.timerField;
     } else {
       this.changeField = this.startButton;
@@ -102,8 +95,9 @@ export default class View extends EventEmitter {
   }
 
   lessonScreen(lesson, task, gameData) {
+    this.ticker.remove(this.timerToButton);
     this.stage.removeChildren(0, this.stage.children.length);
-    this.ticker.add((delta) => this.gameLoop(delta));
+    // this.ticker.add((delta) => this.gameLoop(delta));
 
     this.background = v.getRect(0, 0, '0xffffff', 0, this.viewPort.width, this.viewPort.height);
 
@@ -129,7 +123,7 @@ export default class View extends EventEmitter {
 
   goodScreen() {
     this.stage.removeChildren(0, this.stage.children.length);
-    this.ticker.add((delta) => this.gameLoop(delta));
+    // this.ticker.add((delta) => this.gameLoop(delta));
     const h1 = 'Верно';
     const h2 = 'Молодец';
     const center = {
@@ -150,7 +144,7 @@ export default class View extends EventEmitter {
 
   badScreen() {
     this.stage.removeChildren(0, this.stage.children.length);
-    this.ticker.add((delta) => this.gameLoop(delta));
+    // this.ticker.add((delta) => this.gameLoop(delta));
     const h1 = 'Вот незадача';
     const h2 = 'В следующий раз справишься';
     const center = {
@@ -169,8 +163,9 @@ export default class View extends EventEmitter {
   }
 
   endLesson() {
+    this.ticker.remove(this.model.game.render)
     this.stage.removeChildren(0, this.stage.children.length);
-    this.ticker.add((delta) => this.gameLoop(delta));
+    // this.ticker.add((delta) => this.gameLoop(delta));
     const h1 = 'Урок окончен';
     const h2 = 'Возвращайся завтра';
     const center = {
@@ -193,14 +188,13 @@ export default class View extends EventEmitter {
 
     this.timerField = v.getTextField(time, textStyle, center.x, center.y + this.fontSizeBig * 2, 'center');
 
-    this.ticker.add(() => {
-      this.timerField.text = this.timerLessons.getTimeString();
-    })
+    this.ticker.add(this.timerToButton);
 
     this.stage.addChild(this.border, textTop, textBottom, this.timerField)
   }
 
   createGame(id, taskNumber) {
+    this.stage.removeChildren(0, this.stage.children.length);
     this.model.game = new Game(this.renderer,
       this.viewPort, this.model, this.ticker, id, taskNumber)
   }
@@ -210,7 +204,6 @@ export default class View extends EventEmitter {
   }
 
   gameLoop() {
-    // console.log(delta)
     this.render();
   }
 
@@ -226,5 +219,13 @@ export default class View extends EventEmitter {
     }
     this.renderer.view.style.width = `${w}px`
     this.renderer.view.style.height = `${h}px`
+  }
+
+  timerToButton() {
+    this.timerField.text = this.timerLessons.getTimeString();
+    if (this.model.checkData()) {
+      this.stage.removeChild(this.timerField);
+      this.stage.addChild(this.startButton);
+    }
   }
 }

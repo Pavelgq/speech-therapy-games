@@ -54,9 +54,9 @@ const checkYesterday = (yesterday, today) => {
 
 const addZero = (num) => {
   if (num <= 9) {
-    return `0${num}`;
+    return `0${Math.abs(num)}`;
   }
-  return `${num}`;
+  return `${Math.abs(num)}`;
 }
 
 export default {

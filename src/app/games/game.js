@@ -56,8 +56,7 @@ export default class Game extends EventEmitter {
 
     this.playfield.dispatch('newScreen', this.refresh)
 
-    this.ticker.remove();
-    this.ticker.add((delta) => this.gameLoop(delta));
+    this.ticker.add(this.render);
 
     this.playfield.dispatch('selectedAnswer', this.selectGame);
   }
@@ -70,8 +69,6 @@ export default class Game extends EventEmitter {
 
   refresh() {
     this.model.refresh();
-    // this.stage.removeChildren(0, this.stage.children.length);
-    this.ticker.add((delta) => this.gameLoop(delta));
     this.playfield.refresh();
   }
 
