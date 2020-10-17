@@ -98,6 +98,14 @@ const getButton = (text, backColor, textStyle, x, y, border) => {
   const rect = getRect(x - border / 2, y - border / 2, backColor, textMetrics.height + border,
     textMetrics.width + border, textMetrics.height + border);
   result.addChild(rect, textField);
+  result.interactive = true;
+  result.buttonMode = true;
+  result.on('pointerover', () => {
+    result.children[0].alpha = 0.5
+  })
+  result.on('pointerout', () => {
+    result.children[0].alpha = 1
+  })
   return result;
 }
 

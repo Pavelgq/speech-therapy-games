@@ -64,19 +64,19 @@ export default class View extends EventEmitter {
 
     this.startButton = v.getButton('Начать', '0x2a9c9d', this.textStyle, center.x - 70, center.y + this.fontSizeBig * 2, 15);
 
-    this.startButton.interactive = true;
-    this.startButton.buttonMode = true;
     this.startButton.on('pointerdown', () => {
       this.emit('startGame', {
         res: true,
       });
     });
-    this.startButton.on('pointerover', () => {
-      this.startButton.children[0].alpha = 0.5
-    })
-    this.startButton.on('pointerout', () => {
-      this.startButton.children[0].alpha = 1
-    })
+
+    this.backButton = v.getButton('Выйти', '0x2a9c9d', this.textStyle, center.x - 65, center.y + this.fontSizeBig * 4, 15);
+
+    this.backButton.on('pointerdown', () => {
+      this.emit('exitGame', {
+        res: true,
+      });
+    });
 
     if (!this.model.checkData()) {
       const daysArr = this.model.player.days;
@@ -91,7 +91,8 @@ export default class View extends EventEmitter {
     } else {
       this.changeField = this.startButton;
     }
-    this.stage.addChild(this.background, this.border, textTop, textButton, this.changeField)
+    this.stage.addChild(this.background,
+      this.border, textTop, textButton, this.changeField, this.backButton)
   }
 
   lessonScreen(lesson, task, gameData) {
@@ -190,7 +191,7 @@ export default class View extends EventEmitter {
 
     this.ticker.add(this.timerToButton);
 
-    this.stage.addChild(this.border, textTop, textBottom, this.timerField)
+    this.stage.addChild(this.border, textTop, textBottom, this.timerField, this.backButton)
   }
 
   createGame(id, taskNumber) {
