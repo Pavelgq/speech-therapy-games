@@ -49,6 +49,7 @@ export default class App {
     this.view.render();
     // this.on('compliteGame', this.complite)
     this.view.dispatch('startGame', this.next);
+    this.view.dispatch('exitGame', this.exit);
   }
 
   exit() {

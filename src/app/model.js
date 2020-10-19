@@ -30,16 +30,15 @@ export default class Model {
     if (this.lessonStat.length > 0) {
       lessonResult = this.calcResults();
     }
-    const days = (this.player.days || []).slice();
+    const playerDays = (this.player.days || []).slice();
     let { kMoney } = this.player;
-    if (days.length > 0 && checkYesterday(days[days.length - 1], new Date())) {
+    if (playerDays.length > 0 && checkYesterday(playerDays[playerDays.length - 1], new Date())) {
       kMoney += 0.1;
     } else {
       kMoney = 1;
     }
     // TODO: Делать эти расчеты на сервере лучше бы
     return {
-      days: days.push(new Date()),
       lessons: this.lesson,
       level: Math.floor(this.game.model.exp / 10000),
       money: this.game.model.money,

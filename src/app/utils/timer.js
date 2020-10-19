@@ -45,5 +45,3 @@ export default class TimeCounter {
     return `${addZero(time.hour)}:${addZero(time.minutes)}:${addZero(time.seconds)}`
   }
 }
-
-

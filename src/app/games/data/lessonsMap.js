@@ -1,5 +1,5 @@
 const lessonsMap = [
-    {
-        games: [],
-    },
+  {
+    games: [],
+  },
 ]
