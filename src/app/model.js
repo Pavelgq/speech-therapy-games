@@ -68,7 +68,8 @@ export default class Model {
       tasks: this.lessonStat,
       duration: this.getDuration(),
       date: new Date(),
-      user: this.player.id,
+      // eslint-disable-next-line no-underscore-dangle
+      user: this.player._id,
     }
   }
 
