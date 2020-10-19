@@ -68,6 +68,7 @@ export default class Model {
       tasks: this.lessonStat,
       duration: this.getDuration(),
       date: new Date(),
+      user: this.player.id,
     }
   }
 
