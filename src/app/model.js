@@ -20,7 +20,7 @@ export default class Model {
       choiceOfImage: 0,
     }
     this.game = {};
-    this.lessonStat = [];
+    this.lessonStat = {};
 
     this.startTime = new Date().getTime();
   }
@@ -59,7 +59,7 @@ export default class Model {
 
   setStatistic() {
     this.game.model.getStatistic();
-    this.lessonStat.push(this.game.model.stat)
+    this.lessonStat = this.game.model.stat;
   }
 
   getStatistic() {
