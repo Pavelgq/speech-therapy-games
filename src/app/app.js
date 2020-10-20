@@ -32,6 +32,7 @@ export default class App {
 
     this.complite = this.complite.bind(this);
     this.next = this.next.bind(this);
+    this.exit = this.exit.bind(this);
     this.aheadOfTime = this.aheadOfTime.bind(this);
   }
 
