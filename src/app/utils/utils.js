@@ -26,16 +26,19 @@ function delay(f, ms) {
 }
 
 const send = async (obj, url) => {
+  const token = localStorage.getItem('user-token')
   const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
+      Authorization: `${token}`,
     },
     body: JSON.stringify(obj),
   });
 
   const result = await response.json();
-  console.log(result.message);
+  console.log(result);
+  return result
 }
 
 const checkYesterday = (yesterday, today) => {

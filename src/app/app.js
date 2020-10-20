@@ -87,8 +87,14 @@ export default class App {
       this.view.endLesson();
       const newPlayer = this.model.getPlayer();
       console.log(newPlayer)
-      send(statistic, `${serverURL}/api/lesson/save`);
-      send(newPlayer, `${serverURL}/api/user/change-data`);
+      Promise.all([
+        send(newPlayer, `${serverURL}/api/user/change-data`),
+        send(statistic, `${serverURL}/api/lesson/save`),
+      ]).then((response) => {
+        console.log(response)
+      }).catch((e) => {
+        console.log(e);
+      })
     }
   }
 
