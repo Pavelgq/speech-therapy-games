@@ -2,6 +2,7 @@
 import {
   Howl,
 } from 'howler';
+import EventEmitter from './utils/eventEmmiter';
 import Model from './model';
 import View from './view';
 
@@ -16,19 +17,20 @@ const backSound = require('../assets/audio/background.mp3');
 const goodSound = require('../assets/audio/good.mp3');
 const badSound = require('../assets/audio/bad.mp3');
 
-const serverURL = 'http://localhost:3001';
-export default class App {
+// const serverURL = 'http://localhost:3001';
+export default class App extends EventEmitter {
   constructor(container, userData, lessonData) {
+    super()
     this.container = container
 
     this.model = new Model(userData, lessonData);
-    this.view = new View(this.model);
+    this.view = new View(this.model, container);
 
     this.state = 'play'; // pause, end
 
     this.task = 1;
 
-    this.games = 7;
+    this.games = 6;
 
     this.complite = this.complite.bind(this);
     this.next = this.next.bind(this);
@@ -42,7 +44,6 @@ export default class App {
     window.onresize = () => {
       this.view.resize()
     }
-    // this.render();
 
     this.backSound = playSound(backSound, true, 0.3, console.log)
     this.backSound.play()
@@ -58,9 +59,7 @@ export default class App {
   }
 
   next() {
-    // this.render();
-    // const id = Math.floor(Math.random() * this.games);
-    const id = 1;
+    const id = Math.floor(Math.random() * this.games);
     this.view.createGame(id, this.task);
     this.view.lessonScreen(this.model.player.lessons + 1, this.task, this.model.game.model);
     // todo
@@ -86,15 +85,16 @@ export default class App {
       const statistic = this.model.getStatistic();
       this.view.endLesson();
       const newPlayer = this.model.getPlayer();
-      console.log(newPlayer)
-      Promise.all([
-        send(newPlayer, `${serverURL}/api/user/change-data`),
-        send(statistic, `${serverURL}/api/lesson/save`),
-      ]).then((response) => {
-        console.log(response)
-      }).catch((e) => {
-        console.log(e);
-      })
+      this.emit('changePlayer', newPlayer);
+      this.emit('addStatistic', statistic);
+      // Promise.all([
+      //   send(newPlayer, `${serverURL}/api/user/change-data`),
+      //   send(statistic, `${serverURL}/api/lesson/save`),
+      // ]).then((response) => {
+      //   console.log(response)
+      // }).catch((e) => {
+      //   console.log(e);
+      // })
     }
   }
 
@@ -103,6 +103,6 @@ export default class App {
     this.task = 1;
     const statistic = this.model.getStatistic();
     this.view.endLesson();
-    send(statistic, `${serverURL}/api/lesson/save`);
+    this.emit('addStatistic', statistic);
   }
 }

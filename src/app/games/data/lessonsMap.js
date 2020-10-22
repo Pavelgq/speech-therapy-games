@@ -1,5 +1,14 @@
 const lessonsMap = [
-  {
-    games: [],
-  },
+  [],
+
 ]
+
+const gamesData = {
+  wordOfSyllables,
+  choiceOfWord,
+  choiceOfSyllable,
+  choiceOfNumber,
+  superfluousWord,
+  thatHasChanged,
+  choiceOfImage,
+};

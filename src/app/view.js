@@ -5,9 +5,10 @@ import Game from './games/game';
 import Timer from './utils/timer';
 
 export default class View extends EventEmitter {
-  constructor(model) {
+  constructor(model, wrapper) {
     super();
     this.model = model;
+    this.wrapper = wrapper;
     this.ratio = (4 / 3);
     this.viewPort = {
       width: window.innerWidth,
@@ -38,9 +39,20 @@ export default class View extends EventEmitter {
     this.stage = new PIXI.Container();
 
     this.render = this.render.bind(this);
+    this.inFullscreen = false;
+    this.screenElement = null;
+    this.fullscreenBtn = v.getButton('fullscreen', '0x2a9c9d', this.textStyle, 100, 20, 15);
+    this.stage.addChild(this.fullscreenBtn)
     this.ticker.add(this.render)
     this.timerToButton = this.timerToButton.bind(this);
+    this.fullscreen = this.fullscreen.bind(this);
+    this.onDragEnd = this.onDragEnd.bind(this);
+    this.onFullscreenChange = this.onFullscreenChange.bind(this);
+    this.fullscreenBtn.on('pointerup', this.onDragEnd);
     this.border = v.getBorder('0x2a9c9d', this.viewPort.width, this.viewPort.height, 4)
+
+    document.cancelFullScreen = document.cancelFullScreen
+    || document.webkitCancelFullScreen || document.mozCancelFullScreen;
   }
 
   startScreen() {
@@ -215,8 +227,8 @@ export default class View extends EventEmitter {
       w = window.innerHeight * this.ratio
       h = window.innerHeight
     } else {
-      w = window.innerWidth * 0.9
-      h = (window.innerWidth * 0.9) / this.ratio
+      w = window.innerWidth
+      h = (window.innerWidth) / this.ratio
     }
     this.renderer.view.style.width = `${w}px`
     this.renderer.view.style.height = `${h}px`
@@ -228,5 +240,33 @@ export default class View extends EventEmitter {
       this.stage.removeChild(this.timerField);
       this.stage.addChild(this.startButton);
     }
+  }
+
+  onDragEnd() {
+    this.fullscreen(!this.inFullscreen);
+  }
+
+  fullscreen(value) {
+    if (this.screenElement == null) {
+      this.screenElement = this.wrapper;
+      this.screenElement.addEventListener('webkitfullscreenchange', this.onFullscreenChange);
+      this.screenElement.addEventListener('mozfullscreenchange', this.onFullscreenChange);
+      this.screenElement.addEventListener('fullscreenchange', this.onFullscreenChange);
+    }
+
+    if (value) {
+      if (this.screenElement.webkitRequestFullScreen) {
+        this.screenElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+      } else {
+        this.screenElement.mozRequestFullScreen();
+      }
+    } else {
+      document.cancelFullScreen();
+    }
+  }
+
+  onFullscreenChange(e) {
+    this.inFullscreen = !this.inFullscreen;
+    this.wrapper.className = this.inFullscreen ? 'fullscreen' : '';
   }
 }

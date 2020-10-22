@@ -9,7 +9,7 @@ export default class Model {
     this.player = userInfo;
     this.lesson = this.player.lessons;
     this.bonus = {};
-    this.taskInLesson = 1;
+    this.taskInLesson = 4;
     this.typeInGame = {
       wordOfSyllables: 0,
       choiceOfWord: 0,
