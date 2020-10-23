@@ -18,6 +18,11 @@ export default class Rules {
     this.money = this.player.money;
   }
 
+  /**
+   * Добавляет слова пустышки в task
+   * @param {Object} targetTasks
+   * @param {Array} otherWords
+   */
   addOtherParts(targetTasks, otherWords = []) {
     const res = []
     const currentData = otherWords.slice();

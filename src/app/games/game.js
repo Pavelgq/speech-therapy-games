@@ -80,6 +80,12 @@ export default class Game extends EventEmitter {
     this.render();
   }
 
+  /**
+   * Создает task по заданому идентификатору
+   * @param {Object} appModel
+   * @param {Object} nameGame
+   * @param {Number} taskNumber
+   */
   gameFactory(appModel, nameGame, taskNumber) {
     switch (nameGame) {
       case 'wordOfSyllables':

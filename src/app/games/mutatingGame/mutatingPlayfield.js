@@ -24,7 +24,7 @@ export default class MutatingPlayfield extends Playfield {
   }
 
   presentation() {
-    const answers = this.model.lastAnswers;
+    // const answers = this.model.lastAnswers;
     this.talk();
   }
 

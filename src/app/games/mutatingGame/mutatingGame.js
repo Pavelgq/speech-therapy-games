@@ -46,10 +46,18 @@ export default class MutatingGame extends Rules {
     return targetTasks;
   }
 
+  /**
+   * Обновляет контент task'а
+   * @param {Number} type 
+   */
   refresh(type) {
     this.targetTasks = this.createTask(0)
   }
 
+  /**
+   * Проверяет ответ пользователя
+   * @param {Object} answer
+   */
   checkAnswer(answer) {
     console.log(answer, this.result, this.lastAnswers)
     if (this.lastAnswers.length <= 2) {
@@ -63,8 +71,8 @@ export default class MutatingGame extends Rules {
       if (this.lastAnswers.length === 0) {
         return 'well';
       }
-      return 'continue';
     }
+    return 'continue';
   }
 
   checkTask() {
@@ -95,6 +103,10 @@ export default class MutatingGame extends Rules {
     console.log(result, 'Это массив с правильными ответами')
   }
 
+  /**
+   * Расчет коэффициента на который умножается опыт
+   * @param {Number} kExp
+   */
   getExp(kExp) {
     return kExp * (this.totalTasks / (this.stat.fail + 1));
   }
