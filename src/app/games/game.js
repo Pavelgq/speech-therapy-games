@@ -129,7 +129,6 @@ export default class Game extends EventEmitter {
     const check = this.model.checkAnswer(this.model.targetTasks[object.id]);
     switch (check) {
       case 'continue':
-        console.log('верно');
         object.tint = '0x2a9c9d';
         break;
       case 'well':
@@ -158,7 +157,6 @@ export default class Game extends EventEmitter {
         }
         break;
       case 'lose':
-        console.log('не верно');
         object.tint = '0xf36273';
         this.model.stat.fail += 1;
         playSound(this.model.answer.audio, false, 0.8, console.log).play()

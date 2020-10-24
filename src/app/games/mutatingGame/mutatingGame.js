@@ -30,8 +30,8 @@ export default class MutatingGame extends Rules {
       const {
         length,
       } = words[index].syllable;
-      if (targetTasks.length + length
-        <= this.targetTasksParam.width * this.targetTasksParam.height) {
+      if (targetTasks.length + length <=
+        this.targetTasksParam.width * this.targetTasksParam.height) {
         targetTasks.push(...words[index].syllable);
         this.lastAnswers.push({
           word: words[index].word,
@@ -59,7 +59,6 @@ export default class MutatingGame extends Rules {
    * @param {Object} answer
    */
   checkAnswer(answer) {
-    console.log(answer, this.result, this.lastAnswers)
     if (this.lastAnswers.length <= 2) {
       const n = this.lastAnswers.findIndex((el) => el.word === answer);
       if (n !== -1) {
@@ -100,7 +99,6 @@ export default class MutatingGame extends Rules {
     this.lastAnswers = result;
     [this.answer] = this.lastAnswers;
     // this.lastAnswers.splice(0, 1);
-    console.log(result, 'Это массив с правильными ответами')
   }
 
   /**
