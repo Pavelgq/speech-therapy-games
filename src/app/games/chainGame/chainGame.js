@@ -36,7 +36,6 @@ export default class ChainGame extends Rules {
       words[index].used = true;
     }
     [this.answer] = this.lastAnswers;
-    console.log(this.answer, this.lastAnswers)
     return this.addOtherParts(targetTasks, this.dataGame.types[type].data);
   }
 
@@ -45,7 +44,6 @@ export default class ChainGame extends Rules {
   }
 
   checkAnswer(answer) {
-    console.log(answer, this.result, this.lastAnswers)
     const n = this.result.length;
     if (this.answer.syllable[n] === answer) {
       this.result.push(answer);

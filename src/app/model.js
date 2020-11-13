@@ -31,7 +31,9 @@ export default class Model {
       lessonResult = this.calcResults();
     }
     const playerDays = (this.player.days || []).slice();
-    let { kMoney } = this.player;
+    let {
+      kMoney
+    } = this.player;
     if (playerDays.length > 0 && checkYesterday(playerDays[playerDays.length - 1], new Date())) {
       kMoney += 0.1;
     } else {
@@ -39,6 +41,8 @@ export default class Model {
     }
     // TODO: Делать эти расчеты на сервере лучше бы
     return {
+      // eslint-disable-next-line no-underscore-dangle
+      id: this.player._id,
       lessons: this.lesson,
       level: Math.floor(this.game.model.exp / 10000),
       money: this.game.model.money,
