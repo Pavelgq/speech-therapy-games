@@ -129,9 +129,9 @@ export default class View extends EventEmitter {
     }
     const textTop = v.getTextField(h1, textStyle, center.x, center.y - this.fontSizeBig, 'center');
     textStyle.fontSize = fontSizeSmall;
-    const textButton = v.getTextField(h2, textStyle, center.x, center.y + this.fontSizeBig, 'center');
+    const textBottom = v.getTextField(h2, textStyle, center.x, center.y + this.fontSizeBig, 'center');
 
-    this.stage.addChild(this.background, this.border, textTop, textButton)
+    this.stage.addChild(this.background, this.border, textTop, textBottom)
   }
 
   goodScreen() {
@@ -150,9 +150,9 @@ export default class View extends EventEmitter {
     }
     const textTop = v.getTextField(h1, textStyle, center.x, center.y - this.fontSizeBig, 'center');
     textStyle.fontSize = 24;
-    const textButton = v.getTextField(h2, textStyle, center.x, center.y + this.fontSizeBig, 'center');
-
-    this.stage.addChild(this.border, textTop, textButton)
+    const textBottom = v.getTextField(h2, textStyle, center.x, center.y + this.fontSizeBig, 'center');
+    console.log('Хороший экран')
+    this.stage.addChild(this.border, textTop, textBottom)
   }
 
   badScreen() {
@@ -170,9 +170,9 @@ export default class View extends EventEmitter {
     }
     const textTop = v.getTextField(h1, textStyle, center.x, center.y - this.fontSizeBig, 'center');
     textStyle.fontSize = 24;
-    const textButton = v.getTextField(h2, textStyle, center.x, center.y + this.fontSizeBig, 'center');
+    const textBottom = v.getTextField(h2, textStyle, center.x, center.y + this.fontSizeBig, 'center');
 
-    this.stage.addChild(this.border, textTop, textButton)
+    this.stage.addChild(this.border, textTop, textBottom)
   }
 
   endLesson() {
@@ -209,7 +209,7 @@ export default class View extends EventEmitter {
   createGame(id, taskNumber) {
     this.stage.removeChildren(0, this.stage.children.length);
     this.model.game = new Game(this.renderer,
-      this.viewPort, this.model, this.ticker, id, taskNumber)
+      this.viewPort, this.model, this.stage, id, taskNumber)
   }
 
   render() {

@@ -159,12 +159,6 @@ export default class Playfield extends EventEmitter {
         rect.on('pointerdown', () => {
           this.emit('selectedAnswer', rect);
         });
-        // rect.on('pointerover', () => {
-        //   rect.alpha = 0.5
-        // })
-        // rect.on('pointerout', () => {
-        //   rect.alpha = 1
-        // })
         this.gameFields.push(container);
         this.stage.addChild(container)
       }
@@ -225,8 +219,12 @@ export default class Playfield extends EventEmitter {
     for (let i = 0; i < taskWidth; i++) {
       for (let j = 0; j < taskHeight; j++) {
         const id = i * taskHeight + j;
-        const { x } = this.gameFields[id].children[0];
-        const { y } = this.gameFields[id].children[0];
+        const {
+          x,
+        } = this.gameFields[id].children[0];
+        const {
+          y,
+        } = this.gameFields[id].children[0];
 
         this.gameFields[id].children[0].tint = '0xfdb078';
         this.gameFields[id].children[0].alpha = 0.5;

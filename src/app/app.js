@@ -38,6 +38,9 @@ export default class App extends EventEmitter {
     this.aheadOfTime = this.aheadOfTime.bind(this);
   }
 
+  /**
+   * Метод для инициализации урока
+   */
   init() {
     this.container.appendChild(this.view.renderer.view);
     this.view.resize();
@@ -54,10 +57,16 @@ export default class App extends EventEmitter {
     this.view.dispatch('exitGame', this.exit);
   }
 
+  /**
+   * Метод для выхода из приложения
+   */
   exit() {
     this.backSound.stop()
   }
 
+  /**
+   * Метод для запуска следующего задания
+   */
   next() {
     const id = Math.floor(Math.random() * this.games);
     this.view.createGame(id, this.task);
@@ -68,6 +77,9 @@ export default class App extends EventEmitter {
     playSound(this.model.game.rules, false, 0.8, this.model.game.run).play();
   }
 
+  /**
+   * Метод для окончания задания и/или урока
+   */
   complite(obj) {
     this.model.setStatistic()
     if (this.task < this.model.taskInLesson) {
@@ -87,17 +99,12 @@ export default class App extends EventEmitter {
       const newPlayer = this.model.getPlayer();
       this.emit('updateUser', newPlayer);
       this.emit('addLesson', statistic);
-      // Promise.all([
-      //   send(newPlayer, `${serverURL}/api/user/change-data`),
-      //   send(statistic, `${serverURL}/api/lesson/save`),
-      // ]).then((response) => {
-      //   console.log(response)
-      // }).catch((e) => {
-      //   console.log(e);
-      // })
     }
   }
 
+  /**
+   * Метод для окончания урока досрочно
+   */
   aheadOfTime() {
     this.model.setStatistic()
     this.task = 1;

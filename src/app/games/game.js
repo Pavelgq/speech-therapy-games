@@ -32,16 +32,17 @@ const gamesData = {
 };
 
 export default class Game extends EventEmitter {
-  constructor(canvas, viewPort, appModel, ticker, numberGame, taskNumber) {
+  constructor(canvas, viewPort, appModel, stage, numberGame, taskNumber) {
     super();
     this.canvas = canvas;
     this.viewPort = viewPort;
-    this.stage = new PIXI.Container();
+    // this.stage = new PIXI.Container();
+    this.stage = stage;
     const nameGame = Object.keys(gamesData)[numberGame]
     this.gameFactory(appModel, nameGame, taskNumber);
     this.appModel = appModel;
 
-    this.ticker = ticker;
+    // this.ticker = ticker;
 
     this.rules = gamesData[nameGame].rulesSound;
     this.render = this.render.bind(this);
@@ -56,7 +57,7 @@ export default class Game extends EventEmitter {
 
     this.playfield.dispatch('newScreen', this.refresh)
 
-    this.ticker.add(this.render);
+    // this.ticker.add(this.render);
 
     this.playfield.dispatch('selectedAnswer', this.selectGame);
   }
@@ -126,7 +127,7 @@ export default class Game extends EventEmitter {
       return
     }
     const object = obj;
-    const check = this.model.checkAnswer(this.model.targetTasks[object.id]);
+    const check = this.model.checkAnswer(this.model.targetTasks[object.id], object.id);
     switch (check) {
       case 'continue':
         object.tint = '0x2a9c9d';
@@ -137,13 +138,13 @@ export default class Game extends EventEmitter {
           object.tint = '0x2a9c9d';
           this.model.stat.correct += 1;
           setTimeout(() => {
+            this.stage.removeChildren(0, this.stage.children.length);
             this.playfield.emit('compliteGame', {
               res: true,
             })
             // object.off('pointerover');
             // object.off('pointerout');
             // object.off('pointerdown');
-            this.stage.removeChildren(0, this.stage.children.length);
           }, 1000);
         } else {
           object.tint = '0x2a9c9d';

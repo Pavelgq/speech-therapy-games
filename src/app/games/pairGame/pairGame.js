@@ -1,6 +1,6 @@
 import Rules from '../rules';
 
-export default class MutatingGame extends Rules {
+export default class PairGame extends Rules {
   constructor(appModel, dataGame, taskNumber) {
     super(appModel);
     this.title = dataGame.title;
@@ -15,6 +15,8 @@ export default class MutatingGame extends Rules {
     this.dataGame = dataGame;
 
     this.result = [];
+
+    this.closeCell = [];
   }
 
   createTask(type) {
@@ -24,15 +26,12 @@ export default class MutatingGame extends Rules {
     const targetTasks = [];
     this.lastAnswers = [];
     this.result = [];
-    const carts = this.targetTasksParam.width * this.targetTasksParam.height;
-    for (let k = 0; k < carts; k++) {
+    const cards = this.targetTasksParam.width * this.targetTasksParam.height;
+    for (let k = 0; k < cards; k++) {
+      this.closeCell.push(false);
       const index = Math.floor(Math.random() * words.length);
-      const {
-        length,
-      } = words[index].syllable;
-      if (targetTasks.length + length
-        <= this.targetTasksParam.width * this.targetTasksParam.height) {
-        targetTasks.push(...words[index].syllable);
+      if (targetTasks.length <= this.targetTasksParam.width * this.targetTasksParam.height) {
+        targetTasks.push(...words[index].syllable, ...words[index].syllable);
         this.lastAnswers.push({
           word: words[index].word,
           syllable: words[index].syllable,
@@ -42,7 +41,6 @@ export default class MutatingGame extends Rules {
         words[index].used = true;
       }
     }
-    [this.answer] = this.lastAnswers;
     return targetTasks;
   }
 
@@ -59,17 +57,15 @@ export default class MutatingGame extends Rules {
    * @param {Object} answer
    */
   checkAnswer(answer) {
-    if (this.lastAnswers.length <= 2) {
-      const n = this.lastAnswers.findIndex((el) => el.word === answer);
-      if (n !== -1) {
-        this.result.push(answer);
-        this.lastAnswers.splice(n, 1);
-      } else {
-        return 'lose';
-      }
-      if (this.lastAnswers.length === 0) {
+    if (this.result.length === 0) {
+      this.result.push(answer);
+    } else {
+      if (this.result[0] === answer) {
+        this.result = [];
         return 'well';
       }
+      this.result = [];
+      return 'lose';
     }
     return 'continue';
   }
@@ -80,25 +76,6 @@ export default class MutatingGame extends Rules {
       return true;
     }
     return false;
-  }
-
-  swap() {
-    const arr = this.targetTasks;
-    const answers = this.lastAnswers;
-    let first = 0;
-    let second = 0;
-    while (first === second) {
-      first = Math.floor(Math.random() * arr.length);
-      second = Math.floor(Math.random() * arr.length);
-    }
-
-    [arr[first], arr[second]] = [arr[second], arr[first]];
-
-    const result = [];
-    result.push(answers[first], answers[second]);
-    this.lastAnswers = result;
-    [this.answer] = this.lastAnswers;
-    // this.lastAnswers.splice(0, 1);
   }
 
   /**
