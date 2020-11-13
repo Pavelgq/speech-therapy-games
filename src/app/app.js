@@ -86,7 +86,7 @@ export default class App extends EventEmitter {
       this.view.endLesson();
       const newPlayer = this.model.getPlayer();
       this.emit('updateUser', newPlayer);
-      this.emit('updateUser', statistic);
+      this.emit('addLesson', statistic);
       // Promise.all([
       //   send(newPlayer, `${serverURL}/api/user/change-data`),
       //   send(statistic, `${serverURL}/api/lesson/save`),
@@ -103,6 +103,6 @@ export default class App extends EventEmitter {
     this.task = 1;
     const statistic = this.model.getStatistic();
     this.view.endLesson();
-    this.emit('updateUser', statistic);
+    this.emit('addLesson', statistic);
   }
 }
