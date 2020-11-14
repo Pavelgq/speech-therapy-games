@@ -18,6 +18,7 @@ export default class Model {
       superfluousWord: 0,
       thatHasChanged: 0,
       choiceOfImage: 0,
+      choicePair: 0,
     }
     this.game = {};
     this.lessonStat = [];

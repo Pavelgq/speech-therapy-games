@@ -30,7 +30,7 @@ export default class App extends EventEmitter {
 
     this.task = 1;
 
-    this.games = 6;
+    this.games = 7;
 
     this.complite = this.complite.bind(this);
     this.next = this.next.bind(this);
@@ -68,7 +68,8 @@ export default class App extends EventEmitter {
    * Метод для запуска следующего задания
    */
   next() {
-    const id = Math.floor(Math.random() * this.games);
+    // const id = Math.floor(Math.random() * this.games);
+    const id = 7
     this.view.createGame(id, this.task);
     this.view.lessonScreen(this.model.player.lessons + 1, this.task, this.model.game.model);
     // todo

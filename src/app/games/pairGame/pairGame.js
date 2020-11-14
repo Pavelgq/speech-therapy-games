@@ -17,6 +17,7 @@ export default class PairGame extends Rules {
     this.result = [];
 
     this.closeCell = [];
+    this.countPair = 0;
   }
 
   createTask(type) {
@@ -26,9 +27,15 @@ export default class PairGame extends Rules {
     const targetTasks = [];
     this.lastAnswers = [];
     this.result = [];
+    this.closeCell = [];
     const cards = this.targetTasksParam.width * this.targetTasksParam.height;
+    this.countPair = cards;
     for (let k = 0; k < cards; k++) {
-      this.closeCell.push(false);
+      this.closeCell.push({
+        id: k,
+        close: false,
+        ready: false,
+      });
       const index = Math.floor(Math.random() * words.length);
       if (targetTasks.length <= this.targetTasksParam.width * this.targetTasksParam.height) {
         targetTasks.push(...words[index].syllable, ...words[index].syllable);
@@ -56,13 +63,33 @@ export default class PairGame extends Rules {
    * Проверяет ответ пользователя
    * @param {Object} answer
    */
-  checkAnswer(answer) {
+  checkAnswer(answer, id) {
     if (this.result.length === 0) {
-      this.result.push(answer);
+      this.result.push({
+        answer,
+        id,
+      });
+      // this.checkAnswer[id] = false;
+      const index = this.closeCell.findIndex((el) => (el.id === id))
+      if (index >= 0) {
+        this.closeCell[index].close = false;
+      }
     } else {
-      if (this.result[0] === answer) {
+      if (this.result[0].answer === answer) {
+        this.result.push({
+          answer,
+          id,
+        })
+        this.result.forEach(res => {
+          const index = this.closeCell.findIndex((el) => (el.id === res.id))
+          this.closeCell[index].ready = true;
+        })
+        this.countPair -= 2;
         this.result = [];
-        return 'well';
+        if (this.countPair <= 1) {
+          return 'well';
+        }
+        return 'continue';
       }
       this.result = [];
       return 'lose';

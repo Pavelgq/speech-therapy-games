@@ -6,6 +6,8 @@ import SimpleGame from './simpleGame/simpleGame';
 import ChainGame from './chainGame/chainGame';
 import MutatingGame from './mutatingGame/mutatingGame';
 import MutatingPlayfield from './mutatingGame/mutatingPlayfield';
+import PairGame from './pairGame/pairGame';
+import PairPlayfield from './pairGame/pairPlayfield';
 
 import choiceOfNumber from './data/choiceOfNumber';
 import choiceOfSyllable from './data/choiceOfSyllable';
@@ -14,6 +16,7 @@ import wordOfSyllables from './data/wordOfSyllables';
 import superfluousWord from './data/superfluousWord';
 import thatHasChanged from './data/thatHasChanged';
 import choiceOfImage from './data/choiceOfImage';
+import choicePair from './data/choicePair';
 
 import func from '../utils/utils';
 
@@ -29,6 +32,7 @@ const gamesData = {
   superfluousWord,
   thatHasChanged,
   choiceOfImage,
+  choicePair,
 };
 
 export default class Game extends EventEmitter {
@@ -117,6 +121,10 @@ export default class Game extends EventEmitter {
         this.model = new SimpleGame(appModel, gamesData[nameGame], taskNumber);
         this.playfield = new Playfield(this.model, this.viewPort, this.stage);
         break;
+      case 'choicePair':
+        this.model = new PairGame(appModel, gamesData[nameGame], taskNumber);
+        this.playfield = new PairPlayfield(this.model, this.viewPort, this.stage);
+        break;
       default:
         break;
     }
@@ -128,6 +136,7 @@ export default class Game extends EventEmitter {
     }
     const object = obj;
     const check = this.model.checkAnswer(this.model.targetTasks[object.id], object.id);
+    this.playfield.emit('selectCell', object.id);
     switch (check) {
       case 'continue':
         object.tint = '0x2a9c9d';
@@ -161,6 +170,7 @@ export default class Game extends EventEmitter {
         object.tint = '0xf36273';
         this.model.stat.fail += 1;
         playSound(this.model.answer.audio, false, 0.8, console.log).play()
+        this.playfield.emit('fallSelect', object.id);
         setTimeout(() => {
           object.tint = '0xfdb078';
           object.alpha = 0.5;
