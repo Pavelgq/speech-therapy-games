@@ -136,10 +136,11 @@ export default class Game extends EventEmitter {
     }
     const object = obj;
     const check = this.model.checkAnswer(this.model.targetTasks[object.id], object.id);
-    this.playfield.emit('selectCell', object.id);
+    this.playfield.emit('selectCell', object);
     switch (check) {
       case 'continue':
-        object.tint = '0x2a9c9d';
+        this.playfield.emit('continueSelect', object);
+        // object.tint = '0x2a9c9d';
         break;
       case 'well':
         this.model.addReaction();
@@ -170,7 +171,7 @@ export default class Game extends EventEmitter {
         object.tint = '0xf36273';
         this.model.stat.fail += 1;
         playSound(this.model.answer.audio, false, 0.8, console.log).play()
-        this.playfield.emit('fallSelect', object.id);
+        this.playfield.emit('fallSelect', object);
         setTimeout(() => {
           object.tint = '0xfdb078';
           object.alpha = 0.5;

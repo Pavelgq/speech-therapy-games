@@ -14,6 +14,8 @@ export default class PairPlayfield extends Playfield {
     this.openCell = this.openCell.bind(this);
     this.closeCell = this.closeCell.bind(this);
     this.delay = this.delay.bind(this);
+
+    this.waitClose = false;
   }
 
   create() {
@@ -46,46 +48,48 @@ export default class PairPlayfield extends Playfield {
     // }
   }
 
-  delay(id) {
+  delay(obj) {
+    this.waitClose = true;
     setTimeout(() => {
       this.closeCells();
     }, 1000)
   }
 
   openCell(event) {
-    const width = (this.width * 2) / 3;
-    const spaceFree = Math.min(width, this.height);
-    const maxSideCubes = Math.max(
-      this.model.targetTasksParam.width,
-      this.model.targetTasksParam.height,
-    )
-    const size = Math.floor(
-      (spaceFree - (maxSideCubes + 1) * 10) / maxSideCubes,
-    )
-    console.log(event);
-    const id = event;
-    const index = this.model.closeCell.findIndex((el) => el.id === id);
-    if (index >= 0) {
-      this.model.closeCell[id].close = false;
+    const { id } = event;
+    if (!this.waitClose && this.model.closeCell[id].close) {
+      const width = (this.width * 2) / 3;
+      const spaceFree = Math.min(width, this.height);
+      const maxSideCubes = Math.max(
+        this.model.targetTasksParam.width,
+        this.model.targetTasksParam.height,
+      )
+      const size = Math.floor(
+        (spaceFree - (maxSideCubes + 1) * 10) / maxSideCubes,
+      )
+      const index = this.model.closeCell.findIndex((el) => el.id === id);
+      if (index >= 0) {
+        this.model.closeCell[id].close = false;
 
-      const {
-        x,
-      } = this.gameFields[id].children[0];
-      const {
-        y,
-      } = this.gameFields[id].children[0];
-      const {
-        targetTasks,
-      } = this.model;
-      const text = targetTasks[id];
-      const textField = v.getTextField(text, this.textStyle, x + size / 2, y + size / 2, 'center');
-      this.gameFields[id].addChild(textField);
+        const {
+          x,
+        } = this.gameFields[id].children[0];
+        const {
+          y,
+        } = this.gameFields[id].children[0];
+        const {
+          targetTasks,
+        } = this.model;
+        const text = targetTasks[id];
+        const textField = v.getTextField(text, this.textStyle, x + size / 2, y + size / 2, 'center');
+        this.gameFields[id].addChild(textField);
+      }
     }
   }
 
   closeCell(id) {
     const currentIndex = this.model.closeCell.findIndex((el) => id === el.id)
-    if (currentIndex >= 0 && this.model.closeCell[currentIndex].close === false 
+    if (currentIndex >= 0 && this.model.closeCell[currentIndex].close === false
       && this.model.closeCell[currentIndex].ready) {
       this.gameFields[id].removeChildAt(1);
       this.model.closeCell[currentIndex].close = true;
@@ -93,6 +97,7 @@ export default class PairPlayfield extends Playfield {
   }
 
   closeCells() {
+    this.waitClose = false;
     const taskHeight = this.model.targetTasksParam.height;
     const taskWidth = this.model.targetTasksParam.width;
     for (let i = 0; i < taskWidth; i++) {

@@ -70,19 +70,14 @@ export default class PairGame extends Rules {
         id,
       });
       // this.checkAnswer[id] = false;
-      const index = this.closeCell.findIndex((el) => (el.id === id))
-      if (index >= 0) {
-        this.closeCell[index].close = false;
-      }
     } else {
-      if (this.result[0].answer === answer) {
+      if (this.result[0].answer === answer && this.result[0].id !== id) {
         this.result.push({
           answer,
           id,
         })
-        this.result.forEach(res => {
-          const index = this.closeCell.findIndex((el) => (el.id === res.id))
-          this.closeCell[index].ready = true;
+        this.result.forEach((res) => {
+          this.closeCell[res.id].ready = true;
         })
         this.countPair -= 2;
         this.result = [];
