@@ -50,6 +50,7 @@ const superfluousWord = {
   win: {
     part: 'all',
     refresh: false,
+    mute: true,
   },
   levels: [{
     parts: 5,

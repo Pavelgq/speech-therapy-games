@@ -43,14 +43,20 @@ export default class Playfield extends EventEmitter {
     this.printField();
     this.printCell();
     this.model.setReaction()
-    playSound(this.model.answer.audio, false, 0.8, console.log).play()
+    if (!this.model.conditionsWin.mute) {
+      playSound(this.model.answer.audio, false, 0.8, console.log).play()
+    }
+    this.dispatch('continueSelect', v.selectGoodCell)
+    this.dispatch('fallSelect', v.selectBadCell)
   }
 
   refresh() {
     this.refreshField();
     this.refreshCell();
     this.model.setReaction()
-    playSound(this.model.answer.audio, false, 0.8, console.log).play()
+    if (!this.model.conditionsWin.mute) {
+      playSound(this.model.answer.audio, false, 0.8, console.log).play()
+    }
   }
 
   printField() {
@@ -118,16 +124,16 @@ export default class Playfield extends EventEmitter {
       (spaceFree - (maxSideCubes + 1) * 10) / maxSideCubes,
     )
     const spaceAroundY = Math.floor(
-      (this.height
-        - (size * taskHeight
-          + this.spaceBetweenFields * (taskHeight - 1)))
-      / 2,
+      (this.height -
+        (size * taskHeight +
+          this.spaceBetweenFields * (taskHeight - 1))) /
+      2,
     )
     const spaceAroundX = Math.floor(
-      (width
-        - (size * taskWidth
-          + this.spaceBetweenFields * (taskWidth - 1)))
-      / 2,
+      (width -
+        (size * taskWidth +
+          this.spaceBetweenFields * (taskWidth - 1))) /
+      2,
     )
 
     const targetTasks = this.model.targetTasks.slice();

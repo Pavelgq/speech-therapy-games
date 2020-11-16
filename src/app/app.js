@@ -52,7 +52,7 @@ export default class App extends EventEmitter {
     this.backSound.play()
     this.view.startScreen();
     this.view.render();
-    // this.on('compliteGame', this.complite)
+
     this.view.dispatch('startGame', this.next);
     this.view.dispatch('exitGame', this.exit);
   }
@@ -69,7 +69,7 @@ export default class App extends EventEmitter {
    */
   next() {
     // const id = Math.floor(Math.random() * this.games);
-    const id = 7
+    const id = 5
     this.view.createGame(id, this.task);
     this.view.lessonScreen(this.model.player.lessons + 1, this.task, this.model.game.model);
     // todo

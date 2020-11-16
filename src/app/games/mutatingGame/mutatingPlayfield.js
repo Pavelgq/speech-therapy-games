@@ -1,4 +1,5 @@
 import Playfield from '../playfield';
+import v from '../../viewElements';
 import func from '../../utils/utils';
 
 const {
@@ -15,6 +16,8 @@ export default class MutatingPlayfield extends Playfield {
     this.printField();
     this.printCell();
     this.presentation();
+    this.dispatch('continueSelect', v.selectGoodCell)
+    this.dispatch('fallSelect', v.selectBadCell)
   }
 
   refresh() {

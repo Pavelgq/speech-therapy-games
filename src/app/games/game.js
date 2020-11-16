@@ -168,16 +168,17 @@ export default class Game extends EventEmitter {
         }
         break;
       case 'lose':
-        object.tint = '0xf36273';
+        // object.tint = '0xf36273';
         this.model.stat.fail += 1;
-        playSound(this.model.answer.audio, false, 0.8, console.log).play()
+        if (!this.model.conditionsWin.mute) {
+          playSound(this.model.answer.audio, false, 0.8, console.log).play()
+        }
         this.playfield.emit('fallSelect', object);
-        setTimeout(() => {
-          object.tint = '0xfdb078';
-          object.alpha = 0.5;
-        }, 1000);
+        // setTimeout(() => {
+        //   object.tint = '0xfdb078';
+        //   object.alpha = 0.5;
+        // }, 1000);
         break;
-
       default:
         break;
     }

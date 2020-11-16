@@ -144,6 +144,13 @@ const getCell = (backColor, borderColor, x, y, size, rad) => {
   return rect;
 }
 
+/**
+ *
+ * @param {String} url
+ * @param {Number} size
+ * @param {Number} x
+ * @param {Number} y
+ */
 const getPicture = (url, size, x, y) => {
   const texture = PIXI.Texture.from(url);
   const picture = new PIXI.Sprite(texture);
@@ -156,6 +163,20 @@ const getPicture = (url, size, x, y) => {
   return picture
 }
 
+const selectGoodCell = (cell) => {
+  const object = cell;
+  object.tint = '0x2a9c9d'
+}
+
+const selectBadCell = (cell) => {
+  const object = cell;
+  object.tint = '0xf36273';
+  setTimeout(() => {
+    object.tint = '0xfdb078';
+    object.alpha = 0.5;
+  }, 1000);
+}
+
 export default {
   getTextField,
   getRect,
@@ -164,4 +185,6 @@ export default {
   getBorder,
   getCell,
   getPicture,
+  selectGoodCell,
+  selectBadCell,
 }

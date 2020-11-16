@@ -1,4 +1,9 @@
 import Rules from '../rules';
+import func from '../../utils/utils';
+
+const {
+  shuffle,
+} = func;
 
 export default class PairGame extends Rules {
   constructor(appModel, dataGame, taskNumber) {
@@ -24,7 +29,7 @@ export default class PairGame extends Rules {
     const {
       words,
     } = this.dataGame.types[type];
-    const targetTasks = [];
+    let targetTasks = [];
     this.lastAnswers = [];
     this.result = [];
     this.closeCell = [];
@@ -37,7 +42,7 @@ export default class PairGame extends Rules {
         ready: false,
       });
       const index = Math.floor(Math.random() * words.length);
-      if (targetTasks.length <= this.targetTasksParam.width * this.targetTasksParam.height) {
+      if (targetTasks.length < this.targetTasksParam.width * this.targetTasksParam.height) {
         targetTasks.push(...words[index].syllable, ...words[index].syllable);
         this.lastAnswers.push({
           word: words[index].word,
@@ -48,6 +53,7 @@ export default class PairGame extends Rules {
         words[index].used = true;
       }
     }
+    [targetTasks] = shuffle([targetTasks])
     return targetTasks;
   }
 

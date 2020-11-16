@@ -10,12 +10,9 @@ const {
 export default class PairPlayfield extends Playfield {
   constructor(gameModel, viewPort, stage) {
     super(gameModel, viewPort, stage);
-    this.talk = this.talk.bind(this);
     this.openCell = this.openCell.bind(this);
-    this.closeCell = this.closeCell.bind(this);
+    this.closeCells = this.closeCells.bind(this);
     this.delay = this.delay.bind(this);
-
-    this.waitClose = false;
   }
 
   create() {
@@ -33,31 +30,28 @@ export default class PairPlayfield extends Playfield {
   }
 
   presentation() {
-    // const answers = this.model.lastAnswers;
-    this.talk();
-  }
-
-  talk(i = 0) {
-    // const answers = this.model.lastAnswers;
-    // if (i < answers.length) {
-    //   playSound(answers[i].audio, false, 0.8, this.talk, i + 1).play();
-    // } else {
     this.model.setReaction();
-
     this.closeCells();
-    // }
   }
 
-  delay(obj) {
-    this.waitClose = true;
+  /**
+   * Задержка для просмотра содержимого карточки(ячейки)
+   */
+  delay() {
+    this.offCells();
     setTimeout(() => {
       this.closeCells();
     }, 1000)
   }
 
+  /**
+   * Открывает выбранную ячейку
+   */
   openCell(event) {
-    const { id } = event;
-    if (!this.waitClose && this.model.closeCell[id].close) {
+    const {
+      id,
+    } = event;
+    if (this.model.closeCell[id].close) {
       const width = (this.width * 2) / 3;
       const spaceFree = Math.min(width, this.height);
       const maxSideCubes = Math.max(
@@ -70,7 +64,6 @@ export default class PairPlayfield extends Playfield {
       const index = this.model.closeCell.findIndex((el) => el.id === id);
       if (index >= 0) {
         this.model.closeCell[id].close = false;
-
         const {
           x,
         } = this.gameFields[id].children[0];
@@ -83,31 +76,41 @@ export default class PairPlayfield extends Playfield {
         const text = targetTasks[id];
         const textField = v.getTextField(text, this.textStyle, x + size / 2, y + size / 2, 'center');
         this.gameFields[id].addChild(textField);
+        this.gameFields[id].children[0].off('pointerdown');
       }
     }
   }
 
-  closeCell(id) {
-    const currentIndex = this.model.closeCell.findIndex((el) => id === el.id)
-    if (currentIndex >= 0 && this.model.closeCell[currentIndex].close === false
-      && this.model.closeCell[currentIndex].ready) {
-      this.gameFields[id].removeChildAt(1);
-      this.model.closeCell[currentIndex].close = true;
-    }
-  }
-
-  closeCells() {
-    this.waitClose = false;
+  /**
+   * Отключает события клика на всех ячейках
+   */
+  offCells() {
     const taskHeight = this.model.targetTasksParam.height;
     const taskWidth = this.model.targetTasksParam.width;
     for (let i = 0; i < taskWidth; i++) {
       for (let j = 0; j < taskHeight; j++) {
         const id = i * taskHeight + j;
-        const currentIndex = this.model.closeCell.findIndex((el) => id === el.id)
-        if (currentIndex >= 0 && this.model.closeCell[currentIndex].close === false
-          && !this.model.closeCell[currentIndex].ready) {
+        this.gameFields[id].children[0].off('pointerdown');
+      }
+    }
+  }
+
+  /**
+   * Закрывает все ячейки
+   */
+  closeCells() {
+    const taskHeight = this.model.targetTasksParam.height;
+    const taskWidth = this.model.targetTasksParam.width;
+    for (let i = 0; i < taskWidth; i++) {
+      for (let j = 0; j < taskHeight; j++) {
+        const id = i * taskHeight + j;
+        this.gameFields[id].children[0].off('pointerdown');
+        this.gameFields[id].children[0].on('pointerdown', () => {
+          this.emit('selectedAnswer', this.gameFields[id].children[0]);
+        });
+        if (!this.model.closeCell[id].close && !this.model.closeCell[id].ready) {
           this.gameFields[id].removeChildAt(1);
-          this.model.closeCell[currentIndex].close = true;
+          this.model.closeCell[id].close = true;
         }
       }
     }

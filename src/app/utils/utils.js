@@ -62,6 +62,23 @@ const addZero = (num) => {
   return `${Math.abs(num)}`;
 }
 
+/**
+ * Случайным образом, одинаково для каждого сортирует переданные массивы
+ * @param {Array} arrays
+ */
+const shuffle = (arrays) => {
+  let j;
+  const result = arrays.slice();
+  for (let i = arrays[0].length - 1; i > 0; i--) {
+    j = Math.floor(Math.random() * (i + 1));
+    for (let k = 0; k < result.length; k++) {
+      const el = result[k];
+      [el[j], el[i]] = [el[i], el[j]];
+    }
+  }
+  return result;
+}
+
 export default {
   playSound,
   loadFile,
@@ -69,4 +86,5 @@ export default {
   send,
   checkYesterday,
   addZero,
+  shuffle,
 };
