@@ -206,10 +206,10 @@ export default class View extends EventEmitter {
     this.stage.addChild(this.border, textTop, textBottom, this.timerField, this.backButton)
   }
 
-  createGame(id, taskNumber) {
+  createGame(task, taskNumber) {
     this.stage.removeChildren(0, this.stage.children.length);
     this.model.game = new Game(this.renderer,
-      this.viewPort, this.model, this.stage, id, taskNumber)
+      this.viewPort, this.model, this.stage, task, taskNumber)
   }
 
   render() {

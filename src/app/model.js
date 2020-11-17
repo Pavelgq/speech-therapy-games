@@ -1,4 +1,5 @@
 import func from './utils/utils';
+import lessonsMap from './games/data/lessonsMap';
 
 const {
   checkYesterday,
@@ -9,21 +10,31 @@ export default class Model {
     this.player = userInfo;
     this.lesson = this.player.lessons;
     this.bonus = {};
-    this.taskInLesson = 4;
-    this.typeInGame = {
-      wordOfSyllables: 0,
-      choiceOfWord: 0,
-      choiceOfSyllable: 0,
-      choiceOfNumber: 0,
-      superfluousWord: 0,
-      thatHasChanged: 0,
-      choiceOfImage: 0,
-      choicePair: 0,
-    }
+    this.plan = this.getLesson()
+    this.currentTask = 1;
+    this.taskInLesson = this.plan.lesson.length - 1;
+    // this.typeInGame = {
+    //   wordOfSyllables: 0,
+    //   choiceOfWord: 0,
+    //   choiceOfSyllable: 0,
+    //   choiceOfNumber: 0,
+    //   superfluousWord: 0,
+    //   thatHasChanged: 0,
+    //   choiceOfImage: 0,
+    //   choicePair: 0,
+    // }
     this.game = {};
     this.lessonStat = [];
 
     this.startTime = new Date().getTime();
+  }
+
+  getLesson() {
+    const obj = {
+      lesson: lessonsMap[this.lesson],
+      current: 0,
+    }
+    return obj
   }
 
   getPlayer() {

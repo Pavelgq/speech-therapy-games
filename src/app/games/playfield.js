@@ -124,16 +124,16 @@ export default class Playfield extends EventEmitter {
       (spaceFree - (maxSideCubes + 1) * 10) / maxSideCubes,
     )
     const spaceAroundY = Math.floor(
-      (this.height -
-        (size * taskHeight +
-          this.spaceBetweenFields * (taskHeight - 1))) /
-      2,
+      (this.height
+        - (size * taskHeight
+          + this.spaceBetweenFields * (taskHeight - 1)))
+      / 2,
     )
     const spaceAroundX = Math.floor(
-      (width -
-        (size * taskWidth +
-          this.spaceBetweenFields * (taskWidth - 1))) /
-      2,
+      (width
+        - (size * taskWidth
+          + this.spaceBetweenFields * (taskWidth - 1)))
+      / 2,
     )
 
     const targetTasks = this.model.targetTasks.slice();

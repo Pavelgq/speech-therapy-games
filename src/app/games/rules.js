@@ -1,3 +1,8 @@
+import func from '../utils/utils';
+
+const {
+  shuffle,
+} = func;
 export default class Rules {
   constructor(appModel) {
     this.title = 'Название игры';
@@ -24,7 +29,7 @@ export default class Rules {
    * @param {Array} otherWords
    */
   addOtherParts(targetTasks, otherWords = []) {
-    const res = []
+    let res = []
     const currentData = otherWords.slice();
     const length = this.targetTasksParam.width * this.targetTasksParam.height;
     while (length > targetTasks.length) {
@@ -35,12 +40,7 @@ export default class Rules {
         currentData.splice(ind, 1);
       }
     }
-
-    for (let j = 0; j < length; j++) {
-      const n = Math.floor(Math.random() * targetTasks.length);
-      res.push(targetTasks[n]);
-      targetTasks.splice(n, 1);
-    }
+    [res] = shuffle([targetTasks]);
 
     return res;
   }

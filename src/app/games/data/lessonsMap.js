@@ -57,24 +57,35 @@
 const lessonsMap = [
   [
     {
-      game: 'choiceOfSyllable',
-      type: 0,
+      game: 'wordOfSyllables',
+      type: 1,
+      level: 0,
     },
     {
-      game: 'wordOfSyllables',
+      game: 'choiceOfSyllable',
       type: 0,
+      level: 0,
+    },
+    {
+      game: 'choiceOfWord',
+      type: 0,
+      level: 0,
+    },
+    {
+      game: 'choiceOfWord',
+      // game: 'choisePair',
+      type: 1,
+      level: 0,
     },
     {
       game: 'wordOfSyllables',
       type: 1,
+      level: 0,
     },
     {
-      game: 'wordOfSyllables',
-      type: 2,
-    },
-    {
-      game: 'wordOfSyllables',
+      game: 'choicePair',
       type: 0,
+      level: 0,
     },
   ],
 
@@ -89,3 +100,5 @@ const gamesData = [
   'thatHasChanged',
   'choiceOfImage',
 ];
+
+export default lessonsMap;

@@ -28,7 +28,7 @@ export default class App extends EventEmitter {
 
     this.state = 'play'; // pause, end
 
-    this.task = 1;
+
 
     this.games = 7;
 
@@ -48,7 +48,7 @@ export default class App extends EventEmitter {
       this.view.resize()
     }
 
-    this.backSound = playSound(backSound, true, 0.3, console.log)
+    this.backSound = playSound(backSound, true, 0.1, console.log)
     this.backSound.play()
     this.view.startScreen();
     this.view.render();
@@ -69,9 +69,10 @@ export default class App extends EventEmitter {
    */
   next() {
     // const id = Math.floor(Math.random() * this.games);
-    const id = 5
-    this.view.createGame(id, this.task);
-    this.view.lessonScreen(this.model.player.lessons + 1, this.task, this.model.game.model);
+    const currentTask = this.model.plan.lesson[this.model.plan.current];
+    this.view.createGame(currentTask, this.model.currentTask);
+    this.view.lessonScreen(this.model.player.lessons + 1,
+      this.model.currentTask, this.model.game.model);
     // todo
     this.model.game.playfield.dispatch('compliteGame', this.complite);
     this.model.game.playfield.dispatch('aheadOfTime', this.aheadOfTime);
@@ -82,8 +83,9 @@ export default class App extends EventEmitter {
    * Метод для окончания задания и/или урока
    */
   complite(obj) {
+    this.model.plan.current += 1;
     this.model.setStatistic()
-    if (this.task < this.model.taskInLesson) {
+    if (this.model.currentTask < this.model.taskInLesson) {
       if (obj.res) {
         this.view.goodScreen()
         playSound(goodSound, false, 0.8, this.next).play();
@@ -91,9 +93,9 @@ export default class App extends EventEmitter {
         this.view.badScreen()
         playSound(badSound, false, 0.8, this.next).play();
       }
-      this.task += 1;
+      this.model.currentTask += 1;
     } else {
-      this.task = 1;
+      this.model.currentTask = 1;
       this.model.lesson += 1;
       const statistic = this.model.getStatistic();
       this.view.endLesson();
@@ -108,7 +110,7 @@ export default class App extends EventEmitter {
    */
   aheadOfTime() {
     this.model.setStatistic()
-    this.task = 1;
+    this.model.currentTask = 1;
     const statistic = this.model.getStatistic();
     this.view.endLesson();
     this.emit('addLesson', statistic);

@@ -20,7 +20,7 @@ export default class ChainGame extends Rules {
   createTask(type) {
     this.result = [];
     const { words } = this.dataGame.types[type];
-    const targetTasks = [];
+    let targetTasks = [];
     this.lastAnswers = [];
     const index = Math.floor(Math.random() * words.length);
     const { length } = words[index].syllable;

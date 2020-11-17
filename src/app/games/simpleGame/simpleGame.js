@@ -1,5 +1,9 @@
 import Rules from '../rules';
+import func from '../../utils/utils';
 
+const {
+  shuffle,
+} = func;
 export default class SimpleGame extends Rules {
   constructor(appModel, dataGame, taskNumber) {
     super(appModel);
@@ -7,7 +11,7 @@ export default class SimpleGame extends Rules {
     this.rules = dataGame.rulesSound;
     this.conditionsWin = dataGame.win;
     this.targetTasks = [];
-    this.targetTasksParam = dataGame.levels[this.player.level];
+    this.targetTasksParam = dataGame.levels[appModel.plan.lesson[appModel.plan.current].level];
     this.targetImages = [];
     this.lastAnswers = [];
     this.answer = {};
@@ -18,26 +22,34 @@ export default class SimpleGame extends Rules {
   }
 
   createTask(type) {
-    const { words } = this.dataGame.types[type];
-    const targetTasks = [];
-    for (let k = 0; k < this.targetTasksParam.parts; k++) {
-      const index = Math.floor(Math.random() * words.length);
-      const { length } = words[index].syllable;
-      if (targetTasks.length + length
-         <= this.targetTasksParam.width * this.targetTasksParam.height) {
-        targetTasks.push(...words[index].syllable);
-        this.lastAnswers.push({
-          word: words[index].syllable[0],
-          audio: words[index].audio,
-        });
+    let { words } = this.dataGame.types[type];
+    [words] = shuffle([words]);
+    let targetTasks = [];
+    let index = 0;
+    const countCell = this.targetTasksParam.width * this.targetTasksParam.height;
+    for (let k = 0; k < countCell; k++) {
+      if (targetTasks.length < countCell) {
+        targetTasks.push(words[index].syllable.join(''));
+        if (words[index].syllable) {
+          this.lastAnswers.push({
+            word: words[index].syllable.join(''),
+            audio: words[index].audio,
+          });
+        }
         this.targetImages.push(words[index].image);
-
-        words[index].used = true;
+        // words[index].used = true;
+      }
+      if (k < words.length) {
+        index += 1;
+      } else {
+        words = this.dataGame.types[type].data
+        index = 0;
       }
     }
     [this.answer] = this.lastAnswers;
     this.lastAnswers.splice(0, 1);
-    return this.addOtherParts(targetTasks, this.dataGame.types[type].data);
+    [targetTasks] = shuffle([targetTasks]);
+    return targetTasks
   }
 
   refresh(type) {

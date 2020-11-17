@@ -26,9 +26,10 @@ export default class PairGame extends Rules {
   }
 
   createTask(type) {
-    const {
+    let {
       words,
     } = this.dataGame.types[type];
+    [words] = shuffle([words])
     let targetTasks = [];
     this.lastAnswers = [];
     this.result = [];
@@ -41,7 +42,7 @@ export default class PairGame extends Rules {
         close: false,
         ready: false,
       });
-      const index = Math.floor(Math.random() * words.length);
+      const index = k;
       if (targetTasks.length < this.targetTasksParam.width * this.targetTasksParam.height) {
         targetTasks.push(...words[index].syllable, ...words[index].syllable);
         this.lastAnswers.push({

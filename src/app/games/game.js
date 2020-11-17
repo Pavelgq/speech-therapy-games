@@ -36,19 +36,18 @@ const gamesData = {
 };
 
 export default class Game extends EventEmitter {
-  constructor(canvas, viewPort, appModel, stage, numberGame, taskNumber) {
+  constructor(canvas, viewPort, appModel, stage, task, taskNumber) {
     super();
     this.canvas = canvas;
     this.viewPort = viewPort;
     // this.stage = new PIXI.Container();
     this.stage = stage;
-    const nameGame = Object.keys(gamesData)[numberGame]
-    this.gameFactory(appModel, nameGame, taskNumber);
+    this.gameFactory(appModel, task.game, taskNumber);
     this.appModel = appModel;
 
     // this.ticker = ticker;
 
-    this.rules = gamesData[nameGame].rulesSound;
+    this.rules = gamesData[task.game].rulesSound;
     this.render = this.render.bind(this);
     this.run = this.run.bind(this);
     this.refresh = this.refresh.bind(this);
@@ -68,7 +67,7 @@ export default class Game extends EventEmitter {
 
   createTask() {
     this.model.targetTasks = this.model.createTask(
-      this.appModel.typeInGame[this.model.dataGame.name],
+      this.appModel.plan.lesson[this.appModel.plan.current].type,
     )
   }
 
