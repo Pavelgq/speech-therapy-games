@@ -93,9 +93,10 @@ const getProgressBar = (percent, style, x, y, width, height, border) => {
 const getButton = (text, backColor, textStyle, x, y, border) => {
   const result = new PIXI.Container();
 
-  const textField = getTextField(text, textStyle, x, y, 'left');
+  const textField = getTextField(text, textStyle, x, y, 'center');
   const textMetrics = PIXI.TextMetrics.measureText(text, textStyle);
-  const rect = getRect(x - border / 2, y - border / 2, backColor, textMetrics.height + border,
+  const rect = getRect(x - (textMetrics.width + border) / 2, y - (textMetrics.height + border) / 2,
+    backColor, textMetrics.height + border,
     textMetrics.width + border, textMetrics.height + border);
   result.addChild(rect, textField);
   result.interactive = true;
@@ -107,6 +108,41 @@ const getButton = (text, backColor, textStyle, x, y, border) => {
     result.children[0].alpha = 1
   })
   return result;
+}
+
+/**
+ *
+ * @param {PIXI.Texture} icon
+ * @param {String} backColor
+ * @param {PIXI.TextStyle} textStyle
+ * @param {Number} x
+ * @param {Number} y
+ * @param {Number} border
+ * @return {PIXI.Container}
+ */
+const getButtonWithIcon = (icon, backColor, textStyle, x, y, border) => {
+  const result = new PIXI.Container();
+  const button = icon
+  button.height = 100;
+  button.width = 100;
+  button.x = 100;
+  button.y = 100;
+
+  console.log(button.getGlobalPosition())
+  // const rect = getRect(x - (textMetrics.width + border) / 2, y - (textMetrics.height + border) / 2,
+  //   backColor, textMetrics.height + border,
+  //   textMetrics.width + border, textMetrics.height + border);
+  const rect = getRect(x, y, '#123123', 10, 100, 100)
+  result.addChild(rect, button);
+  result.interactive = true;
+  result.buttonMode = true;
+  result.on('pointerover', () => {
+    result.children[0].alpha = 0.5
+  })
+  result.on('pointerout', () => {
+    result.children[0].alpha = 1
+  })
+  return button;
 }
 
 /**
@@ -182,6 +218,7 @@ export default {
   getRect,
   getProgressBar,
   getButton,
+  getButtonWithIcon,
   getBorder,
   getCell,
   getPicture,

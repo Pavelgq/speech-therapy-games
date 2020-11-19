@@ -3,7 +3,7 @@ import EventEmitter from './utils/eventEmmiter';
 import v from './viewElements';
 import Game from './games/game';
 import Timer from './utils/timer';
-
+const fullscreenIcon = require('../assets/icons/fullscreen.svg')
 export default class View extends EventEmitter {
   constructor(model, wrapper) {
     super();
@@ -41,7 +41,10 @@ export default class View extends EventEmitter {
     this.render = this.render.bind(this);
     this.inFullscreen = false;
     this.screenElement = null;
-    this.fullscreenBtn = v.getButton('fullscreen', '0x2a9c9d', this.textStyle, 100, 20, 15);
+    const icon = PIXI.Texture.from(fullscreenIcon)
+    const sprite = new PIXI.Sprite(icon);
+    this.fullscreenBtn = v.getButtonWithIcon(sprite, '0x2a9c9d', this.textStyle, 100, 20, 15);
+
     this.stage.addChild(this.fullscreenBtn)
     this.ticker.add(this.render)
     this.timerToButton = this.timerToButton.bind(this);
@@ -51,8 +54,8 @@ export default class View extends EventEmitter {
     this.fullscreenBtn.on('pointerup', this.onDragEnd);
     this.border = v.getBorder('0x2a9c9d', this.viewPort.width, this.viewPort.height, 4)
 
-    document.cancelFullScreen = document.cancelFullScreen
-    || document.webkitCancelFullScreen || document.mozCancelFullScreen;
+    document.cancelFullScreen = document.cancelFullScreen ||
+      document.webkitCancelFullScreen || document.mozCancelFullScreen;
   }
 
   startScreen() {
@@ -74,7 +77,7 @@ export default class View extends EventEmitter {
     textStyle.fontSize = this.fontSizeSmall;
     const textButton = v.getTextField(h2, this.textStyle, center.x, center.y + this.fontSizeBig, 'center');
 
-    this.startButton = v.getButton('Начать', '0x2a9c9d', this.textStyle, center.x - 70, center.y + this.fontSizeBig * 2, 15);
+    this.startButton = v.getButton('Начать', '0x2a9c9d', this.textStyle, center.x, center.y + this.fontSizeBig * 3, 15);
 
     this.startButton.on('pointerdown', () => {
       this.emit('startGame', {
@@ -82,7 +85,7 @@ export default class View extends EventEmitter {
       });
     });
 
-    this.backButton = v.getButton('Выйти', '0x2a9c9d', this.textStyle, center.x - 65, center.y + this.fontSizeBig * 4, 15);
+    this.backButton = v.getButton('Выйти', '0x2a9c9d', this.textStyle, center.x, center.y + this.fontSizeBig * 5, 15);
 
     this.backButton.on('pointerdown', () => {
       this.emit('exitGame', {
