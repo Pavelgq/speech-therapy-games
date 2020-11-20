@@ -42,8 +42,8 @@ export default class View extends EventEmitter {
     this.inFullscreen = false;
     this.screenElement = null;
     const icon = PIXI.Texture.from(fullscreenIcon)
-    const sprite = new PIXI.Sprite(icon);
-    this.fullscreenBtn = v.getButtonWithIcon(sprite, '0x2a9c9d', this.textStyle, 100, 20, 15);
+    const sprite = new PIXI.Sprite(PIXI.Texture.from(fullscreenIcon));
+    this.fullscreenBtn = v.getButtonWithIcon(sprite, '0x2a9c9d', this.textStyle, 100, 20, 50);
 
     this.stage.addChild(this.fullscreenBtn)
     this.ticker.add(this.render)

@@ -127,12 +127,9 @@ const getButtonWithIcon = (icon, backColor, textStyle, x, y, border) => {
   button.width = 100;
   button.x = 100;
   button.y = 100;
-
-  console.log(button.getGlobalPosition())
-  // const rect = getRect(x - (textMetrics.width + border) / 2, y - (textMetrics.height + border) / 2,
-  //   backColor, textMetrics.height + border,
-  //   textMetrics.width + border, textMetrics.height + border);
-  const rect = getRect(x, y, '#123123', 10, 100, 100)
+  const rect = getRect(button.x - (border) / 2, button.y - (border) / 2,
+    backColor, button.height + border,
+    button.width + border, button.height + border);
   result.addChild(rect, button);
   result.interactive = true;
   result.buttonMode = true;
@@ -142,7 +139,7 @@ const getButtonWithIcon = (icon, backColor, textStyle, x, y, border) => {
   result.on('pointerout', () => {
     result.children[0].alpha = 1
   })
-  return button;
+  return result;
 }
 
 /**
