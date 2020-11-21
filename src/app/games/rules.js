@@ -35,8 +35,15 @@ export default class Rules {
     while (length > targetTasks.length) {
       const ind = Math.floor(Math.random() * currentData.length);
       const metka = currentData[ind].used;
+      let index = 0;
       if (!metka) {
-        targetTasks.push(...currentData[ind].syllable);
+        while (targetTasks.length < length
+          && index < currentData[ind].syllable.length) {
+          if (!targetTasks.includes(currentData[ind].syllable[index])) {
+            targetTasks.push(currentData[ind].syllable[index]);
+          }
+          index += 1;
+        }
         currentData.splice(ind, 1);
       }
     }

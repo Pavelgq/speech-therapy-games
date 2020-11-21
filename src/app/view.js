@@ -52,7 +52,7 @@ export default class View extends EventEmitter {
 
     const sprite = new PIXI.Sprite(PIXI.Texture.from(fullscreenIcon));
     this.fullscreenBtn = v.getButtonWithIcon(sprite, '0x2a9c9d', this.textStyle, this.viewPort.width / 30, this.viewPort.height / 20, this.fontSizeSmall);
-    this.stage.addChild(this.fullscreenBtn)
+    // this.stage.addChild(this.fullscreenBtn)
     this.fullscreenBtn.on('pointerup', this.onDragEnd);
     this.border = v.getBorder('0x2a9c9d', this.viewPort.width, this.viewPort.height, 4)
 
@@ -79,7 +79,7 @@ export default class View extends EventEmitter {
     textStyle.fontSize = this.fontSizeSmall;
     const textButton = v.getTextField(h2, this.textStyle, center.x, center.y + this.fontSizeBig, 'center');
 
-    this.startButton = v.getButton('Начать', '0x2a9c9d', this.textStyle, center.x, center.y + this.fontSizeBig * 3, 15);
+    this.startButton = v.getButton('Начать', '0x2a9c9d', this.textStyle, center.x, center.y + this.fontSizeBig * 3, this.fontSizeSmall);
 
     this.startButton.on('pointerdown', () => {
       this.emit('startGame', {
@@ -87,7 +87,7 @@ export default class View extends EventEmitter {
       });
     });
 
-    this.backButton = v.getButton('Выйти', '0x2a9c9d', this.textStyle, center.x, center.y + this.fontSizeBig * 5, 15);
+    this.backButton = v.getButton('Выйти', '0x2a9c9d', this.textStyle, center.x, center.y + this.fontSizeBig * 5, this.fontSizeSmall);
 
     this.backButton.on('pointerdown', () => {
       this.emit('exitGame', {
@@ -109,7 +109,7 @@ export default class View extends EventEmitter {
       this.changeField = this.startButton;
     }
     this.stage.addChild(this.background,
-      this.border, textTop, textButton, this.changeField, this.backButton)
+      this.border, textTop, textButton, this.changeField, this.backButton, this.fullscreenBtn)
   }
 
   lessonScreen(lesson, task, gameData) {
@@ -136,7 +136,7 @@ export default class View extends EventEmitter {
     textStyle.fontSize = fontSizeSmall;
     const textBottom = v.getTextField(h2, textStyle, center.x, center.y + this.fontSizeBig, 'center');
 
-    this.stage.addChild(this.background, this.border, textTop, textBottom, this.fullscreenBtn)
+    this.stage.addChild(this.background, this.border, textTop, textBottom)
   }
 
   goodScreen() {

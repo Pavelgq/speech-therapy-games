@@ -87,7 +87,7 @@ export default class Playfield extends EventEmitter {
     this.progressBarTask = v.getProgressBar(taskProgress, this.progressBarStyle,
       10, this.fontSizeBig * 6, this.progressBar.width, this.progressBar.hight, 4);
 
-    this.finishButton = v.getButton('Завершить', '0x2a9c9d', this.textStyle, 30, this.height - this.fontSizeBig * 2 - 10, 15);
+    this.finishButton = v.getButton('Завершить', '0x2a9c9d', this.textStyle, this.width / 10, this.height - this.fontSizeBig * 2, this.fontSizeSmall);
 
     this.finishButton.interactive = true;
     this.finishButton.buttonMode = true;

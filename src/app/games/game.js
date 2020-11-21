@@ -44,7 +44,7 @@ export default class Game extends EventEmitter {
     this.stage = stage;
     this.gameFactory(appModel, task.game, taskNumber);
     this.appModel = appModel;
-
+    this.currentType = this.appModel.plan.lesson[this.appModel.plan.current].type
     // this.ticker = ticker;
 
     this.rules = gamesData[task.game].rulesSound;
@@ -67,12 +67,13 @@ export default class Game extends EventEmitter {
 
   createTask() {
     this.model.targetTasks = this.model.createTask(
-      this.appModel.plan.lesson[this.appModel.plan.current].type,
+      this.currentType,
     )
   }
 
   refresh() {
-    this.model.refresh();
+    this.currentType = this.appModel.plan.lesson[this.appModel.plan.current].type
+    this.model.refresh(this.currentType);
     this.playfield.refresh();
   }
 
@@ -160,9 +161,7 @@ export default class Game extends EventEmitter {
           setTimeout(() => {
             this.model.currentPart += 1;
             this.model.stat.correct += 1;
-            this.playfield.emit('newScreen', {
-              res: true,
-            });
+            this.playfield.emit('newScreen', {});
           }, 1000);
         }
         break;

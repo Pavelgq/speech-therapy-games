@@ -37,7 +37,7 @@ export default class ChainGame extends Rules {
   }
 
   refresh(type) {
-    this.targetTasks = this.createTask(0)
+    this.targetTasks = this.createTask(type)
   }
 
   checkAnswer(answer) {

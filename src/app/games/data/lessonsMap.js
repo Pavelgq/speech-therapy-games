@@ -57,11 +57,6 @@
 const lessonsMap = [
   [
     {
-      game: 'wordOfSyllables',
-      type: 1,
-      level: 0,
-    },
-    {
       game: 'choiceOfSyllable',
       type: 0,
       level: 0,
@@ -74,6 +69,11 @@ const lessonsMap = [
     {
       game: 'choiceOfWord',
       // game: 'choisePair',
+      type: 1,
+      level: 0,
+    },
+    {
+      game: 'wordOfSyllables',
       type: 1,
       level: 0,
     },
