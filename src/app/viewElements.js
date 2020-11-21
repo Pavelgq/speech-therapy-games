@@ -123,11 +123,11 @@ const getButton = (text, backColor, textStyle, x, y, border) => {
 const getButtonWithIcon = (icon, backColor, textStyle, x, y, border) => {
   const result = new PIXI.Container();
   const button = icon
-  button.height = 100;
-  button.width = 100;
-  button.x = 100;
-  button.y = 100;
-  const rect = getRect(button.x - (border) / 2, button.y - (border) / 2,
+  button.height = textStyle.fontSize;
+  button.width = textStyle.fontSize;
+  button.x = x;
+  button.y = y;
+  const rect = getRect(x - (border) / 2, y - (border) / 2,
     backColor, button.height + border,
     button.width + border, button.height + border);
   result.addChild(rect, button);

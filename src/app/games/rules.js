@@ -34,14 +34,13 @@ export default class Rules {
     const length = this.targetTasksParam.width * this.targetTasksParam.height;
     while (length > targetTasks.length) {
       const ind = Math.floor(Math.random() * currentData.length);
-      const metka = targetTasks.includes(currentData[ind]);
+      const metka = currentData[ind].used;
       if (!metka) {
-        targetTasks.push(currentData[ind]);
+        targetTasks.push(...currentData[ind].syllable);
         currentData.splice(ind, 1);
       }
     }
     [res] = shuffle([targetTasks]);
-
     return res;
   }
 

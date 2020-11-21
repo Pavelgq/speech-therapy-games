@@ -6,37 +6,34 @@ export default class ChainGame extends Rules {
     this.title = dataGame.title;
     this.rules = dataGame.rulesSound;
     this.conditionsWin = dataGame.win;
-    this.targetTasksParam = dataGame.levels[this.player.level];
+    this.targetTasksParam = dataGame.levels[appModel.plan.lesson[appModel.plan.current].level];
     this.lastAnswers = [];
     this.answer = {};
     this.totalTasks = appModel.taskInLesson;
     this.currentPart = 0;
     this.currentTask = taskNumber;
     this.dataGame = dataGame;
-
     this.result = [];
   }
 
   createTask(type) {
     this.result = [];
     const { words } = this.dataGame.types[type];
-    let targetTasks = [];
+    const targetTasks = [];
     this.lastAnswers = [];
     const index = Math.floor(Math.random() * words.length);
     const { length } = words[index].syllable;
-    if (targetTasks.length + length
-         <= this.targetTasksParam.width * this.targetTasksParam.height) {
+    if (length <= this.targetTasksParam.width * this.targetTasksParam.height) {
       targetTasks.push(...words[index].syllable);
       this.lastAnswers.push({
         word: words[index].word,
         syllable: words[index].syllable,
         audio: words[index].audio,
       });
-
       words[index].used = true;
     }
     [this.answer] = this.lastAnswers;
-    return this.addOtherParts(targetTasks, this.dataGame.types[type].data);
+    return this.addOtherParts(targetTasks, this.dataGame.types[type].words);
   }
 
   refresh(type) {

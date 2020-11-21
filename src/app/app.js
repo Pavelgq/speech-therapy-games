@@ -28,8 +28,6 @@ export default class App extends EventEmitter {
 
     this.state = 'play'; // pause, end
 
-
-
     this.games = 7;
 
     this.complite = this.complite.bind(this);

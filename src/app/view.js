@@ -1,9 +1,11 @@
-import * as PIXI from 'pixi.js';
+import * as PIXI from 'pixi.js-legacy'
 import EventEmitter from './utils/eventEmmiter';
 import v from './viewElements';
 import Game from './games/game';
 import Timer from './utils/timer';
+
 const fullscreenIcon = require('../assets/icons/fullscreen.svg')
+
 export default class View extends EventEmitter {
   constructor(model, wrapper) {
     super();
@@ -41,21 +43,21 @@ export default class View extends EventEmitter {
     this.render = this.render.bind(this);
     this.inFullscreen = false;
     this.screenElement = null;
-    const icon = PIXI.Texture.from(fullscreenIcon)
-    const sprite = new PIXI.Sprite(PIXI.Texture.from(fullscreenIcon));
-    this.fullscreenBtn = v.getButtonWithIcon(sprite, '0x2a9c9d', this.textStyle, 100, 20, 50);
-
-    this.stage.addChild(this.fullscreenBtn)
+    
     this.ticker.add(this.render)
     this.timerToButton = this.timerToButton.bind(this);
     this.fullscreen = this.fullscreen.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
     this.onFullscreenChange = this.onFullscreenChange.bind(this);
+
+    const sprite = new PIXI.Sprite(PIXI.Texture.from(fullscreenIcon));
+    this.fullscreenBtn = v.getButtonWithIcon(sprite, '0x2a9c9d', this.textStyle, this.viewPort.width / 30, this.viewPort.height / 20, this.fontSizeSmall);
+    this.stage.addChild(this.fullscreenBtn)
     this.fullscreenBtn.on('pointerup', this.onDragEnd);
     this.border = v.getBorder('0x2a9c9d', this.viewPort.width, this.viewPort.height, 4)
 
-    document.cancelFullScreen = document.cancelFullScreen ||
-      document.webkitCancelFullScreen || document.mozCancelFullScreen;
+    document.cancelFullScreen = document.cancelFullScreen
+      || document.webkitCancelFullScreen || document.mozCancelFullScreen;
   }
 
   startScreen() {
@@ -134,7 +136,7 @@ export default class View extends EventEmitter {
     textStyle.fontSize = fontSizeSmall;
     const textBottom = v.getTextField(h2, textStyle, center.x, center.y + this.fontSizeBig, 'center');
 
-    this.stage.addChild(this.background, this.border, textTop, textBottom)
+    this.stage.addChild(this.background, this.border, textTop, textBottom, this.fullscreenBtn)
   }
 
   goodScreen() {
