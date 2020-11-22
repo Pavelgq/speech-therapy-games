@@ -4,6 +4,11 @@ import EventEmitter from '../utils/eventEmmiter';
 import v from '../viewElements';
 import func from '../utils/utils';
 
+const notMuteIcon = require('../../assets/icons/audio-speaker-on.svg')
+const fullscreenIcon = require('../../assets/icons/fullscreen.svg')
+const muteIcon = require('../../assets/icons/mute-speaker.svg')
+const closeIcon = require('../../assets/icons/cross-sign.svg')
+
 const {
   playSound,
 } = func;
@@ -88,7 +93,8 @@ export default class Playfield extends EventEmitter {
       10, this.fontSizeBig * 6, this.progressBar.width, this.progressBar.hight, 4);
 
     this.finishButton = v.getButton('Завершить', '0x2a9c9d', this.textStyle, this.width / 10, this.height - this.fontSizeBig * 2, this.fontSizeSmall);
-
+    const sprite = new PIXI.Sprite(PIXI.Texture.from(fullscreenIcon));
+    this.fullscreenBtn = v.getButtonWithIcon(sprite, '0x2a9c9d', this.textStyle, this.width / 10, this.height - this.fontSizeBig * 2, this.fontSizeSmall);
     this.finishButton.interactive = true;
     this.finishButton.buttonMode = true;
     this.finishButton.on('pointerdown', () => {

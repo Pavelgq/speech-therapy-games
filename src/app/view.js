@@ -43,7 +43,7 @@ export default class View extends EventEmitter {
     this.render = this.render.bind(this);
     this.inFullscreen = false;
     this.screenElement = null;
-    
+
     this.ticker.add(this.render)
     this.timerToButton = this.timerToButton.bind(this);
     this.fullscreen = this.fullscreen.bind(this);
