@@ -66,6 +66,7 @@ export default class View extends EventEmitter {
 
     const h1 = `Добро пожаловать, ${this.model.player.firstName}`;
     const h2 = 'Начнем урок?';
+    const h3 = `Следующий урок через: `;
     const center = {
       x: this.viewPort.width / 2,
       y: this.viewPort.height / 2,
@@ -77,8 +78,9 @@ export default class View extends EventEmitter {
     }
     const textTop = v.getTextField(h1, this.textStyle, center.x, center.y - this.fontSizeBig, 'center');
     textStyle.fontSize = this.fontSizeSmall;
-    const textButton = v.getTextField(h2, this.textStyle, center.x, center.y + this.fontSizeBig, 'center');
-
+    const textRun = v.getTextField(h2, this.textStyle, center.x, center.y + this.fontSizeBig, 'center');
+    const textWait = v.getTextField(h3, this.textStyle, center.x, center.y + this.fontSizeBig, 'center');
+    let textBottom = textRun;
     this.startButton = v.getButton('Начать', '0x2a9c9d', this.textStyle, center.x, center.y + this.fontSizeBig * 3, this.fontSizeSmall);
 
     this.startButton.on('pointerdown', () => {
@@ -105,17 +107,18 @@ export default class View extends EventEmitter {
       this.timerField = v.getTextField(time, textStyle, center.x, center.y + this.fontSizeBig * 2, 'center');
       this.ticker.add(this.timerToButton);
       this.changeField = this.timerField;
+      textBottom = textWait;
     } else {
       this.changeField = this.startButton;
+      textBottom = textRun;
     }
     this.stage.addChild(this.background,
-      this.border, textTop, textButton, this.changeField, this.backButton, this.fullscreenBtn)
+      this.border, textTop, textBottom, this.changeField, this.backButton, this.fullscreenBtn)
   }
 
   lessonScreen(lesson, task, gameData) {
     this.ticker.remove(this.timerToButton);
     this.stage.removeChildren(0, this.stage.children.length);
-    // this.ticker.add((delta) => this.gameLoop(delta));
 
     this.background = v.getRect(0, 0, '0xffffff', 0, this.viewPort.width, this.viewPort.height);
 
@@ -142,8 +145,15 @@ export default class View extends EventEmitter {
   goodScreen() {
     this.stage.removeChildren(0, this.stage.children.length);
     // this.ticker.add((delta) => this.gameLoop(delta));
-    const h1 = 'Верно';
-    const h2 = 'Молодец';
+    const h1 = 'Молодец';
+    let h2 = 'Замечательно';
+    const wrong = this.model.game.model.stat.fail;
+    console.log(wrong);
+    if (wrong > 0 && wrong < 5) {
+      h2 = 'Хорошо';
+    } else if (wrong >= 5) {
+      h2 = 'В следующий раз получится лучше';
+    }
     const center = {
       x: this.viewPort.width / 2,
       y: this.viewPort.height / 2,
@@ -156,27 +166,6 @@ export default class View extends EventEmitter {
     const textTop = v.getTextField(h1, textStyle, center.x, center.y - this.fontSizeBig, 'center');
     textStyle.fontSize = 24;
     const textBottom = v.getTextField(h2, textStyle, center.x, center.y + this.fontSizeBig, 'center');
-    console.log('Хороший экран')
-    this.stage.addChild(this.border, textTop, textBottom)
-  }
-
-  badScreen() {
-    this.stage.removeChildren(0, this.stage.children.length);
-    // this.ticker.add((delta) => this.gameLoop(delta));
-    const h1 = 'Вот незадача';
-    const h2 = 'В следующий раз справишься';
-    const center = {
-      x: this.viewPort.width / 2,
-      y: this.viewPort.height / 2,
-    }
-    const textStyle = {
-      fontSize: 28,
-      align: 'center',
-    }
-    const textTop = v.getTextField(h1, textStyle, center.x, center.y - this.fontSizeBig, 'center');
-    textStyle.fontSize = 24;
-    const textBottom = v.getTextField(h2, textStyle, center.x, center.y + this.fontSizeBig, 'center');
-
     this.stage.addChild(this.border, textTop, textBottom)
   }
 
@@ -270,7 +259,7 @@ export default class View extends EventEmitter {
     }
   }
 
-  onFullscreenChange(e) {
+  onFullscreenChange() {
     this.inFullscreen = !this.inFullscreen;
     this.wrapper.className = this.inFullscreen ? 'fullscreen' : '';
   }

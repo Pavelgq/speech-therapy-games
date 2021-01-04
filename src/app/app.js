@@ -1,6 +1,5 @@
 // import EventEmitter from './utils/eventEmmiter';
 import {
-  Howl,
 } from 'howler';
 import EventEmitter from './utils/eventEmmiter';
 import Model from './model';
@@ -10,7 +9,6 @@ import func from './utils/utils';
 
 const {
   playSound,
-  send,
 } = func;
 
 const backSound = require('../assets/audio/background.mp3');
