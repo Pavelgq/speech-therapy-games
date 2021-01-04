@@ -61,12 +61,11 @@ export default class View extends EventEmitter {
   }
 
   startScreen() {
-    // this.ticker.add((delta) => this.gameLoop(delta));
     this.background = v.getRect(0, 0, '0xffffff', 0, this.viewPort.width, this.viewPort.height);
 
     const h1 = `Добро пожаловать, ${this.model.player.firstName}`;
     const h2 = 'Начнем урок?';
-    const h3 = `Следующий урок через: `;
+    const h3 = 'Следующий урок через: ';
     const center = {
       x: this.viewPort.width / 2,
       y: this.viewPort.height / 2,
@@ -148,7 +147,6 @@ export default class View extends EventEmitter {
     const h1 = 'Молодец';
     let h2 = 'Замечательно';
     const wrong = this.model.game.model.stat.fail;
-    console.log(wrong);
     if (wrong > 0 && wrong < 5) {
       h2 = 'Хорошо';
     } else if (wrong >= 5) {

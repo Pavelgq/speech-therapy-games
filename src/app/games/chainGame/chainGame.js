@@ -21,7 +21,12 @@ export default class ChainGame extends Rules {
     const { words } = this.dataGame.types[type];
     const targetTasks = [];
     this.lastAnswers = [];
-    const index = Math.floor(Math.random() * words.length);
+    let index = Math.floor(Math.random() * words.length);
+    let steps = 0;
+    while (words[index].used && steps <= words.length) {
+      index = Math.floor(Math.random() * words.length);
+      steps++;
+    }
     const { length } = words[index].syllable;
     if (length <= this.targetTasksParam.width * this.targetTasksParam.height) {
       targetTasks.push(...words[index].syllable);
