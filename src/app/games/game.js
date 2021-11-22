@@ -1,4 +1,3 @@
-import * as PIXI from 'pixi.js';
 import EventEmitter from '../utils/eventEmmiter';
 import Playfield from './playfield';
 
@@ -40,13 +39,10 @@ export default class Game extends EventEmitter {
     super();
     this.canvas = canvas;
     this.viewPort = viewPort;
-    // this.stage = new PIXI.Container();
     this.stage = stage;
     this.gameFactory(appModel, task.game, taskNumber);
     this.appModel = appModel;
     this.currentType = this.appModel.plan.lesson[this.appModel.plan.current].type
-    // this.ticker = ticker;
-
     this.rules = gamesData[task.game].rulesSound;
     this.render = this.render.bind(this);
     this.run = this.run.bind(this);
@@ -59,9 +55,6 @@ export default class Game extends EventEmitter {
     this.playfield.create();
 
     this.playfield.dispatch('newScreen', this.refresh)
-
-    // this.ticker.add(this.render);
-
     this.playfield.dispatch('selectedAnswer', this.selectGame);
   }
 
@@ -81,6 +74,9 @@ export default class Game extends EventEmitter {
     this.canvas.render(this.stage);
   }
 
+  /**
+   * Обертка над функцией отображения
+   */
   gameLoop() {
     this.render();
   }
