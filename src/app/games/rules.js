@@ -1,11 +1,9 @@
-import func from '../utils/utils';
+import func from "../utils/utils";
 
-const {
-  shuffle,
-} = func;
+const { shuffle } = func;
 export default class Rules {
   constructor(appModel) {
-    this.title = 'Название игры';
+    this.title = "Название игры";
     this.player = appModel.player;
     this.reaction = [];
     this.stat = {
@@ -13,9 +11,9 @@ export default class Rules {
       correct: 0,
       fail: 0,
       reaction: 0,
-      game: '',
+      game: "",
       type: 0,
-    }
+    };
     this.addReaction = this.addReaction.bind(this);
     this.setReaction = this.setReaction.bind(this);
 
@@ -29,7 +27,7 @@ export default class Rules {
    * @param {Array} otherWords
    */
   addOtherParts(targetTasks, otherWords = []) {
-    let res = []
+    let res = [];
     const currentData = otherWords.slice();
     const length = this.targetTasksParam.width * this.targetTasksParam.height;
     while (length > targetTasks.length) {
@@ -37,8 +35,10 @@ export default class Rules {
       const metka = currentData[ind].used;
       let index = 0;
       if (!metka) {
-        while (targetTasks.length < length
-          && index < currentData[ind].syllable.length) {
+        while (
+          targetTasks.length < length &&
+          index < currentData[ind].syllable.length
+        ) {
           if (!targetTasks.includes(currentData[ind].syllable[index])) {
             targetTasks.push(currentData[ind].syllable[index]);
           }
@@ -59,21 +59,21 @@ export default class Rules {
     const time = new Date().getTime();
 
     this.reaction.push(time - this.startCount);
-    console.log(this.reaction)
+    console.log(this.reaction);
     this.startCount = 0;
   }
 
   getStatistic() {
     let sum = 0;
     if (this.reaction.length) {
-      sum = this.reaction.reduce((prev, cur) => prev + cur)
+      sum = this.reaction.reduce((prev, cur) => prev + cur);
       this.stat.reaction = Math.floor(sum / this.reaction.length);
     } else {
       this.stat.reaction = 0;
     }
     this.stat.tasks = this.targetTasksParam.parts;
     this.stat.game = this.title;
-    console.log(this.stat)
+    console.log(this.stat);
   }
 
   getBonus() {

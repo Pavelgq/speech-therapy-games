@@ -1,4 +1,5 @@
-import * as PIXI from 'pixi.js';
+import * as PIXI from "pixi.js";
+import colors from "./colors";
 
 /**
  * Формирует текстовое поле
@@ -11,30 +12,30 @@ import * as PIXI from 'pixi.js';
  */
 const getTextField = (text, style, x, y, align) => {
   const textStyle = new PIXI.TextStyle({
-    fontFamily: style.fontFamily || 'Arial',
+    fontFamily: style.fontFamily || "Arial",
     fontSize: style.fontSize || 10,
-    fill: style.colot || '0x2a9c9d',
-    align: style.align || 'center',
-  })
+    fill: style.color || colors.textColor,
+    align: style.align || "center",
+  });
 
-  const score = new PIXI.Text(text, textStyle)
-  const textMetrics = PIXI.TextMetrics.measureText(text, textStyle)
+  const score = new PIXI.Text(text, textStyle);
+  const textMetrics = PIXI.TextMetrics.measureText(text, textStyle);
 
   switch (align) {
-    case 'center':
-      score.x = x - textMetrics.width / 2
-      score.y = y - textMetrics.height / 2
+    case "center":
+      score.x = x - textMetrics.width / 2;
+      score.y = y - textMetrics.height / 2;
       break;
-    case 'left':
-      score.x = x
-      score.y = y
+    case "left":
+      score.x = x;
+      score.y = y;
       break;
     default:
       break;
   }
 
   return score;
-}
+};
 
 /**
  * Строит прямоугольник со скругленными краями
@@ -47,11 +48,11 @@ const getTextField = (text, style, x, y, align) => {
  * @return {PIXI.Graphics}
  */
 const getRect = (x, y, color, rad, width, height) => {
-  const rect = new PIXI.Graphics()
-  rect.beginFill(color, 0.5)
-  rect.drawRoundedRect(x, y, width, height, rad)
+  const rect = new PIXI.Graphics();
+  rect.beginFill(color, 0.5);
+  rect.drawRoundedRect(x, y, width, height, rad);
   return rect;
-}
+};
 
 /**
  * Строит прогрессбар по заданным параметрам
@@ -66,19 +67,20 @@ const getRect = (x, y, color, rad, width, height) => {
  */
 const getProgressBar = (percent, style, x, y, width, height, border) => {
   const result = new PIXI.Container();
-  const outSide = getRect(x, y,
-    style.inColor,
-    height, width, height);
+  const outSide = getRect(x, y, style.inColor, height, width, height);
 
-  const inSide = getRect(x + border, y + border,
+  const inSide = getRect(
+    x + border,
+    y + border,
     style.outColor,
     height - border * 2,
     (width - border * 2) * percent,
-    height - border * 2);
+    height - border * 2
+  );
 
   result.addChild(outSide, inSide);
   return result;
-}
+};
 
 /**
  *
@@ -93,22 +95,27 @@ const getProgressBar = (percent, style, x, y, width, height, border) => {
 const getButton = (text, backColor, textStyle, x, y, border) => {
   const result = new PIXI.Container();
 
-  const textField = getTextField(text, textStyle, x, y, 'center');
+  const textField = getTextField(text, textStyle, x, y, "center");
   const textMetrics = PIXI.TextMetrics.measureText(text, textStyle);
-  const rect = getRect(x - (textMetrics.width + border) / 2, y - (textMetrics.height + border) / 2,
-    backColor, textMetrics.height + border,
-    textMetrics.width + border, textMetrics.height + border);
+  const rect = getRect(
+    x - (textMetrics.width + border) / 2,
+    y - (textMetrics.height + border) / 2,
+    backColor,
+    textMetrics.height + border,
+    textMetrics.width + border,
+    textMetrics.height + border
+  );
   result.addChild(rect, textField);
   result.interactive = true;
   result.buttonMode = true;
-  result.on('pointerover', () => {
-    result.children[0].alpha = 0.5
-  })
-  result.on('pointerout', () => {
-    result.children[0].alpha = 1
-  })
+  result.on("pointerover", () => {
+    result.children[0].alpha = 0.5;
+  });
+  result.on("pointerout", () => {
+    result.children[0].alpha = 1;
+  });
   return result;
-}
+};
 
 /**
  *
@@ -122,25 +129,30 @@ const getButton = (text, backColor, textStyle, x, y, border) => {
  */
 const getButtonWithIcon = (icon, backColor, textStyle, x, y, border) => {
   const result = new PIXI.Container();
-  const button = icon
+  const button = icon;
   button.height = textStyle.fontSize;
   button.width = textStyle.fontSize;
   button.x = x;
   button.y = y;
-  const rect = getRect(x - (border) / 2, y - (border) / 2,
-    backColor, button.height + border,
-    button.width + border, button.height + border);
+  const rect = getRect(
+    x - border / 2,
+    y - border / 2,
+    backColor,
+    button.height + border,
+    button.width + border,
+    button.height + border
+  );
   result.addChild(rect, button);
   result.interactive = true;
   result.buttonMode = true;
-  result.on('pointerover', () => {
-    result.children[0].alpha = 0.5
-  })
-  result.on('pointerout', () => {
-    result.children[0].alpha = 1
-  })
+  result.on("pointerover", () => {
+    result.children[0].alpha = 0.5;
+  });
+  result.on("pointerout", () => {
+    result.children[0].alpha = 1;
+  });
   return result;
-}
+};
 
 /**
  *
@@ -154,7 +166,7 @@ const getBorder = (color, width, height, lineSize) => {
   b.lineStyle(lineSize, color, 1);
   b.drawRect(lineSize / 2, lineSize / 2, width - lineSize, height - lineSize);
   return b;
-}
+};
 
 /**
  *
@@ -166,16 +178,16 @@ const getBorder = (color, width, height, lineSize) => {
  * @param {Number} rad
  */
 const getCell = (backColor, borderColor, x, y, size, rad) => {
-  const rect = new PIXI.Graphics()
-  rect.lineStyle(2, borderColor, 1)
-  rect.position.x = x
-  rect.position.y = y
-  rect.beginFill(backColor, 0.5)
-  rect.drawRoundedRect(0, 0, size, size, rad)
-  rect.endFill()
+  const rect = new PIXI.Graphics();
+  rect.lineStyle(2, borderColor, 1);
+  rect.position.x = x;
+  rect.position.y = y;
+  rect.beginFill(backColor, 0.5);
+  rect.drawRoundedRect(0, 0, size, size, rad);
+  rect.endFill();
 
   return rect;
-}
+};
 
 /**
  *
@@ -193,22 +205,22 @@ const getPicture = (url, size, x, y) => {
   picture.y = y;
   // const container = new PIXI.Container();
   // container.addChild(picture)
-  return picture
-}
+  return picture;
+};
 
 const selectGoodCell = (cell) => {
   const object = cell;
-  object.tint = '0x2a9c9d'
-}
+  object.tint = colors.good;
+};
 
 const selectBadCell = (cell) => {
   const object = cell;
-  object.tint = '0xf36273';
+  object.tint = colors.bad;
   setTimeout(() => {
-    object.tint = '0xfdb078';
+    object.tint = colors.card;
     object.alpha = 0.5;
   }, 1000);
-}
+};
 
 export default {
   getTextField,
@@ -221,4 +233,4 @@ export default {
   getPicture,
   selectGoodCell,
   selectBadCell,
-}
+};

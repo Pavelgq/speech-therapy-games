@@ -55,82 +55,84 @@
  */
 
 const lessonsMap = [
-  [ // lesson 1
+  [
+    // lesson 1
     {
-      game: 'choiceOfSyllable',
+      game: "choiceOfSyllable",
       type: 0,
       level: 0,
     },
     {
-      game: 'choiceOfWord',
+      game: "choiceOfWord",
       type: 0,
       level: 0,
     },
     {
-      game: 'choiceOfWord',
+      game: "choiceOfWord",
       // game: 'choisePair',
       type: 1,
       level: 0,
     },
     {
-      game: 'wordOfSyllables',
+      game: "wordOfSyllables",
       type: 1,
       level: 0,
     },
     {
-      game: 'wordOfSyllables',
+      game: "wordOfSyllables",
       type: 1,
       level: 0,
     },
     {
-      game: 'choicePair',
+      game: "choicePair",
       type: 0,
       level: 0,
     },
   ],
-  [ // lesson 2
+  [
+    // lesson 2
     {
-      game: 'choiceOfSyllable',
+      game: "choiceOfSyllable",
       type: 0,
       level: 0,
     },
     {
-      game: 'choiceOfWord',
+      game: "choiceOfWord",
       type: 0,
       level: 0,
     },
     {
-      game: 'choiceOfWord',
+      game: "choiceOfWord",
       // game: 'choisePair',
       type: 1,
       level: 0,
     },
     {
-      game: 'wordOfSyllables',
+      game: "wordOfSyllables",
       type: 1,
       level: 0,
     },
     {
-      game: 'wordOfSyllables',
+      game: "wordOfSyllables",
       type: 1,
       level: 0,
     },
     {
-      game: 'choicePair',
+      game: "choicePair",
       type: 0,
       level: 0,
     },
   ],
-]
+];
 
 const gamesData = [
-  'wordOfSyllables',
-  'choiceOfWord',
-  'choiceOfSyllable',
-  'choiceOfNumber',
-  'superfluousWord',
-  'thatHasChanged',
-  'choiceOfImage',
+  "wordOfSyllables",
+  "choiceOfWord",
+  "choiceOfSyllable",
+  "choiceOfNumber",
+  "superfluousWord",
+  "thatHasChanged",
+  "choiceOfImage",
 ];
 
 export default lessonsMap;

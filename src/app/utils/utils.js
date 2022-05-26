@@ -1,6 +1,4 @@
-import {
-  Howl,
-} from 'howler';
+import { Howl } from 'howler';
 
 const playSound = (path, loop, vol, func, arg = null) => {
   const sound = new Howl({
@@ -9,15 +7,15 @@ const playSound = (path, loop, vol, func, arg = null) => {
     loop,
     volume: vol,
     onend() {
-      func(arg)
+      func(arg);
     },
-  })
-  return sound
-}
+  });
+  return sound;
+};
 
 const loadFile = (url) => {
-  fetch(url).then((res) => res)
-}
+  fetch(url).then((res) => res);
+};
 
 function delay(f, ms) {
   return function () {
@@ -26,7 +24,7 @@ function delay(f, ms) {
 }
 
 const send = async (obj, url) => {
-  const token = localStorage.getItem('user-token')
+  const token = localStorage.getItem('user-token');
   const response = await fetch(url, {
     method: 'POST',
     headers: {
@@ -38,29 +36,29 @@ const send = async (obj, url) => {
 
   const result = await response.json();
   console.log(result);
-  return result
-}
+  return result;
+};
 
 const checkYesterday = (yesterday, today) => {
   let backDate = 0;
   if (typeof yesterday === 'string') {
     backDate = Date.parse(yesterday);
   } else {
-    backDate = yesterday.getTime()
+    backDate = yesterday.getTime();
   }
   const period = today.getTime() - backDate;
   if (period < 48 * 60 * 60 * 1000 && period > 24 * 60 * 60 * 1000) {
     return true;
   }
   return false;
-}
+};
 
 const addZero = (num) => {
   if (num <= 9) {
     return `0${Math.abs(num)}`;
   }
   return `${Math.abs(num)}`;
-}
+};
 
 /**
  * Случайным образом, одинаково для каждого сортирует переданные массивы
@@ -77,7 +75,7 @@ const shuffle = (arrays) => {
     }
   }
   return result;
-}
+};
 
 export default {
   playSound,

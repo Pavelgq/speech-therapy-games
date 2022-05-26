@@ -11,8 +11,10 @@ export default class EventEmitter {
     this.events[eventName].push(fn);
 
     return () => {
-      this.events[eventName] = this.events[eventName].filter((eventFn) => fn !== eventFn);
-    }
+      this.events[eventName] = this.events[eventName].filter(
+        (eventFn) => fn !== eventFn
+      );
+    };
   }
 
   emit(eventName, data) {

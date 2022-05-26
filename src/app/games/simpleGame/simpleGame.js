@@ -1,9 +1,7 @@
 import Rules from '../rules';
 import func from '../../utils/utils';
 
-const {
-  shuffle,
-} = func;
+const { shuffle } = func;
 export default class SimpleGame extends Rules {
   constructor(appModel, dataGame, taskNumber) {
     super(appModel);
@@ -42,17 +40,17 @@ export default class SimpleGame extends Rules {
       if (k < words.length) {
         index += 1;
       } else {
-        words = this.dataGame.types[type].data
+        words = this.dataGame.types[type].data;
         index = 0;
       }
     }
     [this.answer] = this.lastAnswers;
     this.lastAnswers.splice(0, 1);
     [targetTasks] = shuffle([targetTasks]);
-    return targetTasks
+    return targetTasks;
   }
 
-  refresh(type) {
+  refresh() {
     [this.answer] = this.lastAnswers;
     this.lastAnswers.splice(0, 1);
   }
@@ -60,9 +58,9 @@ export default class SimpleGame extends Rules {
   checkAnswer(answer) {
     if (answer === this.answer.word) {
       this.getBonus();
-      return 'well'
+      return 'well';
     }
-    return 'lose'
+    return 'lose';
   }
 
   checkTask() {

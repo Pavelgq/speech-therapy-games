@@ -1,4 +1,4 @@
-import Rules from '../rules';
+import Rules from "../rules";
 
 export default class ChainGame extends Rules {
   constructor(appModel, dataGame, taskNumber) {
@@ -6,7 +6,8 @@ export default class ChainGame extends Rules {
     this.title = dataGame.title;
     this.rules = dataGame.rulesSound;
     this.conditionsWin = dataGame.win;
-    this.targetTasksParam = dataGame.levels[appModel.plan.lesson[appModel.plan.current].level];
+    this.targetTasksParam =
+      dataGame.levels[appModel.plan.lesson[appModel.plan.current].level];
     this.lastAnswers = [];
     this.answer = {};
     this.totalTasks = appModel.taskInLesson;
@@ -42,7 +43,7 @@ export default class ChainGame extends Rules {
   }
 
   refresh(type) {
-    this.targetTasks = this.createTask(type)
+    this.targetTasks = this.createTask(type);
   }
 
   checkAnswer(answer) {
@@ -50,13 +51,13 @@ export default class ChainGame extends Rules {
     if (this.answer.syllable[n] === answer) {
       this.result.push(answer);
     } else {
-      return 'lose';
+      return "lose";
     }
-    if (this.result.join('') === this.answer.word) {
+    if (this.result.join("") === this.answer.word) {
       this.getBonus();
-      return 'well';
+      return "well";
     }
-    return 'continue';
+    return "continue";
   }
 
   checkTask() {

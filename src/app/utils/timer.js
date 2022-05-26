@@ -1,8 +1,6 @@
-import func from './utils';
+import func from "./utils";
 
-const {
-  addZero,
-} = func;
+const { addZero } = func;
 
 export default class TimeCounter {
   constructor(targetTime) {
@@ -22,7 +20,7 @@ export default class TimeCounter {
       hour,
       minutes,
       seconds,
-    }
+    };
   }
 
   setClock() {
@@ -42,6 +40,8 @@ export default class TimeCounter {
   getTimeString() {
     const time = this.getTimeRemaining();
 
-    return `${addZero(time.hour)}:${addZero(time.minutes)}:${addZero(time.seconds)}`
+    return `${addZero(time.hour)}:${addZero(time.minutes)}:${addZero(
+      time.seconds
+    )}`;
   }
 }

@@ -1,4 +1,4 @@
-import Rules from '../rules';
+import Rules from "../rules";
 
 export default class MutatingGame extends Rules {
   constructor(appModel, dataGame, taskNumber) {
@@ -18,20 +18,18 @@ export default class MutatingGame extends Rules {
   }
 
   createTask(type) {
-    const {
-      words,
-    } = this.dataGame.types[type];
+    const { words } = this.dataGame.types[type];
     const targetTasks = [];
     this.lastAnswers = [];
     this.result = [];
     const carts = this.targetTasksParam.width * this.targetTasksParam.height;
     for (let k = 0; k < carts; k++) {
       const index = Math.floor(Math.random() * words.length);
-      const {
-        length,
-      } = words[index].syllable;
-      if (targetTasks.length + length
-        <= this.targetTasksParam.width * this.targetTasksParam.height) {
+      const { length } = words[index].syllable;
+      if (
+        targetTasks.length + length <=
+        this.targetTasksParam.width * this.targetTasksParam.height
+      ) {
         targetTasks.push(...words[index].syllable);
         this.lastAnswers.push({
           word: words[index].word,
@@ -51,7 +49,7 @@ export default class MutatingGame extends Rules {
    * @param {Number} type
    */
   refresh(type) {
-    this.targetTasks = this.createTask(0)
+    this.targetTasks = this.createTask(0);
   }
 
   /**
@@ -65,13 +63,13 @@ export default class MutatingGame extends Rules {
         this.result.push(answer);
         this.lastAnswers.splice(n, 1);
       } else {
-        return 'lose';
+        return "lose";
       }
       if (this.lastAnswers.length === 0) {
-        return 'well';
+        return "well";
       }
     }
-    return 'continue';
+    return "continue";
   }
 
   checkTask() {

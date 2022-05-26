@@ -1,16 +1,14 @@
-import func from './utils/utils';
-import lessonsMap from './games/data/lessonsMap';
+import func from "./utils/utils";
+import lessonsMap from "./games/data/lessonsMap";
 
-const {
-  checkYesterday,
-} = func;
+const { checkYesterday } = func;
 
 export default class Model {
   constructor(userInfo) {
     this.player = userInfo;
     this.lesson = this.player.lessons;
     this.bonus = {};
-    this.plan = this.getLesson()
+    this.plan = this.getLesson();
     this.currentTask = 1;
     this.taskInLesson = this.plan.lesson.length - 1;
     // this.typeInGame = {
@@ -33,8 +31,8 @@ export default class Model {
     const obj = {
       lesson: lessonsMap[this.lesson],
       current: 0,
-    }
-    return obj
+    };
+    return obj;
   }
 
   getPlayer() {
@@ -43,10 +41,11 @@ export default class Model {
       lessonResult = this.calcResults();
     }
     const playerDays = (this.player.days || []).slice();
-    let {
-      kMoney,
-    } = this.player;
-    if (playerDays.length > 0 && checkYesterday(playerDays[playerDays.length - 1], new Date())) {
+    let { kMoney } = this.player;
+    if (
+      playerDays.length > 0 &&
+      checkYesterday(playerDays[playerDays.length - 1], new Date())
+    ) {
       kMoney += 0.1;
     } else {
       kMoney = 1;
@@ -61,14 +60,17 @@ export default class Model {
       exp: this.game.model.exp,
       kMoney,
       kExp: this.player.kExp + lessonResult,
-    }
+    };
   }
 
   calcResults() {
     let result = 0;
     this.lessonStat.forEach((element) => {
-      result += Math.floor(((element.correct / (element.fail || 1)) / element.tasks) * 10) / 10;
-    })
+      result +=
+        Math.floor(
+          (element.correct / (element.fail || 1) / element.tasks) * 10
+        ) / 10;
+    });
 
     return result / this.lessonStat.length;
   }
@@ -85,13 +87,13 @@ export default class Model {
       date: new Date(),
       // eslint-disable-next-line no-underscore-dangle
       user: this.player._id,
-    }
+    };
   }
 
   getDuration() {
     this.endTime = new Date().getTime();
 
-    return (this.endTime - this.startTime);
+    return this.endTime - this.startTime;
   }
 
   checkData() {

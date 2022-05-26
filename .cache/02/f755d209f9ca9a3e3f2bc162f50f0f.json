@@ -1,1 +1,874 @@
-{"id":"app/game1/wordOfSyllables.js","dependencies":[{"name":"C:\\webProjects\\speech-therapy-games\\package.json","includedInParent":true,"mtime":1599386625100},{"name":"pixi.js","loc":{"line":1,"column":22},"parent":"C:\\webProjects\\speech-therapy-games\\src\\app\\game1\\wordOfSyllables.js","resolved":"C:\\webProjects\\speech-therapy-games\\node_modules\\pixi.js\\lib\\pixi.es.js"},{"name":"../utils/eventEmmiter","loc":{"line":2,"column":25},"parent":"C:\\webProjects\\speech-therapy-games\\src\\app\\game1\\wordOfSyllables.js","resolved":"C:\\webProjects\\speech-therapy-games\\src\\app\\utils\\eventEmmiter.js"},{"name":"./playfield","loc":{"line":3,"column":22},"parent":"C:\\webProjects\\speech-therapy-games\\src\\app\\game1\\wordOfSyllables.js","resolved":"C:\\webProjects\\speech-therapy-games\\src\\app\\game1\\playfield.js"},{"name":"./model","loc":{"line":4,"column":18},"parent":"C:\\webProjects\\speech-therapy-games\\src\\app\\game1\\wordOfSyllables.js","resolved":"C:\\webProjects\\speech-therapy-games\\src\\app\\game1\\model.js"},{"name":"../../assets/audio/game1/word-of-syllables-rules.mp3","loc":{"line":6,"column":27},"parent":"C:\\webProjects\\speech-therapy-games\\src\\app\\game1\\wordOfSyllables.js","resolved":"C:\\webProjects\\speech-therapy-games\\src\\assets\\audio\\game1\\word-of-syllables-rules.mp3"}],"generated":{"js":"\"use strict\";\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.default = void 0;\n\nvar PIXI = _interopRequireWildcard(require(\"pixi.js\"));\n\nvar _eventEmmiter = _interopRequireDefault(require(\"../utils/eventEmmiter\"));\n\nvar _playfield = _interopRequireDefault(require(\"./playfield\"));\n\nvar _model = _interopRequireDefault(require(\"./model\"));\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nfunction _getRequireWildcardCache() { if (typeof WeakMap !== \"function\") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }\n\nfunction _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== \"object\" && typeof obj !== \"function\") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nvar rulesSound = require('../../assets/audio/game1/word-of-syllables-rules.mp3');\n\nvar WordOfSyllables = /*#__PURE__*/function () {\n  function WordOfSyllables(canvas, viewPort, level, ticker, stage) {\n    _classCallCheck(this, WordOfSyllables);\n\n    this.name = 'Слово из слогов';\n    this.canvas = canvas;\n    this.viewPort = viewPort;\n    this.stage = new PIXI.Container();\n    this.model = new _model.default(level);\n    this.playfield = new _playfield.default(this.model, viewPort, this.stage);\n    this.ticker = ticker;\n    this.render = this.render.bind(this);\n    this.run = this.run.bind(this);\n    this.rules = rulesSound;\n  }\n\n  _createClass(WordOfSyllables, [{\n    key: \"run\",\n    value: function run() {\n      var _this = this;\n\n      this.playfield.create();\n      this.ticker.remove();\n      this.ticker.add(function (delta) {\n        return _this.gameLoop(delta);\n      });\n    }\n  }, {\n    key: \"render\",\n    value: function render() {\n      this.canvas.render(this.stage);\n    }\n  }, {\n    key: \"gameLoop\",\n    value: function gameLoop(delta) {\n      this.render();\n    }\n  }]);\n\n  return WordOfSyllables;\n}();\n\nexports.default = WordOfSyllables;"},"sourceMaps":{"js":{"mappings":[{"generated":{"line":8,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":1,"column":0}},{"generated":{"line":10,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":2,"column":0}},{"generated":{"line":12,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":3,"column":0}},{"generated":{"line":14,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":4,"column":0}},{"generated":{"line":28,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":6,"column":0}},{"name":"rulesSound","generated":{"line":28,"column":4},"source":"app/game1/wordOfSyllables.js","original":{"line":6,"column":6}},{"generated":{"line":28,"column":14},"source":"app/game1/wordOfSyllables.js","original":{"line":6,"column":16}},{"name":"require","generated":{"line":28,"column":17},"source":"app/game1/wordOfSyllables.js","original":{"line":6,"column":19}},{"generated":{"line":28,"column":24},"source":"app/game1/wordOfSyllables.js","original":{"line":6,"column":26}},{"generated":{"line":28,"column":25},"source":"app/game1/wordOfSyllables.js","original":{"line":6,"column":27}},{"generated":{"line":28,"column":79},"source":"app/game1/wordOfSyllables.js","original":{"line":6,"column":26}},{"generated":{"line":28,"column":80},"source":"app/game1/wordOfSyllables.js","original":{"line":6,"column":0}},{"name":"WordOfSyllables","generated":{"line":30,"column":4},"source":"app/game1/wordOfSyllables.js","original":{"line":8,"column":21}},{"generated":{"line":31,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":9,"column":2}},{"name":"canvas","generated":{"line":31,"column":27},"source":"app/game1/wordOfSyllables.js","original":{"line":9,"column":14}},{"generated":{"line":31,"column":33},"source":"app/game1/wordOfSyllables.js","original":{"line":9,"column":2}},{"name":"viewPort","generated":{"line":31,"column":35},"source":"app/game1/wordOfSyllables.js","original":{"line":9,"column":22}},{"generated":{"line":31,"column":43},"source":"app/game1/wordOfSyllables.js","original":{"line":9,"column":2}},{"name":"level","generated":{"line":31,"column":45},"source":"app/game1/wordOfSyllables.js","original":{"line":9,"column":32}},{"generated":{"line":31,"column":50},"source":"app/game1/wordOfSyllables.js","original":{"line":9,"column":2}},{"name":"ticker","generated":{"line":31,"column":52},"source":"app/game1/wordOfSyllables.js","original":{"line":9,"column":39}},{"generated":{"line":31,"column":58},"source":"app/game1/wordOfSyllables.js","original":{"line":9,"column":2}},{"name":"stage","generated":{"line":31,"column":60},"source":"app/game1/wordOfSyllables.js","original":{"line":9,"column":47}},{"generated":{"line":31,"column":65},"source":"app/game1/wordOfSyllables.js","original":{"line":9,"column":2}},{"generated":{"line":31,"column":67},"source":"app/game1/wordOfSyllables.js","original":{"line":9,"column":54}},{"generated":{"line":32,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":9,"column":54}},{"generated":{"line":34,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":10,"column":4}},{"name":"name","generated":{"line":34,"column":9},"source":"app/game1/wordOfSyllables.js","original":{"line":10,"column":9}},{"generated":{"line":34,"column":13},"source":"app/game1/wordOfSyllables.js","original":{"line":10,"column":4}},{"generated":{"line":34,"column":16},"source":"app/game1/wordOfSyllables.js","original":{"line":10,"column":16}},{"generated":{"line":34,"column":33},"source":"app/game1/wordOfSyllables.js","original":{"line":10,"column":4}},{"generated":{"line":35,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":12,"column":4}},{"name":"canvas","generated":{"line":35,"column":9},"source":"app/game1/wordOfSyllables.js","original":{"line":12,"column":9}},{"generated":{"line":35,"column":15},"source":"app/game1/wordOfSyllables.js","original":{"line":12,"column":4}},{"name":"canvas","generated":{"line":35,"column":18},"source":"app/game1/wordOfSyllables.js","original":{"line":12,"column":18}},{"generated":{"line":35,"column":24},"source":"app/game1/wordOfSyllables.js","original":{"line":12,"column":4}},{"generated":{"line":36,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":13,"column":4}},{"name":"viewPort","generated":{"line":36,"column":9},"source":"app/game1/wordOfSyllables.js","original":{"line":13,"column":9}},{"generated":{"line":36,"column":17},"source":"app/game1/wordOfSyllables.js","original":{"line":13,"column":4}},{"name":"viewPort","generated":{"line":36,"column":20},"source":"app/game1/wordOfSyllables.js","original":{"line":13,"column":20}},{"generated":{"line":36,"column":28},"source":"app/game1/wordOfSyllables.js","original":{"line":13,"column":4}},{"generated":{"line":37,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":14,"column":4}},{"name":"stage","generated":{"line":37,"column":9},"source":"app/game1/wordOfSyllables.js","original":{"line":14,"column":9}},{"generated":{"line":37,"column":14},"source":"app/game1/wordOfSyllables.js","original":{"line":14,"column":4}},{"generated":{"line":37,"column":17},"source":"app/game1/wordOfSyllables.js","original":{"line":14,"column":17}},{"name":"PIXI","generated":{"line":37,"column":21},"source":"app/game1/wordOfSyllables.js","original":{"line":14,"column":21}},{"generated":{"line":37,"column":25},"source":"app/game1/wordOfSyllables.js","original":{"line":14,"column":25}},{"name":"Container","generated":{"line":37,"column":26},"source":"app/game1/wordOfSyllables.js","original":{"line":14,"column":26}},{"generated":{"line":37,"column":35},"source":"app/game1/wordOfSyllables.js","original":{"line":14,"column":17}},{"generated":{"line":37,"column":37},"source":"app/game1/wordOfSyllables.js","original":{"line":14,"column":4}},{"generated":{"line":38,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":16,"column":4}},{"name":"model","generated":{"line":38,"column":9},"source":"app/game1/wordOfSyllables.js","original":{"line":16,"column":9}},{"generated":{"line":38,"column":14},"source":"app/game1/wordOfSyllables.js","original":{"line":16,"column":4}},{"generated":{"line":38,"column":17},"source":"app/game1/wordOfSyllables.js","original":{"line":16,"column":17}},{"name":"Model","generated":{"line":38,"column":21},"source":"app/game1/wordOfSyllables.js","original":{"line":16,"column":21}},{"generated":{"line":38,"column":35},"source":"app/game1/wordOfSyllables.js","original":{"line":16,"column":17}},{"name":"level","generated":{"line":38,"column":36},"source":"app/game1/wordOfSyllables.js","original":{"line":16,"column":27}},{"generated":{"line":38,"column":41},"source":"app/game1/wordOfSyllables.js","original":{"line":16,"column":17}},{"generated":{"line":38,"column":42},"source":"app/game1/wordOfSyllables.js","original":{"line":16,"column":4}},{"generated":{"line":39,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":17,"column":4}},{"name":"playfield","generated":{"line":39,"column":9},"source":"app/game1/wordOfSyllables.js","original":{"line":17,"column":9}},{"generated":{"line":39,"column":18},"source":"app/game1/wordOfSyllables.js","original":{"line":17,"column":4}},{"generated":{"line":39,"column":21},"source":"app/game1/wordOfSyllables.js","original":{"line":17,"column":21}},{"name":"Playfield","generated":{"line":39,"column":25},"source":"app/game1/wordOfSyllables.js","original":{"line":17,"column":25}},{"generated":{"line":39,"column":43},"source":"app/game1/wordOfSyllables.js","original":{"line":17,"column":21}},{"generated":{"line":39,"column":44},"source":"app/game1/wordOfSyllables.js","original":{"line":17,"column":35}},{"name":"model","generated":{"line":39,"column":49},"source":"app/game1/wordOfSyllables.js","original":{"line":17,"column":40}},{"generated":{"line":39,"column":54},"source":"app/game1/wordOfSyllables.js","original":{"line":17,"column":21}},{"name":"viewPort","generated":{"line":39,"column":56},"source":"app/game1/wordOfSyllables.js","original":{"line":17,"column":47}},{"generated":{"line":39,"column":64},"source":"app/game1/wordOfSyllables.js","original":{"line":17,"column":21}},{"generated":{"line":39,"column":66},"source":"app/game1/wordOfSyllables.js","original":{"line":17,"column":57}},{"name":"stage","generated":{"line":39,"column":71},"source":"app/game1/wordOfSyllables.js","original":{"line":17,"column":62}},{"generated":{"line":39,"column":76},"source":"app/game1/wordOfSyllables.js","original":{"line":17,"column":21}},{"generated":{"line":39,"column":77},"source":"app/game1/wordOfSyllables.js","original":{"line":17,"column":4}},{"generated":{"line":40,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":18,"column":4}},{"name":"ticker","generated":{"line":40,"column":9},"source":"app/game1/wordOfSyllables.js","original":{"line":18,"column":9}},{"generated":{"line":40,"column":15},"source":"app/game1/wordOfSyllables.js","original":{"line":18,"column":4}},{"name":"ticker","generated":{"line":40,"column":18},"source":"app/game1/wordOfSyllables.js","original":{"line":18,"column":18}},{"generated":{"line":40,"column":24},"source":"app/game1/wordOfSyllables.js","original":{"line":18,"column":4}},{"generated":{"line":41,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":20,"column":4}},{"name":"render","generated":{"line":41,"column":9},"source":"app/game1/wordOfSyllables.js","original":{"line":20,"column":9}},{"generated":{"line":41,"column":15},"source":"app/game1/wordOfSyllables.js","original":{"line":20,"column":4}},{"generated":{"line":41,"column":18},"source":"app/game1/wordOfSyllables.js","original":{"line":20,"column":18}},{"name":"render","generated":{"line":41,"column":23},"source":"app/game1/wordOfSyllables.js","original":{"line":20,"column":23}},{"generated":{"line":41,"column":29},"source":"app/game1/wordOfSyllables.js","original":{"line":20,"column":18}},{"name":"bind","generated":{"line":41,"column":30},"source":"app/game1/wordOfSyllables.js","original":{"line":20,"column":30}},{"generated":{"line":41,"column":34},"source":"app/game1/wordOfSyllables.js","original":{"line":20,"column":18}},{"generated":{"line":41,"column":35},"source":"app/game1/wordOfSyllables.js","original":{"line":20,"column":35}},{"generated":{"line":41,"column":39},"source":"app/game1/wordOfSyllables.js","original":{"line":20,"column":18}},{"generated":{"line":41,"column":40},"source":"app/game1/wordOfSyllables.js","original":{"line":20,"column":4}},{"generated":{"line":42,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":21,"column":4}},{"name":"run","generated":{"line":42,"column":9},"source":"app/game1/wordOfSyllables.js","original":{"line":21,"column":9}},{"generated":{"line":42,"column":12},"source":"app/game1/wordOfSyllables.js","original":{"line":21,"column":4}},{"generated":{"line":42,"column":15},"source":"app/game1/wordOfSyllables.js","original":{"line":21,"column":15}},{"name":"run","generated":{"line":42,"column":20},"source":"app/game1/wordOfSyllables.js","original":{"line":21,"column":20}},{"generated":{"line":42,"column":23},"source":"app/game1/wordOfSyllables.js","original":{"line":21,"column":15}},{"name":"bind","generated":{"line":42,"column":24},"source":"app/game1/wordOfSyllables.js","original":{"line":21,"column":24}},{"generated":{"line":42,"column":28},"source":"app/game1/wordOfSyllables.js","original":{"line":21,"column":15}},{"generated":{"line":42,"column":29},"source":"app/game1/wordOfSyllables.js","original":{"line":21,"column":29}},{"generated":{"line":42,"column":33},"source":"app/game1/wordOfSyllables.js","original":{"line":21,"column":15}},{"generated":{"line":42,"column":34},"source":"app/game1/wordOfSyllables.js","original":{"line":21,"column":4}},{"generated":{"line":43,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":23,"column":4}},{"name":"rules","generated":{"line":43,"column":9},"source":"app/game1/wordOfSyllables.js","original":{"line":23,"column":9}},{"generated":{"line":43,"column":14},"source":"app/game1/wordOfSyllables.js","original":{"line":23,"column":4}},{"name":"rulesSound","generated":{"line":43,"column":17},"source":"app/game1/wordOfSyllables.js","original":{"line":23,"column":17}},{"generated":{"line":43,"column":27},"source":"app/game1/wordOfSyllables.js","original":{"line":23,"column":4}},{"generated":{"line":44,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":24,"column":3}},{"generated":{"line":48,"column":26},"source":"app/game1/wordOfSyllables.js","original":{"line":26,"column":8}},{"generated":{"line":49,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":26,"column":8}},{"generated":{"line":51,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":27,"column":4}},{"name":"playfield","generated":{"line":51,"column":11},"source":"app/game1/wordOfSyllables.js","original":{"line":27,"column":9}},{"generated":{"line":51,"column":20},"source":"app/game1/wordOfSyllables.js","original":{"line":27,"column":4}},{"name":"create","generated":{"line":51,"column":21},"source":"app/game1/wordOfSyllables.js","original":{"line":27,"column":19}},{"generated":{"line":51,"column":27},"source":"app/game1/wordOfSyllables.js","original":{"line":27,"column":4}},{"generated":{"line":52,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":29,"column":4}},{"name":"ticker","generated":{"line":52,"column":11},"source":"app/game1/wordOfSyllables.js","original":{"line":29,"column":9}},{"generated":{"line":52,"column":17},"source":"app/game1/wordOfSyllables.js","original":{"line":29,"column":4}},{"name":"remove","generated":{"line":52,"column":18},"source":"app/game1/wordOfSyllables.js","original":{"line":29,"column":16}},{"generated":{"line":52,"column":24},"source":"app/game1/wordOfSyllables.js","original":{"line":29,"column":4}},{"generated":{"line":53,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":30,"column":4}},{"name":"ticker","generated":{"line":53,"column":11},"source":"app/game1/wordOfSyllables.js","original":{"line":30,"column":9}},{"generated":{"line":53,"column":17},"source":"app/game1/wordOfSyllables.js","original":{"line":30,"column":4}},{"name":"add","generated":{"line":53,"column":18},"source":"app/game1/wordOfSyllables.js","original":{"line":30,"column":16}},{"generated":{"line":53,"column":21},"source":"app/game1/wordOfSyllables.js","original":{"line":30,"column":4}},{"generated":{"line":53,"column":22},"source":"app/game1/wordOfSyllables.js","original":{"line":30,"column":20}},{"name":"delta","generated":{"line":53,"column":32},"source":"app/game1/wordOfSyllables.js","original":{"line":30,"column":21}},{"generated":{"line":53,"column":37},"source":"app/game1/wordOfSyllables.js","original":{"line":30,"column":20}},{"generated":{"line":54,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":30,"column":20}},{"generated":{"line":54,"column":15},"source":"app/game1/wordOfSyllables.js","original":{"line":30,"column":31}},{"generated":{"line":54,"column":20},"source":"app/game1/wordOfSyllables.js","original":{"line":30,"column":35}},{"name":"gameLoop","generated":{"line":54,"column":21},"source":"app/game1/wordOfSyllables.js","original":{"line":30,"column":36}},{"generated":{"line":54,"column":29},"source":"app/game1/wordOfSyllables.js","original":{"line":30,"column":31}},{"name":"delta","generated":{"line":54,"column":30},"source":"app/game1/wordOfSyllables.js","original":{"line":30,"column":45}},{"generated":{"line":54,"column":35},"source":"app/game1/wordOfSyllables.js","original":{"line":30,"column":31}},{"generated":{"line":54,"column":36},"source":"app/game1/wordOfSyllables.js","original":{"line":30,"column":20}},{"generated":{"line":55,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":30,"column":20}},{"generated":{"line":55,"column":7},"source":"app/game1/wordOfSyllables.js","original":{"line":30,"column":4}},{"generated":{"line":56,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":31,"column":3}},{"generated":{"line":59,"column":29},"source":"app/game1/wordOfSyllables.js","original":{"line":33,"column":11}},{"generated":{"line":60,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":34,"column":4}},{"name":"canvas","generated":{"line":60,"column":11},"source":"app/game1/wordOfSyllables.js","original":{"line":34,"column":9}},{"generated":{"line":60,"column":17},"source":"app/game1/wordOfSyllables.js","original":{"line":34,"column":4}},{"name":"render","generated":{"line":60,"column":18},"source":"app/game1/wordOfSyllables.js","original":{"line":34,"column":16}},{"generated":{"line":60,"column":24},"source":"app/game1/wordOfSyllables.js","original":{"line":34,"column":4}},{"generated":{"line":60,"column":25},"source":"app/game1/wordOfSyllables.js","original":{"line":34,"column":23}},{"name":"stage","generated":{"line":60,"column":30},"source":"app/game1/wordOfSyllables.js","original":{"line":34,"column":28}},{"generated":{"line":60,"column":35},"source":"app/game1/wordOfSyllables.js","original":{"line":34,"column":4}},{"generated":{"line":61,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":35,"column":3}},{"name":"delta","generated":{"line":64,"column":29},"source":"app/game1/wordOfSyllables.js","original":{"line":37,"column":11}},{"generated":{"line":64,"column":36},"source":"app/game1/wordOfSyllables.js","original":{"line":37,"column":18}},{"generated":{"line":65,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":38,"column":4}},{"name":"render","generated":{"line":65,"column":11},"source":"app/game1/wordOfSyllables.js","original":{"line":38,"column":9}},{"generated":{"line":65,"column":17},"source":"app/game1/wordOfSyllables.js","original":{"line":38,"column":4}},{"generated":{"line":66,"column":0},"source":"app/game1/wordOfSyllables.js","original":{"line":39,"column":3}}],"sources":{"app/game1/wordOfSyllables.js":"import * as PIXI from 'pixi.js';\nimport EventEmitter from '../utils/eventEmmiter';\nimport Playfield from './playfield';\nimport Model from './model';\n\nconst rulesSound = require('../../assets/audio/game1/word-of-syllables-rules.mp3');\n\nexport default class WordOfSyllables {\n  constructor(canvas, viewPort, level, ticker, stage) {\n    this.name = 'Слово из слогов';\n\n    this.canvas = canvas;\n    this.viewPort = viewPort;\n    this.stage = new PIXI.Container();\n\n    this.model = new Model(level);\n    this.playfield = new Playfield(this.model, viewPort, this.stage);\n    this.ticker = ticker;\n\n    this.render = this.render.bind(this);\n    this.run = this.run.bind(this);\n\n    this.rules = rulesSound;\n  }\n\n  run() {\n    this.playfield.create();\n\n    this.ticker.remove();\n    this.ticker.add((delta) => this.gameLoop(delta));\n  }\n\n  render() {\n    this.canvas.render(this.stage);\n  }\n\n  gameLoop(delta) {\n    this.render();\n  }\n}"},"lineCount":null}},"error":null,"hash":"f70f57dfec5e6f85b5913f461aad342f","cacheData":{"env":{}}}
+{
+  "id": "app/game1/wordOfSyllables.js",
+  "dependencies": [
+    {
+      "name": "C:\\webProjects\\speech-therapy-games\\package.json",
+      "includedInParent": true,
+      "mtime": 1599386625100
+    },
+    {
+      "name": "pixi.js",
+      "loc": { "line": 1, "column": 22 },
+      "parent": "C:\\webProjects\\speech-therapy-games\\src\\app\\game1\\wordOfSyllables.js",
+      "resolved": "C:\\webProjects\\speech-therapy-games\\node_modules\\pixi.js\\lib\\pixi.es.js"
+    },
+    {
+      "name": "../utils/eventEmmiter",
+      "loc": { "line": 2, "column": 25 },
+      "parent": "C:\\webProjects\\speech-therapy-games\\src\\app\\game1\\wordOfSyllables.js",
+      "resolved": "C:\\webProjects\\speech-therapy-games\\src\\app\\utils\\eventEmmiter.js"
+    },
+    {
+      "name": "./playfield",
+      "loc": { "line": 3, "column": 22 },
+      "parent": "C:\\webProjects\\speech-therapy-games\\src\\app\\game1\\wordOfSyllables.js",
+      "resolved": "C:\\webProjects\\speech-therapy-games\\src\\app\\game1\\playfield.js"
+    },
+    {
+      "name": "./model",
+      "loc": { "line": 4, "column": 18 },
+      "parent": "C:\\webProjects\\speech-therapy-games\\src\\app\\game1\\wordOfSyllables.js",
+      "resolved": "C:\\webProjects\\speech-therapy-games\\src\\app\\game1\\model.js"
+    },
+    {
+      "name": "../../assets/audio/game1/word-of-syllables-rules.mp3",
+      "loc": { "line": 6, "column": 27 },
+      "parent": "C:\\webProjects\\speech-therapy-games\\src\\app\\game1\\wordOfSyllables.js",
+      "resolved": "C:\\webProjects\\speech-therapy-games\\src\\assets\\audio\\game1\\word-of-syllables-rules.mp3"
+    }
+  ],
+  "generated": {
+    "js": "\"use strict\";\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.default = void 0;\n\nvar PIXI = _interopRequireWildcard(require(\"pixi.js\"));\n\nvar _eventEmmiter = _interopRequireDefault(require(\"../utils/eventEmmiter\"));\n\nvar _playfield = _interopRequireDefault(require(\"./playfield\"));\n\nvar _model = _interopRequireDefault(require(\"./model\"));\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nfunction _getRequireWildcardCache() { if (typeof WeakMap !== \"function\") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }\n\nfunction _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== \"object\" && typeof obj !== \"function\") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nvar rulesSound = require('../../assets/audio/game1/word-of-syllables-rules.mp3');\n\nvar WordOfSyllables = /*#__PURE__*/function () {\n  function WordOfSyllables(canvas, viewPort, level, ticker, stage) {\n    _classCallCheck(this, WordOfSyllables);\n\n    this.name = 'Слово из слогов';\n    this.canvas = canvas;\n    this.viewPort = viewPort;\n    this.stage = new PIXI.Container();\n    this.model = new _model.default(level);\n    this.playfield = new _playfield.default(this.model, viewPort, this.stage);\n    this.ticker = ticker;\n    this.render = this.render.bind(this);\n    this.run = this.run.bind(this);\n    this.rules = rulesSound;\n  }\n\n  _createClass(WordOfSyllables, [{\n    key: \"run\",\n    value: function run() {\n      var _this = this;\n\n      this.playfield.create();\n      this.ticker.remove();\n      this.ticker.add(function (delta) {\n        return _this.gameLoop(delta);\n      });\n    }\n  }, {\n    key: \"render\",\n    value: function render() {\n      this.canvas.render(this.stage);\n    }\n  }, {\n    key: \"gameLoop\",\n    value: function gameLoop(delta) {\n      this.render();\n    }\n  }]);\n\n  return WordOfSyllables;\n}();\n\nexports.default = WordOfSyllables;"
+  },
+  "sourceMaps": {
+    "js": {
+      "mappings": [
+        {
+          "generated": { "line": 8, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 1, "column": 0 }
+        },
+        {
+          "generated": { "line": 10, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 2, "column": 0 }
+        },
+        {
+          "generated": { "line": 12, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 3, "column": 0 }
+        },
+        {
+          "generated": { "line": 14, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 4, "column": 0 }
+        },
+        {
+          "generated": { "line": 28, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 6, "column": 0 }
+        },
+        {
+          "name": "rulesSound",
+          "generated": { "line": 28, "column": 4 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 6, "column": 6 }
+        },
+        {
+          "generated": { "line": 28, "column": 14 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 6, "column": 16 }
+        },
+        {
+          "name": "require",
+          "generated": { "line": 28, "column": 17 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 6, "column": 19 }
+        },
+        {
+          "generated": { "line": 28, "column": 24 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 6, "column": 26 }
+        },
+        {
+          "generated": { "line": 28, "column": 25 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 6, "column": 27 }
+        },
+        {
+          "generated": { "line": 28, "column": 79 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 6, "column": 26 }
+        },
+        {
+          "generated": { "line": 28, "column": 80 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 6, "column": 0 }
+        },
+        {
+          "name": "WordOfSyllables",
+          "generated": { "line": 30, "column": 4 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 8, "column": 21 }
+        },
+        {
+          "generated": { "line": 31, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 9, "column": 2 }
+        },
+        {
+          "name": "canvas",
+          "generated": { "line": 31, "column": 27 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 9, "column": 14 }
+        },
+        {
+          "generated": { "line": 31, "column": 33 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 9, "column": 2 }
+        },
+        {
+          "name": "viewPort",
+          "generated": { "line": 31, "column": 35 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 9, "column": 22 }
+        },
+        {
+          "generated": { "line": 31, "column": 43 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 9, "column": 2 }
+        },
+        {
+          "name": "level",
+          "generated": { "line": 31, "column": 45 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 9, "column": 32 }
+        },
+        {
+          "generated": { "line": 31, "column": 50 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 9, "column": 2 }
+        },
+        {
+          "name": "ticker",
+          "generated": { "line": 31, "column": 52 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 9, "column": 39 }
+        },
+        {
+          "generated": { "line": 31, "column": 58 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 9, "column": 2 }
+        },
+        {
+          "name": "stage",
+          "generated": { "line": 31, "column": 60 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 9, "column": 47 }
+        },
+        {
+          "generated": { "line": 31, "column": 65 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 9, "column": 2 }
+        },
+        {
+          "generated": { "line": 31, "column": 67 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 9, "column": 54 }
+        },
+        {
+          "generated": { "line": 32, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 9, "column": 54 }
+        },
+        {
+          "generated": { "line": 34, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 10, "column": 4 }
+        },
+        {
+          "name": "name",
+          "generated": { "line": 34, "column": 9 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 10, "column": 9 }
+        },
+        {
+          "generated": { "line": 34, "column": 13 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 10, "column": 4 }
+        },
+        {
+          "generated": { "line": 34, "column": 16 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 10, "column": 16 }
+        },
+        {
+          "generated": { "line": 34, "column": 33 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 10, "column": 4 }
+        },
+        {
+          "generated": { "line": 35, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 12, "column": 4 }
+        },
+        {
+          "name": "canvas",
+          "generated": { "line": 35, "column": 9 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 12, "column": 9 }
+        },
+        {
+          "generated": { "line": 35, "column": 15 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 12, "column": 4 }
+        },
+        {
+          "name": "canvas",
+          "generated": { "line": 35, "column": 18 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 12, "column": 18 }
+        },
+        {
+          "generated": { "line": 35, "column": 24 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 12, "column": 4 }
+        },
+        {
+          "generated": { "line": 36, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 13, "column": 4 }
+        },
+        {
+          "name": "viewPort",
+          "generated": { "line": 36, "column": 9 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 13, "column": 9 }
+        },
+        {
+          "generated": { "line": 36, "column": 17 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 13, "column": 4 }
+        },
+        {
+          "name": "viewPort",
+          "generated": { "line": 36, "column": 20 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 13, "column": 20 }
+        },
+        {
+          "generated": { "line": 36, "column": 28 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 13, "column": 4 }
+        },
+        {
+          "generated": { "line": 37, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 14, "column": 4 }
+        },
+        {
+          "name": "stage",
+          "generated": { "line": 37, "column": 9 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 14, "column": 9 }
+        },
+        {
+          "generated": { "line": 37, "column": 14 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 14, "column": 4 }
+        },
+        {
+          "generated": { "line": 37, "column": 17 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 14, "column": 17 }
+        },
+        {
+          "name": "PIXI",
+          "generated": { "line": 37, "column": 21 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 14, "column": 21 }
+        },
+        {
+          "generated": { "line": 37, "column": 25 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 14, "column": 25 }
+        },
+        {
+          "name": "Container",
+          "generated": { "line": 37, "column": 26 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 14, "column": 26 }
+        },
+        {
+          "generated": { "line": 37, "column": 35 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 14, "column": 17 }
+        },
+        {
+          "generated": { "line": 37, "column": 37 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 14, "column": 4 }
+        },
+        {
+          "generated": { "line": 38, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 16, "column": 4 }
+        },
+        {
+          "name": "model",
+          "generated": { "line": 38, "column": 9 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 16, "column": 9 }
+        },
+        {
+          "generated": { "line": 38, "column": 14 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 16, "column": 4 }
+        },
+        {
+          "generated": { "line": 38, "column": 17 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 16, "column": 17 }
+        },
+        {
+          "name": "Model",
+          "generated": { "line": 38, "column": 21 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 16, "column": 21 }
+        },
+        {
+          "generated": { "line": 38, "column": 35 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 16, "column": 17 }
+        },
+        {
+          "name": "level",
+          "generated": { "line": 38, "column": 36 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 16, "column": 27 }
+        },
+        {
+          "generated": { "line": 38, "column": 41 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 16, "column": 17 }
+        },
+        {
+          "generated": { "line": 38, "column": 42 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 16, "column": 4 }
+        },
+        {
+          "generated": { "line": 39, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 17, "column": 4 }
+        },
+        {
+          "name": "playfield",
+          "generated": { "line": 39, "column": 9 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 17, "column": 9 }
+        },
+        {
+          "generated": { "line": 39, "column": 18 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 17, "column": 4 }
+        },
+        {
+          "generated": { "line": 39, "column": 21 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 17, "column": 21 }
+        },
+        {
+          "name": "Playfield",
+          "generated": { "line": 39, "column": 25 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 17, "column": 25 }
+        },
+        {
+          "generated": { "line": 39, "column": 43 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 17, "column": 21 }
+        },
+        {
+          "generated": { "line": 39, "column": 44 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 17, "column": 35 }
+        },
+        {
+          "name": "model",
+          "generated": { "line": 39, "column": 49 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 17, "column": 40 }
+        },
+        {
+          "generated": { "line": 39, "column": 54 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 17, "column": 21 }
+        },
+        {
+          "name": "viewPort",
+          "generated": { "line": 39, "column": 56 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 17, "column": 47 }
+        },
+        {
+          "generated": { "line": 39, "column": 64 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 17, "column": 21 }
+        },
+        {
+          "generated": { "line": 39, "column": 66 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 17, "column": 57 }
+        },
+        {
+          "name": "stage",
+          "generated": { "line": 39, "column": 71 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 17, "column": 62 }
+        },
+        {
+          "generated": { "line": 39, "column": 76 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 17, "column": 21 }
+        },
+        {
+          "generated": { "line": 39, "column": 77 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 17, "column": 4 }
+        },
+        {
+          "generated": { "line": 40, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 18, "column": 4 }
+        },
+        {
+          "name": "ticker",
+          "generated": { "line": 40, "column": 9 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 18, "column": 9 }
+        },
+        {
+          "generated": { "line": 40, "column": 15 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 18, "column": 4 }
+        },
+        {
+          "name": "ticker",
+          "generated": { "line": 40, "column": 18 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 18, "column": 18 }
+        },
+        {
+          "generated": { "line": 40, "column": 24 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 18, "column": 4 }
+        },
+        {
+          "generated": { "line": 41, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 20, "column": 4 }
+        },
+        {
+          "name": "render",
+          "generated": { "line": 41, "column": 9 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 20, "column": 9 }
+        },
+        {
+          "generated": { "line": 41, "column": 15 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 20, "column": 4 }
+        },
+        {
+          "generated": { "line": 41, "column": 18 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 20, "column": 18 }
+        },
+        {
+          "name": "render",
+          "generated": { "line": 41, "column": 23 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 20, "column": 23 }
+        },
+        {
+          "generated": { "line": 41, "column": 29 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 20, "column": 18 }
+        },
+        {
+          "name": "bind",
+          "generated": { "line": 41, "column": 30 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 20, "column": 30 }
+        },
+        {
+          "generated": { "line": 41, "column": 34 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 20, "column": 18 }
+        },
+        {
+          "generated": { "line": 41, "column": 35 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 20, "column": 35 }
+        },
+        {
+          "generated": { "line": 41, "column": 39 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 20, "column": 18 }
+        },
+        {
+          "generated": { "line": 41, "column": 40 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 20, "column": 4 }
+        },
+        {
+          "generated": { "line": 42, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 21, "column": 4 }
+        },
+        {
+          "name": "run",
+          "generated": { "line": 42, "column": 9 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 21, "column": 9 }
+        },
+        {
+          "generated": { "line": 42, "column": 12 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 21, "column": 4 }
+        },
+        {
+          "generated": { "line": 42, "column": 15 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 21, "column": 15 }
+        },
+        {
+          "name": "run",
+          "generated": { "line": 42, "column": 20 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 21, "column": 20 }
+        },
+        {
+          "generated": { "line": 42, "column": 23 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 21, "column": 15 }
+        },
+        {
+          "name": "bind",
+          "generated": { "line": 42, "column": 24 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 21, "column": 24 }
+        },
+        {
+          "generated": { "line": 42, "column": 28 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 21, "column": 15 }
+        },
+        {
+          "generated": { "line": 42, "column": 29 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 21, "column": 29 }
+        },
+        {
+          "generated": { "line": 42, "column": 33 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 21, "column": 15 }
+        },
+        {
+          "generated": { "line": 42, "column": 34 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 21, "column": 4 }
+        },
+        {
+          "generated": { "line": 43, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 23, "column": 4 }
+        },
+        {
+          "name": "rules",
+          "generated": { "line": 43, "column": 9 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 23, "column": 9 }
+        },
+        {
+          "generated": { "line": 43, "column": 14 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 23, "column": 4 }
+        },
+        {
+          "name": "rulesSound",
+          "generated": { "line": 43, "column": 17 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 23, "column": 17 }
+        },
+        {
+          "generated": { "line": 43, "column": 27 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 23, "column": 4 }
+        },
+        {
+          "generated": { "line": 44, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 24, "column": 3 }
+        },
+        {
+          "generated": { "line": 48, "column": 26 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 26, "column": 8 }
+        },
+        {
+          "generated": { "line": 49, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 26, "column": 8 }
+        },
+        {
+          "generated": { "line": 51, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 27, "column": 4 }
+        },
+        {
+          "name": "playfield",
+          "generated": { "line": 51, "column": 11 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 27, "column": 9 }
+        },
+        {
+          "generated": { "line": 51, "column": 20 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 27, "column": 4 }
+        },
+        {
+          "name": "create",
+          "generated": { "line": 51, "column": 21 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 27, "column": 19 }
+        },
+        {
+          "generated": { "line": 51, "column": 27 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 27, "column": 4 }
+        },
+        {
+          "generated": { "line": 52, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 29, "column": 4 }
+        },
+        {
+          "name": "ticker",
+          "generated": { "line": 52, "column": 11 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 29, "column": 9 }
+        },
+        {
+          "generated": { "line": 52, "column": 17 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 29, "column": 4 }
+        },
+        {
+          "name": "remove",
+          "generated": { "line": 52, "column": 18 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 29, "column": 16 }
+        },
+        {
+          "generated": { "line": 52, "column": 24 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 29, "column": 4 }
+        },
+        {
+          "generated": { "line": 53, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 30, "column": 4 }
+        },
+        {
+          "name": "ticker",
+          "generated": { "line": 53, "column": 11 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 30, "column": 9 }
+        },
+        {
+          "generated": { "line": 53, "column": 17 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 30, "column": 4 }
+        },
+        {
+          "name": "add",
+          "generated": { "line": 53, "column": 18 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 30, "column": 16 }
+        },
+        {
+          "generated": { "line": 53, "column": 21 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 30, "column": 4 }
+        },
+        {
+          "generated": { "line": 53, "column": 22 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 30, "column": 20 }
+        },
+        {
+          "name": "delta",
+          "generated": { "line": 53, "column": 32 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 30, "column": 21 }
+        },
+        {
+          "generated": { "line": 53, "column": 37 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 30, "column": 20 }
+        },
+        {
+          "generated": { "line": 54, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 30, "column": 20 }
+        },
+        {
+          "generated": { "line": 54, "column": 15 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 30, "column": 31 }
+        },
+        {
+          "generated": { "line": 54, "column": 20 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 30, "column": 35 }
+        },
+        {
+          "name": "gameLoop",
+          "generated": { "line": 54, "column": 21 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 30, "column": 36 }
+        },
+        {
+          "generated": { "line": 54, "column": 29 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 30, "column": 31 }
+        },
+        {
+          "name": "delta",
+          "generated": { "line": 54, "column": 30 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 30, "column": 45 }
+        },
+        {
+          "generated": { "line": 54, "column": 35 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 30, "column": 31 }
+        },
+        {
+          "generated": { "line": 54, "column": 36 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 30, "column": 20 }
+        },
+        {
+          "generated": { "line": 55, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 30, "column": 20 }
+        },
+        {
+          "generated": { "line": 55, "column": 7 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 30, "column": 4 }
+        },
+        {
+          "generated": { "line": 56, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 31, "column": 3 }
+        },
+        {
+          "generated": { "line": 59, "column": 29 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 33, "column": 11 }
+        },
+        {
+          "generated": { "line": 60, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 34, "column": 4 }
+        },
+        {
+          "name": "canvas",
+          "generated": { "line": 60, "column": 11 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 34, "column": 9 }
+        },
+        {
+          "generated": { "line": 60, "column": 17 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 34, "column": 4 }
+        },
+        {
+          "name": "render",
+          "generated": { "line": 60, "column": 18 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 34, "column": 16 }
+        },
+        {
+          "generated": { "line": 60, "column": 24 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 34, "column": 4 }
+        },
+        {
+          "generated": { "line": 60, "column": 25 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 34, "column": 23 }
+        },
+        {
+          "name": "stage",
+          "generated": { "line": 60, "column": 30 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 34, "column": 28 }
+        },
+        {
+          "generated": { "line": 60, "column": 35 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 34, "column": 4 }
+        },
+        {
+          "generated": { "line": 61, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 35, "column": 3 }
+        },
+        {
+          "name": "delta",
+          "generated": { "line": 64, "column": 29 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 37, "column": 11 }
+        },
+        {
+          "generated": { "line": 64, "column": 36 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 37, "column": 18 }
+        },
+        {
+          "generated": { "line": 65, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 38, "column": 4 }
+        },
+        {
+          "name": "render",
+          "generated": { "line": 65, "column": 11 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 38, "column": 9 }
+        },
+        {
+          "generated": { "line": 65, "column": 17 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 38, "column": 4 }
+        },
+        {
+          "generated": { "line": 66, "column": 0 },
+          "source": "app/game1/wordOfSyllables.js",
+          "original": { "line": 39, "column": 3 }
+        }
+      ],
+      "sources": {
+        "app/game1/wordOfSyllables.js": "import * as PIXI from 'pixi.js';\nimport EventEmitter from '../utils/eventEmmiter';\nimport Playfield from './playfield';\nimport Model from './model';\n\nconst rulesSound = require('../../assets/audio/game1/word-of-syllables-rules.mp3');\n\nexport default class WordOfSyllables {\n  constructor(canvas, viewPort, level, ticker, stage) {\n    this.name = 'Слово из слогов';\n\n    this.canvas = canvas;\n    this.viewPort = viewPort;\n    this.stage = new PIXI.Container();\n\n    this.model = new Model(level);\n    this.playfield = new Playfield(this.model, viewPort, this.stage);\n    this.ticker = ticker;\n\n    this.render = this.render.bind(this);\n    this.run = this.run.bind(this);\n\n    this.rules = rulesSound;\n  }\n\n  run() {\n    this.playfield.create();\n\n    this.ticker.remove();\n    this.ticker.add((delta) => this.gameLoop(delta));\n  }\n\n  render() {\n    this.canvas.render(this.stage);\n  }\n\n  gameLoop(delta) {\n    this.render();\n  }\n}"
+      },
+      "lineCount": null
+    }
+  },
+  "error": null,
+  "hash": "f70f57dfec5e6f85b5913f461aad342f",
+  "cacheData": { "env": {} }
+}

@@ -1,9 +1,7 @@
-import Rules from '../rules';
-import func from '../../utils/utils';
+import Rules from "../rules";
+import func from "../../utils/utils";
 
-const {
-  shuffle,
-} = func;
+const { shuffle } = func;
 
 export default class PairGame extends Rules {
   constructor(appModel, dataGame, taskNumber) {
@@ -26,10 +24,8 @@ export default class PairGame extends Rules {
   }
 
   createTask(type) {
-    let {
-      words,
-    } = this.dataGame.types[type];
-    [words] = shuffle([words])
+    let { words } = this.dataGame.types[type];
+    [words] = shuffle([words]);
     let targetTasks = [];
     this.lastAnswers = [];
     this.result = [];
@@ -43,7 +39,10 @@ export default class PairGame extends Rules {
         ready: false,
       });
       const index = k;
-      if (targetTasks.length < this.targetTasksParam.width * this.targetTasksParam.height) {
+      if (
+        targetTasks.length <
+        this.targetTasksParam.width * this.targetTasksParam.height
+      ) {
         targetTasks.push(...words[index].syllable, ...words[index].syllable);
         this.lastAnswers.push({
           word: words[index].word,
@@ -54,7 +53,7 @@ export default class PairGame extends Rules {
         words[index].used = true;
       }
     }
-    [targetTasks] = shuffle([targetTasks])
+    [targetTasks] = shuffle([targetTasks]);
     return targetTasks;
   }
 
@@ -63,7 +62,7 @@ export default class PairGame extends Rules {
    * @param {Number} type
    */
   refresh(type) {
-    this.targetTasks = this.createTask(0)
+    this.targetTasks = this.createTask(0);
   }
 
   /**
@@ -82,21 +81,21 @@ export default class PairGame extends Rules {
         this.result.push({
           answer,
           id,
-        })
+        });
         this.result.forEach((res) => {
           this.closeCell[res.id].ready = true;
-        })
+        });
         this.countPair -= 2;
         this.result = [];
         if (this.countPair <= 1) {
-          return 'well';
+          return "well";
         }
-        return 'continue';
+        return "continue";
       }
       this.result = [];
-      return 'lose';
+      return "lose";
     }
-    return 'continue';
+    return "continue";
   }
 
   checkTask() {

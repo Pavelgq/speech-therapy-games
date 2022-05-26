@@ -1,1 +1,156 @@
-{"id":"Focm","dependencies":[{"name":"C:\\webProjects\\speech-therapy-games\\package.json","includedInParent":true,"mtime":1599386625100},{"name":"./app/app","loc":{"line":1,"column":16},"parent":"C:\\webProjects\\speech-therapy-games\\src\\index.js","resolved":"C:\\webProjects\\speech-therapy-games\\src\\app\\app.js"}],"generated":{"js":"\"use strict\";var e=r(require(\"./app/app\"));function r(e){return e&&e.__esModule?e:{default:e}}var t=new e.default;t.init();"},"sourceMaps":{"js":{"mappings":[{"source":"index.js","original":{"line":5,"column":0},"generated":{"line":1,"column":0}},{"source":"index.js","original":{"line":1,"column":0},"generated":{"line":1,"column":13}},{"source":"index.js","original":{"line":1,"column":0},"generated":{"line":1,"column":17}},{"source":"index.js","original":{"line":1,"column":0},"generated":{"line":1,"column":19}},{"source":"index.js","original":{"line":1,"column":0},"generated":{"line":1,"column":21}},{"source":"index.js","original":{"line":1,"column":0},"generated":{"line":1,"column":29}},{"source":"index.js","original":{"line":5,"column":0},"generated":{"line":1,"column":43}},{"source":"index.js","original":{"line":5,"column":0},"generated":{"line":1,"column":52}},{"source":"index.js","original":{"line":5,"column":0},"generated":{"line":1,"column":54}},{"source":"index.js","original":{"line":5,"column":0},"generated":{"line":1,"column":57}},{"source":"index.js","original":{"line":5,"column":0},"generated":{"line":1,"column":64}},{"source":"index.js","original":{"line":5,"column":0},"generated":{"line":1,"column":67}},{"source":"index.js","original":{"line":5,"column":0},"generated":{"line":1,"column":69}},{"source":"index.js","original":{"line":5,"column":0},"generated":{"line":1,"column":80}},{"source":"index.js","original":{"line":5,"column":0},"generated":{"line":1,"column":82}},{"source":"index.js","original":{"line":5,"column":0},"generated":{"line":1,"column":83}},{"source":"index.js","original":{"line":5,"column":0},"generated":{"line":1,"column":91}},{"source":"index.js","original":{"line":3,"column":0},"generated":{"line":1,"column":94}},{"source":"index.js","name":"app","original":{"line":3,"column":6},"generated":{"line":1,"column":98}},{"source":"index.js","original":{"line":3,"column":12},"generated":{"line":1,"column":100}},{"source":"index.js","name":"App","original":{"line":3,"column":16},"generated":{"line":1,"column":104}},{"source":"index.js","original":{"line":3,"column":12},"generated":{"line":1,"column":106}},{"source":"index.js","name":"app","original":{"line":5,"column":0},"generated":{"line":1,"column":114}},{"source":"index.js","name":"init","original":{"line":5,"column":4},"generated":{"line":1,"column":116}}],"sources":{"index.js":"import App from './app/app';\n\nconst app = new App();\n\napp.init();"},"lineCount":null}},"error":null,"hash":"9cdbe4cd09255305ebb97c3caabdeacd","cacheData":{"env":{}}}
+{
+  "id": "Focm",
+  "dependencies": [
+    {
+      "name": "C:\\webProjects\\speech-therapy-games\\package.json",
+      "includedInParent": true,
+      "mtime": 1599386625100
+    },
+    {
+      "name": "./app/app",
+      "loc": { "line": 1, "column": 16 },
+      "parent": "C:\\webProjects\\speech-therapy-games\\src\\index.js",
+      "resolved": "C:\\webProjects\\speech-therapy-games\\src\\app\\app.js"
+    }
+  ],
+  "generated": {
+    "js": "\"use strict\";var e=r(require(\"./app/app\"));function r(e){return e&&e.__esModule?e:{default:e}}var t=new e.default;t.init();"
+  },
+  "sourceMaps": {
+    "js": {
+      "mappings": [
+        {
+          "source": "index.js",
+          "original": { "line": 5, "column": 0 },
+          "generated": { "line": 1, "column": 0 }
+        },
+        {
+          "source": "index.js",
+          "original": { "line": 1, "column": 0 },
+          "generated": { "line": 1, "column": 13 }
+        },
+        {
+          "source": "index.js",
+          "original": { "line": 1, "column": 0 },
+          "generated": { "line": 1, "column": 17 }
+        },
+        {
+          "source": "index.js",
+          "original": { "line": 1, "column": 0 },
+          "generated": { "line": 1, "column": 19 }
+        },
+        {
+          "source": "index.js",
+          "original": { "line": 1, "column": 0 },
+          "generated": { "line": 1, "column": 21 }
+        },
+        {
+          "source": "index.js",
+          "original": { "line": 1, "column": 0 },
+          "generated": { "line": 1, "column": 29 }
+        },
+        {
+          "source": "index.js",
+          "original": { "line": 5, "column": 0 },
+          "generated": { "line": 1, "column": 43 }
+        },
+        {
+          "source": "index.js",
+          "original": { "line": 5, "column": 0 },
+          "generated": { "line": 1, "column": 52 }
+        },
+        {
+          "source": "index.js",
+          "original": { "line": 5, "column": 0 },
+          "generated": { "line": 1, "column": 54 }
+        },
+        {
+          "source": "index.js",
+          "original": { "line": 5, "column": 0 },
+          "generated": { "line": 1, "column": 57 }
+        },
+        {
+          "source": "index.js",
+          "original": { "line": 5, "column": 0 },
+          "generated": { "line": 1, "column": 64 }
+        },
+        {
+          "source": "index.js",
+          "original": { "line": 5, "column": 0 },
+          "generated": { "line": 1, "column": 67 }
+        },
+        {
+          "source": "index.js",
+          "original": { "line": 5, "column": 0 },
+          "generated": { "line": 1, "column": 69 }
+        },
+        {
+          "source": "index.js",
+          "original": { "line": 5, "column": 0 },
+          "generated": { "line": 1, "column": 80 }
+        },
+        {
+          "source": "index.js",
+          "original": { "line": 5, "column": 0 },
+          "generated": { "line": 1, "column": 82 }
+        },
+        {
+          "source": "index.js",
+          "original": { "line": 5, "column": 0 },
+          "generated": { "line": 1, "column": 83 }
+        },
+        {
+          "source": "index.js",
+          "original": { "line": 5, "column": 0 },
+          "generated": { "line": 1, "column": 91 }
+        },
+        {
+          "source": "index.js",
+          "original": { "line": 3, "column": 0 },
+          "generated": { "line": 1, "column": 94 }
+        },
+        {
+          "source": "index.js",
+          "name": "app",
+          "original": { "line": 3, "column": 6 },
+          "generated": { "line": 1, "column": 98 }
+        },
+        {
+          "source": "index.js",
+          "original": { "line": 3, "column": 12 },
+          "generated": { "line": 1, "column": 100 }
+        },
+        {
+          "source": "index.js",
+          "name": "App",
+          "original": { "line": 3, "column": 16 },
+          "generated": { "line": 1, "column": 104 }
+        },
+        {
+          "source": "index.js",
+          "original": { "line": 3, "column": 12 },
+          "generated": { "line": 1, "column": 106 }
+        },
+        {
+          "source": "index.js",
+          "name": "app",
+          "original": { "line": 5, "column": 0 },
+          "generated": { "line": 1, "column": 114 }
+        },
+        {
+          "source": "index.js",
+          "name": "init",
+          "original": { "line": 5, "column": 4 },
+          "generated": { "line": 1, "column": 116 }
+        }
+      ],
+      "sources": {
+        "index.js": "import App from './app/app';\n\nconst app = new App();\n\napp.init();"
+      },
+      "lineCount": null
+    }
+  },
+  "error": null,
+  "hash": "9cdbe4cd09255305ebb97c3caabdeacd",
+  "cacheData": { "env": {} }
+}

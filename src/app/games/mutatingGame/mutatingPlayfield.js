@@ -1,10 +1,8 @@
-import Playfield from '../playfield';
-import v from '../../viewElements';
-import func from '../../utils/utils';
+import Playfield from "../playfield";
+import v from "../../viewElements";
+import func from "../../utils/utils";
 
-const {
-  playSound,
-} = func;
+const { playSound } = func;
 
 export default class MutatingPlayfield extends Playfield {
   constructor(gameModel, viewPort, stage) {
@@ -16,8 +14,8 @@ export default class MutatingPlayfield extends Playfield {
     this.printField();
     this.printCell();
     this.presentation();
-    this.dispatch('continueSelect', v.selectGoodCell)
-    this.dispatch('fallSelect', v.selectBadCell)
+    this.dispatch("continueSelect", v.selectGoodCell);
+    this.dispatch("fallSelect", v.selectBadCell);
   }
 
   refresh() {
